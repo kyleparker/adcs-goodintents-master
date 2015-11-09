@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.ui.base.BaseActivity;
-import com.udacity.adcs.app.goodintents.ui.fragment.ActivityListFragment;
+import com.udacity.adcs.app.goodintents.ui.fragment.EventListFragment;
 import com.udacity.adcs.app.goodintents.ui.fragment.FriendListFragment;
 import com.udacity.adcs.app.goodintents.ui.fragment.ProfileFragment;
 import com.udacity.adcs.app.goodintents.ui.view.ZoomOutSlideTransformer;
@@ -93,7 +93,7 @@ public class FeedActivity extends BaseActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case PreferencesUtils.Tab.FEED_LIST_UPCOMING:
-                    return ActivityListFragment.newInstance();
+                    return EventListFragment.newInstance();
                 case PreferencesUtils.Tab.FEED_LIST_FRIENDS:
                     return FriendListFragment.newInstance();
                 case PreferencesUtils.Tab.FEED_LIST_PROFILE:

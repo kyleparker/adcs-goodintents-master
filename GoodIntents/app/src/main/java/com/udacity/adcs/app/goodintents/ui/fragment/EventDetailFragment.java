@@ -11,15 +11,15 @@ import com.udacity.adcs.app.goodintents.ui.base.BaseFragment;
 /**
  * Created by kyleparker on 11/9/2015.
  */
-public class ActivityDetailFragment extends BaseFragment {
+public class EventDetailFragment extends BaseFragment {
 
     /**
      * Factory method to generate a new instance of the fragment
      *
      * @return
      */
-    public static ActivityDetailFragment newInstance() {
-        final ActivityDetailFragment f = new ActivityDetailFragment();
+    public static EventDetailFragment newInstance() {
+        final EventDetailFragment f = new EventDetailFragment();
 
 //        final Bundle args = new Bundle();
 //        args.putInt(Constants.Extra.INTRO_TYPE, introType);
@@ -31,7 +31,7 @@ public class ActivityDetailFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mRootView = (ViewGroup) inflater.inflate(R.layout.fragment_activity_detail, container, false);
+        mRootView = (ViewGroup) inflater.inflate(R.layout.fragment_event_detail, container, false);
         mRootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         return mRootView;
