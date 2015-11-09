@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<searchable xmlns:android="http://schemas.android.com/apk/res/android"
+    android:label="@string/app_name"
+    android:hint="@string/content_search_hint"
+    android:includeInGlobalSearch="true"
+    android:voiceSearchMode="showVoiceSearchButton|launchRecognizer"
+    android:voicePromptText="@string/content_search_voice_prompt"
+    android:searchSuggestAuthority="com.udacity.adcs.app.goodintents.SearchRecentProvider"
+    android:searchSuggestSelection=" ?"
+    android:searchSuggestThreshold="3"
+    android:searchSettingsDescription="@string/content_search_desc" />

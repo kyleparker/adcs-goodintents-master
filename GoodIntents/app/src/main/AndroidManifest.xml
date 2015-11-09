@@ -1,0 +1,163 @@
+<manifest package="com.udacity.adcs.app.goodintents"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
+    <uses-permission android:name="com.google.android.googleapps.permission.GOOGLE_AUTH"/>
+    <uses-permission android:name="com.google.android.googleapps.permission.GOOGLE_AUTH.local"/>
+    <!-- Permission to access Google services to communicate with the map servers. -->
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <!-- Permission to write to access the hardware -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <!-- Permission to write to SD card -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <!-- GCM permissions -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <!-- Permission for map view v2. Note the prefix must be the application package name -->
+    <uses-permission android:name="edu.bsu.android.apps.traveler.permission.MAPS_RECEIVE"/>
+    <!-- Permission for map view v2. Note the prefix must be the application package name -->
+    <permission
+        android:name="com.udacity.adcs.app.goodintents.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature"/>
+    <!--
+     Creates a custom permission so only this app can receive its messages.
+
+     NOTE: the permission *must* be called PACKAGE.permission.C2D_MESSAGE,
+           where PACKAGE is the application's package name.
+    -->
+    <permission
+        android:name="com.udacity.adcs.app.goodintents.permission.C2D_MESSAGE"
+        android:protectionLevel="signature"/>
+
+
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- For Google Play Services -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+
+        <!-- Maps API -->
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/android_api_key_development"/>
+
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="barcode"/>
+
+        <!-- Base activities -->
+        <activity android:name=".ParseDeepLinkActivity">
+            <intent-filter>
+                <action android:name="com.google.android.apps.plus.VIEW_DEEP_LINK"/>
+                <data android:scheme="vnd.google.deeplink"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+            </intent-filter>
+        </activity>
+
+        <!-- UI activity -->
+        <activity android:name=".ui.FeedActivity">
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".ui.SearchActivity"/>
+        </activity>
+        <activity android:name=".ui.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:host="goodintents.com"
+                    android:scheme="http"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.SearchActivity"
+            android:launchMode="singleTop">
+            <!-- This Activity handles the search intent -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
+        <activity android:name=".ui.SignInActivity"/>
+
+        <!-- GCM Receiver -->
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="edu.bsu.android.apps.traveler"/>
+            </intent-filter>
+        </receiver>
+        <!-- App invite receiver -->
+        <receiver
+            android:name="com.udacity.adcs.app.goodintents.ReferrerReceiver"
+            android:exported="true"
+            tools:ignore="ExportedReceiver">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+
+        <!--&lt;!&ndash; Search suggestion provider &ndash;&gt;-->
+        <!--<provider-->
+        <!--android:name=".content.SearchRecentProvider"-->
+        <!--android:authorities="edu.bsu.android.apps.traveler.SearchRecentProvider"-->
+        <!--android:exported="false"/>-->
+        <!--&lt;!&ndash; Services &ndash;&gt;-->
+        <!--&lt;!&ndash; Google Cloud Messaging listener &ndash;&gt;-->
+        <!--<service-->
+        <!--android:name=".services.AppGcmListenerService"-->
+        <!--android:exported="false">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="com.google.android.c2dm.intent.RECEIVE"/>-->
+        <!--</intent-filter>-->
+        <!--</service>-->
+        <!--&lt;!&ndash; Google Cloud Messaging instance listener &ndash;&gt;-->
+        <!--<service-->
+        <!--android:name=".services.AppInstanceIDListenerService"-->
+        <!--android:exported="false">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="com.google.android.gms.iid.InstanceID"/>-->
+        <!--</intent-filter>-->
+        <!--</service>-->
+        <!--<service-->
+        <!--android:name=".services.RegistrationIntentService"-->
+        <!--android:exported="false">-->
+        <!--</service>-->
+    </application>
+
+</manifest>

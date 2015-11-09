@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="android_api_key_development">xxx</string>
+    <string name="gcm_sent_to_server_key">gcmSentToServer</string>
+    <string name="google_account_key">googleAccount</string>
+    <string name="google_account_id_key">googleAccountId</string>
+    <string name="feed_list_selected_key">feedListSelected</string>
+    <string name="login_completed_key">loginCompleted</string>
+</resources>

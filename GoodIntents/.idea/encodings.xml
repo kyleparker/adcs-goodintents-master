@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/udacity/adcs/app/goodintents/camera/BarcodeGraphic.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/udacity/adcs/app/goodintents/camera/BarcodeTrackerFactory.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/udacity/adcs/app/goodintents/camera/CameraSourcePreview.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/udacity/adcs/app/goodintents/camera/GraphicOverlay.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/udacity/adcs/app/goodintents/camera/GraphicTracker.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/udacity/adcs/app/goodintents/camera/TrackedGraphic.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/udacity/adcs/app/goodintents/utils/BezelImageView.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/udacity/adcs/app/goodintents/utils/UIUtils.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/ic_fab_check_disabled.png" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/ic_fab_check_enabled.png" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/ic_fab_check_disabled.png" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/ic_fab_check_enabled.png" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/ic_action_close.png" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/ic_action_up.png" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/ic_fab_check_disabled.png" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/ic_fab_check_enabled.png" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi/ic_fab_check_disabled.png" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi/ic_fab_check_enabled.png" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/recyclerview_item_foreground.xml" charset="windows-1252" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>
