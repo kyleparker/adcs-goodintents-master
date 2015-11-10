@@ -28,11 +28,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/profile_picture_imageview"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/name_profile_picture_margin"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/text_light"
-            tools:text="Pedram"
-            android:layout_marginTop="@dimen/name_profile_picture_margin"
-            />
+            tools:text="Pedram" />
 
         <TextView
             android:id="@+id/extra_info_textview"
@@ -40,9 +39,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/name_textview"
             android:layout_centerHorizontal="true"
-            tools:text="Extra Info"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/text_light" />
+            android:textColor="@color/text_light"
+            tools:text="Extra Info" />
 
     </RelativeLayout>
 
