@@ -12,6 +12,7 @@ public class Person implements Comparable<Person> {
     private long id;
     private String displayName;
     private String emailAddress;
+    private String googleAccountId;
     private String photoUrl;
     private long typeId;
 
@@ -34,8 +35,15 @@ public class Person implements Comparable<Person> {
     public String getEmailAddress() {
         return emailAddress;
     }
-    public void setEmailAddres(String value) {
+    public void setEmailAddress(String value) {
         this.emailAddress = value == null ? "" : value.trim();
+    }
+
+    public String getGoogleAccountId() {
+        return googleAccountId;
+    }
+    public void setGoogleAccountId(String value) {
+        this.googleAccountId = value == null ? "" : value.trim();
     }
 
     public String getPhotoUrl() {

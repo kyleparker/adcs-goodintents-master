@@ -1,5 +1,7 @@
 package com.udacity.adcs.app.goodintents.utils;
 
+import java.util.Locale;
+
 /**
  * Created by kyleparker on 11/9/2015.
  */
@@ -16,6 +18,8 @@ public class Constants {
     public static final String APP_INVITE_HOST = "http://goodintents.com";
     public static final String APP_INVITE_IMAGE_URL = "https://apps.bsu.edu/traveler/images/icon512x512.png";
 
+    public static final Locale LOCALE_DEFAULT = Locale.US;
+
     public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
     public static final String MESSAGE_KEY = "MESSAGE_EXTRA";
 
@@ -25,6 +29,7 @@ public class Constants {
         public static final String LIST = ".LIST";
         public static final String ACTION = PACKAGE + PREFIX + "ACTION";
         public static final String ACTIVITY_ID = PACKAGE + PREFIX + "ACTIVITY_ID";
+        public static final String EVENT_ID = PACKAGE + PREFIX + "EVENT_ID";
         public static final String FINISH_INTENT = PACKAGE + PREFIX + "FINISH_INTENT";
     }
 
@@ -47,6 +52,11 @@ public class Constants {
         public static final int RECOVER_FROM_AUTH_ERROR = 600;
         public static final int APP_INVITE = 700;
         public static final int SIGN_IN = 800;
+    }
+
+    public class Type {
+        public static final long SELF = 1L;
+        public static final long FRIEND = 2L;
     }
 
     public enum Action {

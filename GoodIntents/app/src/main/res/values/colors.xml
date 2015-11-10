@@ -8,6 +8,7 @@
     <color name="theme_toolbar_tab_text">#ffffff</color>
 
     <color name="background_content">#ffffff</color>
+    <color name="background_button">#ffb3b3b3</color>
     <color name="background_window">#ffe5e5e5</color>
 
     <!-- TODO: Update colors -->

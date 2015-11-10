@@ -25,6 +25,7 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.udacity.adcs.app.goodintents.R;
+import com.udacity.adcs.app.goodintents.objects.Person;
 import com.udacity.adcs.app.goodintents.ui.base.BaseActivity;
 import com.udacity.adcs.app.goodintents.utils.Constants;
 import com.udacity.adcs.app.goodintents.utils.DialogUtils;
@@ -111,6 +112,20 @@ public class SignInActivity extends BaseActivity implements
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        if (mNetworkReceiver != null) {
+            mActivity.getApplicationContext().unregisterReceiver(mNetworkReceiver);
+            mNetworkReceiver = null;
+        }
+
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+
+        super.onDestroy();
+    }
+
     private void checkCachedCredentials() {
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
         if (opr.isDone()) {
@@ -184,12 +199,10 @@ public class SignInActivity extends BaseActivity implements
      */
     private void handleLogout() {
         showProgressDialog(R.string.dialog_logout_message);
-//        final Login login = mProvider.getLogin();
 
-//        if (login != null) {
-            Runnable load = new Runnable() {
-                public void run() {
-                    try {
+        Runnable load = new Runnable() {
+            public void run() {
+                try {
 //                        // Sign out of GCM message router
 //                        GCMUtils.onSignOut(mActivity, login);
 //                        LoginHandler.postLogout(login.getUserGuid(), login.getLoginGuid());
@@ -206,17 +219,16 @@ public class SignInActivity extends BaseActivity implements
 //
 //                        UIUtils.updateAllWidgets(mActivity);
 //                        AccountUtils.resetPreferences(mActivity);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    } finally {
-                        mActivity.runOnUiThread(handleLogoutRunnable);
-                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    mActivity.runOnUiThread(handleLogoutRunnable);
                 }
-            };
+            }
+        };
 
-            Thread thread = new Thread(null, load, "handleLogout");
-            thread.start();
-//        }
+        Thread thread = new Thread(null, load, "handleLogout");
+        thread.start();
     }
 
     /**
@@ -258,6 +270,22 @@ public class SignInActivity extends BaseActivity implements
         Runnable load = new Runnable() {
             public void run() {
                 try {
+                    Person person = mProvider.getPersonByGoogleId(mAccount.getId());
+
+                    if (person == null) {
+                        person = new Person();
+                        person.setDisplayName(mAccount.getDisplayName());
+                        person.setEmailAddress(mAccount.getEmail());
+                        person.setGoogleAccountId(mAccount.getId());
+                        if (mAccount.getPhotoUrl() != null) {
+                            person.setPhotoUrl(mAccount.getPhotoUrl().toString());
+                        }
+                        person.setTypeId(Constants.Type.SELF);
+
+                        mProvider.insertPerson(person);
+                    } else {
+
+                    }
                 } catch (Exception ex) {
                     mLoginError = false;
                     ex.printStackTrace();
@@ -395,8 +423,10 @@ public class SignInActivity extends BaseActivity implements
     public class NetworkReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            checkCachedCredentials();
-            setupView();
+            if (SystemUtils.isOnline(mActivity)) {
+                checkCachedCredentials();
+                setupView();
+            }
         }
     }
 }

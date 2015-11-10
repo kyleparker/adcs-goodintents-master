@@ -85,4 +85,21 @@
         <item name="android:textColor">@color/text_accent_light</item>
     </style>
 
+    <style name="Widget.EditText"  parent="@style/BaseParentText">
+        <item name="android:inputType">textAutoCorrect|textCapSentences</item>
+        <item name="android:selectAllOnFocus">true</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="Widget.EditText.Single">
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="Widget.EditText.MultiLine">
+        <item name="android:inputType">textAutoCorrect|textCapSentences|textMultiLine</item>
+        <item name="android:selectAllOnFocus">false</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:scrollbars">vertical</item>
+    </style>
+
 </resources>

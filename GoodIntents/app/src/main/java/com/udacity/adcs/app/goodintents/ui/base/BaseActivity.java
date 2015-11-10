@@ -4,7 +4,6 @@ import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -12,14 +11,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.udacity.adcs.app.goodintents.R;
+import com.udacity.adcs.app.goodintents.content.AppProviderUtils;
+import com.udacity.adcs.app.goodintents.objects.Person;
 import com.udacity.adcs.app.goodintents.ui.MainActivity;
 import com.udacity.adcs.app.goodintents.utils.IntentUtils;
+import com.udacity.adcs.app.goodintents.utils.PreferencesUtils;
 
 /**
  * Created by kyleparker on 11/9/2015.
  */
 public class BaseActivity extends AppCompatActivity {
     protected static AppCompatActivity mActivity;
+    protected static AppProviderUtils mProvider;
+
+    protected static Person mPerson;
 
     // SearchView
     protected SearchView mSearchView;
@@ -32,6 +37,9 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         mActivity = this;
+        mProvider = AppProviderUtils.Factory.get(mActivity);
+
+        mPerson = mProvider.getPerson(PreferencesUtils.getInt(mActivity, R.string.person_id_key, 0));
     }
 
     /**
@@ -52,12 +60,6 @@ public class BaseActivity extends AppCompatActivity {
             mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar);
             if (mActionBarToolbar != null) {
                 setSupportActionBar(mActionBarToolbar);
-
-                final ActionBar ab = getSupportActionBar();
-                if (ab != null) {
-                    ab.setHomeAsUpIndicator(R.drawable.ic_drawer);
-                    ab.setDisplayHomeAsUpEnabled(true);
-                }
             }
         }
 
