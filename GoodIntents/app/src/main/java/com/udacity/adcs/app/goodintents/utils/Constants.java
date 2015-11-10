@@ -54,6 +54,11 @@ public class Constants {
         public static final int SIGN_IN = 800;
     }
 
+    public class Type {
+        public static final long SELF = 1L;
+        public static final long FRIEND = 2L;
+    }
+
     public enum Action {
         LOGIN,
         LOGOUT
