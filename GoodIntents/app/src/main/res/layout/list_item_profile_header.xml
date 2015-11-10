@@ -28,7 +28,7 @@
         tools:text="Pedram" />
 
     <TextView
-        android:id="@+id/points_textview"
+        android:id="@+id/person_points_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/profile_picture_imageview"
