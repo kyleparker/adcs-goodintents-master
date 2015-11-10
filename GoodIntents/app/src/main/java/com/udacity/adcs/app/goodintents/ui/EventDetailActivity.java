@@ -104,6 +104,7 @@ public class EventDetailActivity extends BaseActivity {
             mDate.setText(mDateString);
 
             eventFriends.setAdapter(friendsListAdapter);
+            eventPhotos.setAdapter(photosListAdapter);
 
 
         }
@@ -141,15 +142,13 @@ public class EventDetailActivity extends BaseActivity {
 
         eventFriends = (RecyclerView) findViewById(R.id.friends_recycler_view);
         eventFriends.setLayoutManager(friendsLayoutManager);
-        friendsListAdapter = new FriendsListAdapter(mPersonList, getApplicationContext());
 
+        friendsListAdapter = new FriendsListAdapter(mPersonList, getApplicationContext());
 
 
         eventPhotos = (RecyclerView) findViewById(R.id.photos_recycler_view);
         eventPhotos.setLayoutManager(photosLayoutManager);
-        //PhotosListAdapter photosListAdapter = new PhotosListAdapter(mMediaList, getApplicationContext());
-        //eventPhotos.setAdapter(photosListAdapter);
-
+        photosListAdapter = new PhotosListAdapter(mMediaList, getApplicationContext());
 
 
         final FloatingActionButton checkIn = (FloatingActionButton) findViewById(R.id.fab_checkin);
