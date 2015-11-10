@@ -11,6 +11,9 @@
         android:id="@+id/event_name_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:textAppearance="?android:attr/textAppearanceLarge"
         tools:text="Event Name" />
 
