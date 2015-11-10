@@ -111,6 +111,20 @@ public class SignInActivity extends BaseActivity implements
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        if (mNetworkReceiver != null) {
+            mActivity.getApplicationContext().unregisterReceiver(mNetworkReceiver);
+            mNetworkReceiver = null;
+        }
+
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+
+        super.onDestroy();
+    }
+
     private void checkCachedCredentials() {
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
         if (opr.isDone()) {
@@ -395,8 +409,10 @@ public class SignInActivity extends BaseActivity implements
     public class NetworkReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            checkCachedCredentials();
-            setupView();
+            if (SystemUtils.isOnline(mActivity)) {
+                checkCachedCredentials();
+                setupView();
+            }
         }
     }
 }
