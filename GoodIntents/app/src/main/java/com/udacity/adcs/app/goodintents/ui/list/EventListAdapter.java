@@ -1,7 +1,6 @@
 package com.udacity.adcs.app.goodintents.ui.list;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,7 @@ import android.widget.TextView;
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.objects.Event;
 import com.udacity.adcs.app.goodintents.objects.PersonEvent;
-
+import com.udacity.adcs.app.goodintents.utils.DateUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,5 +116,4 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void setEventList(List<PersonEvent> eventList){
         mListItems = eventList;
     }
-
 }
