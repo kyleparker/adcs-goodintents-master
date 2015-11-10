@@ -6,6 +6,6 @@
         android:id="@+id/menu_backup"
         android:orderInCategory="10"
         app:showAsAction="always"
-        android:title="backup"/>
+        android:title="add"/>
 
 </menu>

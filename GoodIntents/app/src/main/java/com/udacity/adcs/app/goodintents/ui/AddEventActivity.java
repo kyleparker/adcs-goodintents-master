@@ -1,14 +1,22 @@
 package com.udacity.adcs.app.goodintents.ui;
 
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.udacity.adcs.app.goodintents.R;
@@ -17,8 +25,12 @@ import com.udacity.adcs.app.goodintents.objects.PersonEvent;
 import com.udacity.adcs.app.goodintents.ui.base.BaseActivity;
 import com.udacity.adcs.app.goodintents.utils.Constants;
 import com.udacity.adcs.app.goodintents.utils.IntentUtils;
+import com.udacity.adcs.app.goodintents.utils.StringUtils;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -27,7 +39,8 @@ import java.util.Date;
  */
 public class AddEventActivity extends BaseActivity {
 
-    private EditText mEditDate;
+    private TextView mEventDate;
+    private TextView mEventTime;
     private EditText mEditName;
     private EditText mEditDesc;
     private EditText mEditOrganization;
@@ -41,6 +54,23 @@ public class AddEventActivity extends BaseActivity {
 
         setupToolbar();
         setupView();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        mActivity.getMenuInflater().inflate(R.menu.add_event, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_scan:
+                startActivity(new Intent(mActivity, ScanActivity.class));
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -62,11 +92,11 @@ public class AddEventActivity extends BaseActivity {
 
             PersonEvent personEvent = new PersonEvent();
 
-            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Constants.LOCALE_DEFAULT);
-            Date eventDate = formatter.parse(mEditDate.getText().toString());
-            personEvent.setDate(eventDate.getTime());
-            personEvent.setEventId(id);
-            personEvent.setPersonId(mPerson.getId());
+//            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Constants.LOCALE_DEFAULT);
+//            Date eventDate = formatter.parse(mEditDate.getText().toString());
+//            personEvent.setDate(eventDate.getTime());
+//            personEvent.setEventId(id);
+//            personEvent.setPersonId(mPerson.getId());
 
             Intent intent = IntentUtils.newIntent(mActivity, EventDetailActivity.class);
             intent.putExtra(Constants.Extra.EVENT_ID, id);
@@ -85,7 +115,7 @@ public class AddEventActivity extends BaseActivity {
      * Setup the toolbar for the activity
      */
     private void setupToolbar() {
-        Toolbar toolbar = getActionBarToolbar();
+        final Toolbar toolbar = getActionBarToolbar();
         toolbar.setNavigationIcon(R.drawable.ic_action_up);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,14 +123,37 @@ public class AddEventActivity extends BaseActivity {
                 mActivity.startActivity(IntentUtils.newIntent(mActivity, FeedActivity.class));
             }
         });
+        toolbar.post(new Runnable() {
+            @Override
+            public void run() {
+                toolbar.setTitle(mActivity.getString(R.string.title_add_event));
+            }
+        });
     }
 
     private void setupView() {
-        // TODO: Change date to date/time picker
-        mEditDate = (EditText) findViewById(R.id.edit_event_date);
         mEditName = (EditText) findViewById(R.id.edit_event_name);
         mEditDesc = (EditText) findViewById(R.id.edit_event_desc);
         mEditOrganization = (EditText) findViewById(R.id.edit_organization);
+
+        mEventDate = (TextView) findViewById(R.id.event_date);
+        mEventDate.setText(StringUtils.getDateString(System.currentTimeMillis(), Constants.FULL_DATE_FORMAT));
+        mEventDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        mEventTime = (TextView) findViewById(R.id.event_time);
+        mEventTime.setText(StringUtils.getDateString(System.currentTimeMillis(), Constants.TIME_FORMAT));
+        mEventTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(getSupportFragmentManager(), "timePicker");
+            }
+        });
 
         mInputLayoutName = (TextInputLayout) findViewById(R.id.input_event_name);
 
@@ -120,7 +173,7 @@ public class AddEventActivity extends BaseActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Show confirmation dialog, if confirm, then finish activity
+                mActivity.finish();
             }
         });
     }
@@ -140,6 +193,26 @@ public class AddEventActivity extends BaseActivity {
     private void requestFocus(View view) {
         if (view.requestFocus()) {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
+
+    private static class TimePickerFragment extends DialogFragment
+            implements TimePickerDialog.OnTimeSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current time as the default values for the picker
+            final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+
+            // Create a new instance of TimePickerDialog and return it
+            return new TimePickerDialog(getActivity(), this, hour, minute,
+                    DateFormat.is24HourFormat(getActivity()));
+        }
+
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            // Do something with the time chosen by the user
         }
     }
 }

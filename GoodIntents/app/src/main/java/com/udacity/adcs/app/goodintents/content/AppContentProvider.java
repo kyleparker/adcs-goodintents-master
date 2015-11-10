@@ -20,6 +20,7 @@ import com.udacity.adcs.app.goodintents.content.layout.EventsColumns;
 import com.udacity.adcs.app.goodintents.content.layout.PersonColumns;
 import com.udacity.adcs.app.goodintents.content.layout.PersonEventsColumns;
 import com.udacity.adcs.app.goodintents.content.layout.PersonMediaColumns;
+import com.udacity.adcs.app.goodintents.content.layout.SearchColumns;
 import com.udacity.adcs.app.goodintents.content.layout.TypeColumns;
 
 import java.io.File;
@@ -39,11 +40,10 @@ public class AppContentProvider extends ContentProvider {
     public static final String CONTENT_URI = "content://com.udacity.adcs.app.goodintents/";
 
     private static final String DATABASE_NAME = "goodintents.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 7;
     private static final String SQL_INNER_JOIN = " INNER JOIN ";
     private static final String SQL_OUTER_JOIN = " LEFT OUTER JOIN ";
     private static final String SQL_ON = " ON ";
-    private static final String SQL_AND = " AND ";
 
     private static Context mContext;
     private static SQLiteDatabase mDb;
@@ -61,12 +61,16 @@ public class AppContentProvider extends ContentProvider {
             db.execSQL(PersonColumns.CREATE_TABLE);
             db.execSQL(PersonEventsColumns.CREATE_TABLE);
             db.execSQL(PersonMediaColumns.CREATE_TABLE);
+            db.execSQL(SearchColumns.CREATE_TABLE);
             db.execSQL(TypeColumns.CREATE_TABLE);
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            if (oldVersion < 1) {
+            if (oldVersion < 4) {
+                db.execSQL(SearchColumns.CREATE_TABLE);
+            }
+            if (oldVersion < 7) {
                 db.execSQL("ALTER TABLE " + PersonColumns.TABLE_NAME + " ADD " + PersonColumns.GOOGLE_ACCOUNT_ID + " TEXT");
             }
         }
@@ -76,7 +80,8 @@ public class AppContentProvider extends ContentProvider {
         EVENT, EVENT_ID,
         PERSON, PERSON_ID, PERSON_GOOGLE_ACCOUNT,
         PERSON_EVENTS, PERSON_EVENTS_ID, PERSON_EVENTS_TYPE_ID,
-        PERSON_MEDIA, PERSON_MEDIA_ID, PERSON_MEDIA_PERSON_EVENT_ID
+        PERSON_MEDIA, PERSON_MEDIA_ID, PERSON_MEDIA_PERSON_EVENT_ID,
+        SEARCH, SEARCH_ID,
     }
 
     public AppContentProvider() {
@@ -96,6 +101,9 @@ public class AppContentProvider extends ContentProvider {
         mUriMatcher.addURI(AUTHORITY, PersonMediaColumns.TABLE_NAME, UrlType.PERSON_MEDIA.ordinal());
         mUriMatcher.addURI(AUTHORITY, PersonMediaColumns.TABLE_NAME + "/#", UrlType.PERSON_MEDIA_ID.ordinal());
         mUriMatcher.addURI(AUTHORITY, PersonMediaColumns.TABLE_NAME + "/personevent/#", UrlType.PERSON_MEDIA_PERSON_EVENT_ID.ordinal());
+
+        mUriMatcher.addURI(AUTHORITY, SearchColumns.TABLE_NAME, UrlType.SEARCH.ordinal());
+        mUriMatcher.addURI(AUTHORITY, SearchColumns.TABLE_NAME + "/#", UrlType.SEARCH_ID.ordinal());
     }
 
     @Override
@@ -210,6 +218,22 @@ public class AppContentProvider extends ContentProvider {
                         appendTableName(PersonEventsColumns.TABLE_NAME, PersonEventsColumns.EVENT_ID));
                 sortOrder = sort != null ? sort : PersonEventsColumns.DEFAULT_SORT_ORDER;
                 break;
+            case SEARCH:
+                queryBuilder.setTables(SearchColumns.TABLE_NAME);
+                sortOrder = sort != null ? sort : SearchColumns.DEFAULT_SORT_ORDER;
+                break;
+            case SEARCH_ID:
+                queryBuilder.setTables(SearchColumns.TABLE_NAME +
+                        SQL_OUTER_JOIN +
+                        PersonColumns.TABLE_NAME + SQL_ON +
+                        appendTableName(PersonColumns.TABLE_NAME, PersonColumns._ID) + " = " +
+                        appendTableName(SearchColumns.TABLE_NAME, SearchColumns.ITEM_ID) +
+                        SQL_OUTER_JOIN +
+                        EventsColumns.TABLE_NAME + SQL_ON +
+                        appendTableName(EventsColumns.TABLE_NAME, EventsColumns._ID) + " = " +
+                        appendTableName(SearchColumns.TABLE_NAME, SearchColumns.ITEM_ID));
+                sortOrder = sort != null ? sort : SearchColumns.DEFAULT_SORT_ORDER;
+                break;
             default:
                 throw new IllegalArgumentException("Unknown Uri " + uri);
         }
@@ -239,6 +263,10 @@ public class AppContentProvider extends ContentProvider {
                 return PersonMediaColumns.CONTENT_TYPE;
             case PERSON_MEDIA_ID:
                 return PersonMediaColumns.CONTENT_ITEMTYPE;
+            case SEARCH:
+                return SearchColumns.CONTENT_TYPE;
+            case SEARCH_ID:
+                return SearchColumns.CONTENT_ITEMTYPE;
             default:
                 throw new IllegalArgumentException("Unknown URL " + uri);
         }
@@ -279,6 +307,9 @@ public class AppContentProvider extends ContentProvider {
                 break;
             case PERSON_MEDIA:
                 table = PersonMediaColumns.TABLE_NAME;
+                break;
+            case SEARCH:
+                table = SearchColumns.TABLE_NAME;
                 break;
             default:
                 throw new IllegalArgumentException("Unknown Uri " + uri);
@@ -350,6 +381,17 @@ public class AppContentProvider extends ContentProvider {
                     whereClause += " AND (" + where + ")";
                 }
                 break;
+            case SEARCH:
+                table = SearchColumns.TABLE_NAME;
+                whereClause = where;
+                break;
+            case SEARCH_ID:
+                table = SearchColumns.TABLE_NAME;
+                whereClause = SearchColumns.ITEM_ID + "=" + uri.getPathSegments().get(1);
+                if (!TextUtils.isEmpty(where)) {
+                    whereClause += " AND (" + where + ")";
+                }
+                break;
             default:
                 throw new IllegalArgumentException("Unknown Uri " + uri);
         }
@@ -389,6 +431,8 @@ public class AppContentProvider extends ContentProvider {
                 return insertPersonEvent(uri, contentValues);
             case PERSON_MEDIA:
                 return insertPersonMedia(uri, contentValues);
+            case SEARCH:
+                return insertSearch(uri, contentValues);
             default:
                 throw new IllegalArgumentException("Unknown url " + uri);
         }
@@ -464,6 +508,24 @@ public class AppContentProvider extends ContentProvider {
         }
 
         throw new SQLiteException("Failed to insert row into " + uri);
+    }
+
+    /**
+     * Inserts the search item
+     *
+     * @param url the content url
+     * @param contentValues the content values
+     */
+    private Uri insertSearch(Uri url, ContentValues contentValues) {
+        long rowId = mDb.insert(SearchColumns.TABLE_NAME, SearchColumns.ITEM_ID, contentValues);
+
+        if (rowId >= 0) {
+            Uri uri = ContentUris.appendId(SearchColumns.CONTENT_URI.buildUpon(), rowId).build();
+            mContext.getContentResolver().notifyChange(url, null, true);
+            return uri;
+        }
+
+        throw new SQLiteException("Failed to insert row into " + url);
     }
 
     /**
