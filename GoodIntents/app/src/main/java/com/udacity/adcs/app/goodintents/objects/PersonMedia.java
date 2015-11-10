@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
  */
 public class PersonMedia implements Comparable<PersonMedia> {
     private long id;
-    private long PersonId;
+    private long PersonEventId;
     private String LocalStorageURL;
     private String MediaName;
 
@@ -22,11 +22,11 @@ public class PersonMedia implements Comparable<PersonMedia> {
         this.id = value;
     }
 
-    public long getPersonId() {
-        return PersonId;
+    public long getPersonEventId() {
+        return PersonEventId;
     }
-    public void setPersonId(long value) {
-        this.PersonId = value;
+    public void setPersonEventId(long value) {
+        this.PersonEventId = value;
     }
 
     public String getLocalStorageURL() {

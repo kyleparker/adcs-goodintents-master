@@ -9,7 +9,7 @@ public class PersonEvent implements Comparable<PersonEvent> {
     private long id;
     private long PersonId;
     private long EventId;
-    private String Date;
+    private long Date;
     private long Points;
 
     public PersonEvent() { }
@@ -38,11 +38,11 @@ public class PersonEvent implements Comparable<PersonEvent> {
         this.EventId = value;
     }
 
-    public String getDate() {
+    public long getDate() {
         return Date;
     }
-    public void setDate(String value) {
-        this.Date = value == null ? "" : value.trim();
+    public void setDate(long value) {
+        this.Date = value;
     }
 
     public long getPoints() {
