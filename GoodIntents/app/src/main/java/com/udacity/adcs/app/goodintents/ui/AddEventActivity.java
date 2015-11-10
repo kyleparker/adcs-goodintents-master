@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -30,8 +29,6 @@ import com.udacity.adcs.app.goodintents.utils.Constants;
 import com.udacity.adcs.app.goodintents.utils.IntentUtils;
 import com.udacity.adcs.app.goodintents.utils.StringUtils;
 import com.udacity.adcs.app.goodintents.utils.UIUtils;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -103,9 +100,10 @@ public class AddEventActivity extends BaseActivity {
 
             PersonEvent personEvent = new PersonEvent();
 
-//            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Constants.LOCALE_DEFAULT);
-//            Date eventDate = formatter.parse(mEditDate.getText().toString());
-//            personEvent.setDate(eventDate.getTime());
+            String date = mDate + " " + mTime;
+            SimpleDateFormat formatter = new SimpleDateFormat(Constants.DATE_TIME_FORMAT, Constants.LOCALE_DEFAULT);
+            Date eventDate = formatter.parse(date);
+            personEvent.setDate(eventDate.getTime());
             personEvent.setEventId(id);
             personEvent.setPersonId(mPerson.getId());
 
@@ -155,12 +153,13 @@ public class AddEventActivity extends BaseActivity {
             scan.setOnTouchListener(UIUtils.getFABTouchListener(mActivity, scan));
         }
 
+        long currentDate = System.currentTimeMillis();
         mEditName = (EditText) findViewById(R.id.edit_event_name);
         mEditDesc = (EditText) findViewById(R.id.edit_event_desc);
         mEditOrganization = (EditText) findViewById(R.id.edit_organization);
 
         mEventDate = (TextView) findViewById(R.id.event_date);
-        mEventDate.setText(StringUtils.getDateString(System.currentTimeMillis(), Constants.FULL_DATE_FORMAT));
+        mEventDate.setText(StringUtils.getDateString(currentDate, Constants.DATE_FORMAT_LONG));
         mEventDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -170,7 +169,7 @@ public class AddEventActivity extends BaseActivity {
         });
 
         mEventTime = (TextView) findViewById(R.id.event_time);
-        mEventTime.setText(StringUtils.getDateString(System.currentTimeMillis(), Constants.TIME_FORMAT));
+        mEventTime.setText(StringUtils.getDateString(currentDate, Constants.TIME_FORMAT));
         mEventTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -180,6 +179,9 @@ public class AddEventActivity extends BaseActivity {
         });
 
         mInputLayoutName = (TextInputLayout) findViewById(R.id.input_event_name);
+
+        mDate = StringUtils.getDateString(currentDate, Constants.DATE_FORMAT);
+        mTime = StringUtils.getDateString(currentDate, Constants.TIME_FORMAT_LONG);
     }
 
     private boolean validateInput(EditText editText, TextInputLayout inputLayout, int message) {
@@ -219,7 +221,7 @@ public class AddEventActivity extends BaseActivity {
             // Do something with the time chosen by the user
             mTime = String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + ":00";
 
-            SimpleDateFormat f = new SimpleDateFormat(Constants.FULL_TIME_FORMAT);
+            SimpleDateFormat f = new SimpleDateFormat(Constants.TIME_FORMAT_LONG);
             try {
                 Date d = f.parse(mTime);
                 mEventTime.setText(StringUtils.getDateString(d.getTime(), Constants.TIME_FORMAT));
@@ -250,7 +252,7 @@ public class AddEventActivity extends BaseActivity {
             SimpleDateFormat f = new SimpleDateFormat(Constants.DATE_FORMAT);
             try {
                 Date d = f.parse(mDate);
-                mEventDate.setText(StringUtils.getDateString(d.getTime(), Constants.FULL_DATE_FORMAT));
+                mEventDate.setText(StringUtils.getDateString(d.getTime(), Constants.DATE_FORMAT_LONG));
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
