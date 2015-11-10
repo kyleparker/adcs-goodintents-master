@@ -30,7 +30,8 @@
             android:fitsSystemWindows="true"
             android:paddingLeft="@dimen/keyline_1"
             app:tabIndicatorColor="@color/theme_toolbar_tab_text"
-            app:tabMode="scrollable"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
             app:tabSelectedTextColor="@color/theme_toolbar_tab_text"
             app:tabTextColor="@color/theme_toolbar_tab_text"/>
 
