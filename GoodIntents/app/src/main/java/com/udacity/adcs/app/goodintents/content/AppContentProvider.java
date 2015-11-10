@@ -11,7 +11,6 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
@@ -40,7 +39,7 @@ public class AppContentProvider extends ContentProvider {
     public static final String CONTENT_URI = "content://com.udacity.adcs.app.goodintents/";
 
     private static final String DATABASE_NAME = "goodintents.db";
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 4;
     private static final String SQL_INNER_JOIN = " INNER JOIN ";
     private static final String SQL_OUTER_JOIN = " LEFT OUTER JOIN ";
     private static final String SQL_ON = " ON ";
@@ -67,16 +66,24 @@ public class AppContentProvider extends ContentProvider {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            if (oldVersion < 4) {
-                db.execSQL(SearchColumns.CREATE_TABLE);
-            }
-            if (oldVersion < 7) {
-                db.execSQL("ALTER TABLE " + PersonColumns.TABLE_NAME + " ADD " + PersonColumns.GOOGLE_ACCOUNT_ID + " TEXT");
-            }
-            if (oldVersion < 8) {
-                db.execSQL("ALTER TABLE " + EventsColumns.TABLE_NAME + " ADD " + EventsColumns.PHOTO_URL + " TEXT");
-                db.execSQL("ALTER TABLE " + EventsColumns.TABLE_NAME + " ADD " + EventsColumns.ORG_PHOTO_URL + " TEXT");
-            }
+//            if (oldVersion < 4) {
+//                db.execSQL(SearchColumns.CREATE_TABLE);
+//            }
+//            if (oldVersion < 7) {
+//                try {
+//                    db.execSQL("ALTER TABLE " + PersonColumns.TABLE_NAME + " ADD " + PersonColumns.GOOGLE_ACCOUNT_ID + " TEXT");
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                }
+//            }
+//            if (oldVersion < 8) {
+//                try {
+//                    db.execSQL("ALTER TABLE " + EventsColumns.TABLE_NAME + " ADD " + EventsColumns.PHOTO_URL + " TEXT");
+//                    db.execSQL("ALTER TABLE " + EventsColumns.TABLE_NAME + " ADD " + EventsColumns.ORG_PHOTO_URL + " TEXT");
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                }
+//            }
         }
     }
 
