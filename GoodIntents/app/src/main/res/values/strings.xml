@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Good Intents</string>
     <string name="tagline">Awesome Tagline...</string>
+    <string name="test">Test Only</string>
 
     <string name="content_empty_events">No events available</string>
     <string name="content_empty_friends">No friend activity.</string>
