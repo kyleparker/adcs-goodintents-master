@@ -6,6 +6,6 @@
         android:icon="@drawable/ic_action_scan"
         android:orderInCategory="10"
         app:showAsAction="always"
-        android:title="@string/menu_scan"/>
+        android:title="SCAN"/>
 
 </menu>
