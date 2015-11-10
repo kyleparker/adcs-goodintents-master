@@ -20,6 +20,7 @@ public class Constants {
 
     public static final String FULL_DATE_FORMAT = "MMM d, yyyy";
     public static final String DATE_FORMAT = "MM/dd/yyyy";
+    public static final String TIME_FORMAT = "h:mm a";
 
     public static final Locale LOCALE_DEFAULT = Locale.US;
 

@@ -71,46 +71,6 @@ public class AppProviderUtils {
         return list;
     }
 
-    public Person getPerson(int id) {
-        Uri uri = Uri.parse(PersonColumns.CONTENT_URI + "/" + id);
-
-        Cursor cursor = mContentResolver.query(uri, null, null, null, null);
-        if (cursor != null) {
-            try {
-                if (cursor.moveToFirst()) {
-                    return createPerson(cursor);
-                }
-            } catch (RuntimeException e) {
-                e.printStackTrace();
-            } finally {
-                cursor.close();
-            }
-        }
-        return null;
-    }
-
-    public Person getPersonByGoogleId(String googleAccountId) {
-        if (TextUtils.isEmpty(googleAccountId)) {
-            return null;
-        }
-
-        Uri uri = Uri.parse(PersonColumns.CONTENT_URI_BY_GOOGLE_ACCOUNT + "/" + Uri.encode(googleAccountId));
-
-        Cursor cursor = mContentResolver.query(uri, null, null, null, null);
-        if (cursor != null) {
-            try {
-                if (cursor.moveToFirst()) {
-                    return createPerson(cursor);
-                }
-            } catch (RuntimeException e) {
-                e.printStackTrace();
-            } finally {
-                cursor.close();
-            }
-        }
-        return null;
-    }
-
     public List<PersonEvent> getEventListByType(long typeId) {
         ArrayList<PersonEvent> list = new ArrayList<>();
 
@@ -155,6 +115,46 @@ public class AppProviderUtils {
         }
 
         return list;
+    }
+
+    public Person getPerson(int id) {
+        Uri uri = Uri.parse(PersonColumns.CONTENT_URI + "/" + id);
+
+        Cursor cursor = mContentResolver.query(uri, null, null, null, null);
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    return createPerson(cursor);
+                }
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+            } finally {
+                cursor.close();
+            }
+        }
+        return null;
+    }
+
+    public Person getPersonByGoogleId(String googleAccountId) {
+        if (TextUtils.isEmpty(googleAccountId)) {
+            return null;
+        }
+
+        Uri uri = Uri.parse(PersonColumns.CONTENT_URI_BY_GOOGLE_ACCOUNT + "/" + Uri.encode(googleAccountId));
+
+        Cursor cursor = mContentResolver.query(uri, null, null, null, null);
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    return createPerson(cursor);
+                }
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+            } finally {
+                cursor.close();
+            }
+        }
+        return null;
     }
 
     public List<Person> getPersonList() {
