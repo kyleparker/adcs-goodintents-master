@@ -13,10 +13,15 @@ import android.widget.TextView;
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.content.AppProviderUtils;
 import com.udacity.adcs.app.goodintents.objects.Event;
+import com.udacity.adcs.app.goodintents.objects.PersonEvent;
+import com.udacity.adcs.app.goodintents.objects.PersonMedia;
 import com.udacity.adcs.app.goodintents.ui.base.BaseActivity;
+import com.udacity.adcs.app.goodintents.ui.list.PhotosListAdapter;
 import com.udacity.adcs.app.goodintents.utils.Constants;
 import com.udacity.adcs.app.goodintents.utils.IntentUtils;
 import com.udacity.adcs.app.goodintents.utils.StringUtils;
+
+import java.util.List;
 
 /**
  *
@@ -35,9 +40,21 @@ public class EventDetailActivity extends BaseActivity {
     private RecyclerView eventFriends;
     private RecyclerView eventPhotos;
 
+    private PhotosListAdapter friendsListAdapter;
+    private PhotosListAdapter photosListAdapter;
+
+    private List<PersonEvent> mPersonList;
+    private List<PersonMedia> mMediaList;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            mEventId = extras.getInt(Constants.Extra.EVENT_ID);
+        }
+
         setContentView(R.layout.activity_event_detail);
 
         getEvent();
@@ -61,6 +78,8 @@ public class EventDetailActivity extends BaseActivity {
             public void run() {
                 try {
                     mEvent = mProvider.getEvent(mEventId);
+                    mPersonList = mProvider.getPersonListByEvent(mEventId, Constants.Type.FRIEND);
+                    mMediaList = mProvider.getMediaByPersonEvent(Constants.Type.SELF, mEventId);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 } finally {
@@ -76,13 +95,14 @@ public class EventDetailActivity extends BaseActivity {
 
     private final Runnable getEventRunnable = new Runnable() {
         public void run() {
-            // Do something wtih mEvent - load adapter, etc
 
             mDesc.setText(mEvent.getDescription());
             mOrg.setText(mEvent.getOrganization());
 
             String mDateString = StringUtils.getDateString(mEvent.getDate(), Constants.DATE_FORMAT);
             mDate.setText(mDateString);
+
+            eventFriends.setAdapter(friendsListAdapter);
 
 
         }
@@ -113,14 +133,23 @@ public class EventDetailActivity extends BaseActivity {
         mOrg = (TextView) findViewById(R.id.event_organization);
         mDate = (TextView) findViewById(R.id.event_date);
 
-        LinearLayoutManager layoutManager
+        LinearLayoutManager friendsLayoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager photosLayoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
         eventFriends = (RecyclerView) findViewById(R.id.friends_recycler_view);
-        eventPhotos = (RecyclerView) findViewById(R.id.photos_recycler_view);
+        eventFriends.setLayoutManager(friendsLayoutManager);
+        friendsListAdapter = new PhotosListAdapter(mPersonList, getApplicationContext());
 
-        eventFriends.setLayoutManager(layoutManager);
-        eventPhotos.setLayoutManager(layoutManager);
+
+
+        eventPhotos = (RecyclerView) findViewById(R.id.photos_recycler_view);
+        eventPhotos.setLayoutManager(photosLayoutManager);
+        //PhotosListAdapter photosListAdapter = new PhotosListAdapter(mMediaList, getApplicationContext());
+        //eventPhotos.setAdapter(photosListAdapter);
+
+
 
         final FloatingActionButton checkIn = (FloatingActionButton) findViewById(R.id.fab_checkin);
         checkIn.setOnClickListener(new View.OnClickListener() {
