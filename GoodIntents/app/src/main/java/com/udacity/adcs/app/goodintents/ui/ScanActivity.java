@@ -257,7 +257,7 @@ public class ScanActivity extends BaseActivity {
 
                 // TODO: Insert the activity info
 
-                Toast.makeText(mActivity, mActivity.getString(R.string.toast_success_activity_found), Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, mActivity.getString(R.string.toast_success_event_found), Toast.LENGTH_LONG).show();
                 startActivity(new Intent(mActivity, MainActivity.class));
             }
         });
@@ -333,7 +333,7 @@ public class ScanActivity extends BaseActivity {
                         displayFAB(false);
 //                        mBook = intent.getParcelableExtra(Constants.KEY_BOOK);
                         displayActivityInfo();
-                        Toast.makeText(mActivity, mActivity.getString(R.string.toast_error_activity_already_added), Toast.LENGTH_LONG).show();
+                        Toast.makeText(mActivity, mActivity.getString(R.string.toast_error_event_already_added), Toast.LENGTH_LONG).show();
                         break;
                 }
             }
