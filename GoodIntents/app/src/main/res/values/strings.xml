@@ -42,4 +42,6 @@
     <string name="toast_error_saving_event">Oops, there was an error saving the event</string>
     <string name="toast_success_event_found">Event found</string>
     <string name="toast_success_event_saved">Event saved</string>
+
+    <string name="intent_event_id" translateable="false">INTENT_EVENT_ID</string>
 </resources>
