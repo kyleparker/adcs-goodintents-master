@@ -1,5 +1,7 @@
 package com.udacity.adcs.app.goodintents.ui.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,9 +14,11 @@ import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.content.AppContentProvider;
 import com.udacity.adcs.app.goodintents.content.AppProviderUtils;
 import com.udacity.adcs.app.goodintents.objects.Event;
+import com.udacity.adcs.app.goodintents.objects.Person;
 import com.udacity.adcs.app.goodintents.objects.PersonEvent;
 import com.udacity.adcs.app.goodintents.ui.base.BaseFragment;
 import com.udacity.adcs.app.goodintents.ui.list.EventListAdapter;
+import com.udacity.adcs.app.goodintents.utils.PreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +31,7 @@ public class ProfileFragment extends BaseFragment {
     private List<PersonEvent> mEventList;
     private AppProviderUtils mProvider;
     private EventListAdapter mEventListAdapter;
+    private Person mPerson;
 
     /**
      * Factory method to generate a new instance of the fragment
@@ -51,10 +56,11 @@ public class ProfileFragment extends BaseFragment {
 
         mProvider = new AppProviderUtils(getActivity().getContentResolver());
         mEventList = new ArrayList();
+        //getPersonObject();
         getEventList();
 
         RecyclerView eventsRecyclerView = (RecyclerView) mRootView.findViewById(R.id.events_recycler_view);
-        mEventListAdapter = new EventListAdapter(mEventList);
+        mEventListAdapter = new EventListAdapter(getActivity(), mEventList);
         eventsRecyclerView.setAdapter(mEventListAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -86,5 +92,4 @@ public class ProfileFragment extends BaseFragment {
             mEventListAdapter.notifyDataSetChanged();
         }
     };
-
 }
