@@ -30,7 +30,7 @@ public class PreferencesUtils {
 
 	public static class Tab {
 		// Tab definitions for the feed activity
-		public static final int FEED_LIST_UPCOMING = 0;
+		public static final int FEED_LIST_EVENT = 0;
 		public static final int FEED_LIST_FRIENDS = 1;
 		public static final int FEED_LIST_PROFILE = 2;
 	}

@@ -1,6 +1,7 @@
-<manifest package="com.udacity.adcs.app.goodintents"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools">
+<manifest
+    package="com.udacity.adcs.app.goodintents"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -132,31 +133,38 @@
             </intent-filter>
         </receiver>
 
+        <!-- Providers -->
+        <!-- Traveler data provider -->
+        <provider
+            android:name=".content.AppContentProvider"
+            android:authorities="com.udacity.adcs.app.goodintents"
+            android:exported="true"
+            android:grantUriPermissions="true" />
         <!--&lt;!&ndash; Search suggestion provider &ndash;&gt;-->
         <!--<provider-->
-        <!--android:name=".content.SearchRecentProvider"-->
-        <!--android:authorities="edu.bsu.android.apps.traveler.SearchRecentProvider"-->
-        <!--android:exported="false"/>-->
+            <!--android:name=".content.SearchRecentProvider"-->
+            <!--android:authorities="edu.bsu.android.apps.traveler.SearchRecentProvider"-->
+            <!--android:exported="false"/>-->
         <!--&lt;!&ndash; Services &ndash;&gt;-->
         <!--&lt;!&ndash; Google Cloud Messaging listener &ndash;&gt;-->
         <!--<service-->
-        <!--android:name=".services.AppGcmListenerService"-->
-        <!--android:exported="false">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="com.google.android.c2dm.intent.RECEIVE"/>-->
-        <!--</intent-filter>-->
+            <!--android:name=".services.AppGcmListenerService"-->
+            <!--android:exported="false">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.android.c2dm.intent.RECEIVE"/>-->
+            <!--</intent-filter>-->
         <!--</service>-->
         <!--&lt;!&ndash; Google Cloud Messaging instance listener &ndash;&gt;-->
         <!--<service-->
-        <!--android:name=".services.AppInstanceIDListenerService"-->
-        <!--android:exported="false">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="com.google.android.gms.iid.InstanceID"/>-->
-        <!--</intent-filter>-->
+            <!--android:name=".services.AppInstanceIDListenerService"-->
+            <!--android:exported="false">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.android.gms.iid.InstanceID"/>-->
+            <!--</intent-filter>-->
         <!--</service>-->
         <!--<service-->
-        <!--android:name=".services.RegistrationIntentService"-->
-        <!--android:exported="false">-->
+            <!--android:name=".services.RegistrationIntentService"-->
+            <!--android:exported="false">-->
         <!--</service>-->
     </application>
 
