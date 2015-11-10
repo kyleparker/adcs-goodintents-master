@@ -30,7 +30,9 @@
             android:layout_centerHorizontal="true"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/text_light"
-            tools:text="Pedram" />
+            tools:text="Pedram"
+            android:layout_marginTop="@dimen/name_profile_picture_margin"
+            />
 
         <TextView
             android:id="@+id/extra_info_textview"
@@ -45,7 +47,7 @@
     </RelativeLayout>
 
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/activities_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
