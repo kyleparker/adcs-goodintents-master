@@ -131,6 +131,14 @@ public class AppProviderUtils {
         return list;
     }
 
+    public Uri insertEvent(Event obj) {
+        return mContentResolver.insert(EventsColumns.CONTENT_URI, createContentValues(obj));
+    }
+
+    public Uri insertPersonEvent(PersonEvent obj) {
+        return mContentResolver.insert(PersonEventsColumns.CONTENT_URI, createContentValues(obj));
+    }
+
     /**
      *
      * @param cursor

@@ -6,4 +6,5 @@
     <string name="google_account_id_key">googleAccountId</string>
     <string name="feed_list_selected_key">feedListSelected</string>
     <string name="login_completed_key">loginCompleted</string>
+    <string name="person_id_key">personId</string>
 </resources>

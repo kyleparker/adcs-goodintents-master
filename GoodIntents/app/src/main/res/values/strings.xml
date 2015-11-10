@@ -3,7 +3,8 @@
     <string name="tagline">Awesome Tagline...</string>
 
     <string name="content_empty_events">No events available</string>
-    <string name="content_empty_friends">No friend activity.</string>
+    <string name="content_empty_friends">No friend activity</string>
+    <string name="content_error_event_name">Event name is required</string>
     <string name="content_event_date">Date</string>
     <string name="content_event_desc">Description</string>
     <string name="content_event_name">Event name</string>
@@ -32,5 +33,7 @@
     <string name="toast_error_event_already_added">Event already added</string>
     <string name="toast_error_event_not_found">No event found</string>
     <string name="toast_error_offline">Data connection unavailable, connect to WiFi or mobile network and try again.</string>
+    <string name="toast_error_saving_event">Oops, there was an error saving the event</string>
     <string name="toast_success_event_found">Event found</string>
+    <string name="toast_success_event_saved">Event saved</string>
 </resources>
