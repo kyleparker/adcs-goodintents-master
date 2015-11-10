@@ -32,8 +32,6 @@ import java.nio.channels.FileChannel;
  */
 public class FeedActivity extends BaseActivity {
 
-    private Toolbar toolbar;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
