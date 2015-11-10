@@ -56,7 +56,8 @@ public class PhotosListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         // TODO: Read the media list from database.
 
-        //((ItemViewHolder) viewHolder).mFriendImageView.setImageURI(iconUri);
+        mPersonMedia.getLocalStorageURL();
+
 
     }
 
