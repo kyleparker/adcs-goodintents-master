@@ -16,6 +16,7 @@ import com.udacity.adcs.app.goodintents.objects.Event;
 import com.udacity.adcs.app.goodintents.objects.PersonEvent;
 import com.udacity.adcs.app.goodintents.objects.PersonMedia;
 import com.udacity.adcs.app.goodintents.ui.base.BaseActivity;
+import com.udacity.adcs.app.goodintents.ui.list.FriendsListAdapter;
 import com.udacity.adcs.app.goodintents.ui.list.PhotosListAdapter;
 import com.udacity.adcs.app.goodintents.utils.Constants;
 import com.udacity.adcs.app.goodintents.utils.IntentUtils;
@@ -40,7 +41,7 @@ public class EventDetailActivity extends BaseActivity {
     private RecyclerView eventFriends;
     private RecyclerView eventPhotos;
 
-    private PhotosListAdapter friendsListAdapter;
+    private FriendsListAdapter friendsListAdapter;
     private PhotosListAdapter photosListAdapter;
 
     private List<PersonEvent> mPersonList;
@@ -103,6 +104,7 @@ public class EventDetailActivity extends BaseActivity {
             mDate.setText(mDateString);
 
             eventFriends.setAdapter(friendsListAdapter);
+            eventPhotos.setAdapter(photosListAdapter);
 
 
         }
@@ -140,15 +142,11 @@ public class EventDetailActivity extends BaseActivity {
 
         eventFriends = (RecyclerView) findViewById(R.id.friends_recycler_view);
         eventFriends.setLayoutManager(friendsLayoutManager);
-        friendsListAdapter = new PhotosListAdapter(mPersonList, getApplicationContext());
-
-
+        friendsListAdapter = new FriendsListAdapter(mPersonList, getApplicationContext());
 
         eventPhotos = (RecyclerView) findViewById(R.id.photos_recycler_view);
         eventPhotos.setLayoutManager(photosLayoutManager);
-        //PhotosListAdapter photosListAdapter = new PhotosListAdapter(mMediaList, getApplicationContext());
-        //eventPhotos.setAdapter(photosListAdapter);
-
+        photosListAdapter = new PhotosListAdapter(mMediaList, getApplicationContext());
 
 
         final FloatingActionButton checkIn = (FloatingActionButton) findViewById(R.id.fab_checkin);
