@@ -13,6 +13,8 @@ import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.content.AppProviderUtils;
 import com.udacity.adcs.app.goodintents.objects.Event;
 import com.udacity.adcs.app.goodintents.ui.base.BaseFragment;
+import com.udacity.adcs.app.goodintents.utils.Constants;
+import com.udacity.adcs.app.goodintents.utils.StringUtils;
 
 /**
  * Created by kyleparker on 11/9/2015.
@@ -54,7 +56,6 @@ public class EventDetailFragment extends BaseFragment {
         mProvider = AppProviderUtils.Factory.get(mActivity);
 
         setupView();
-
         getEvent();
 
 
@@ -88,6 +89,9 @@ public class EventDetailFragment extends BaseFragment {
 
             mDesc.setText(mEvent.getDescription());
             mOrg.setText(mEvent.getOrganization());
+
+            String mDateString = StringUtils.getDateString(mEvent.getDate(), Constants.DATE_FORMAT);
+            mDate.setText(mDateString);
 
 
         }
