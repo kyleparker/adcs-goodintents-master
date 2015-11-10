@@ -10,7 +10,7 @@ public class Event implements Comparable<Event> {
     private String Name;
     private String Description;
     private String Organization;
-    private String Date;
+    private long Date;
     private double Lat;
     private double Long;
     private String DisplayAddress;
@@ -45,11 +45,11 @@ public class Event implements Comparable<Event> {
         this.Organization = value == null ? "" : value.trim();
     }
 
-    public String getDate() {
+    public long getDate() {
         return Date;
     }
-    public void setDate(String value) {
-        this.Date = value == null ? "" : value.trim();
+    public void setDate(long value) {
+        this.Date = value;
     }
 
     public double getLat() {
