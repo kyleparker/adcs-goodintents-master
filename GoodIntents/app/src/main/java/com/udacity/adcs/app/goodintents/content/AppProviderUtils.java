@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.udacity.adcs.app.goodintents.content.layout.EventsColumns;
 import com.udacity.adcs.app.goodintents.content.layout.PersonColumns;
