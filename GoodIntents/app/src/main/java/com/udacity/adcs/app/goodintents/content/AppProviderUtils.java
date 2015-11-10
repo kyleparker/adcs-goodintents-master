@@ -10,10 +10,10 @@ import com.udacity.adcs.app.goodintents.content.layout.EventsColumns;
 import com.udacity.adcs.app.goodintents.content.layout.PersonColumns;
 import com.udacity.adcs.app.goodintents.content.layout.PersonEventsColumns;
 import com.udacity.adcs.app.goodintents.content.layout.PersonMediaColumns;
-import com.udacity.adcs.app.goodintents.object.Event;
-import com.udacity.adcs.app.goodintents.object.Person;
-import com.udacity.adcs.app.goodintents.object.PersonEvent;
-import com.udacity.adcs.app.goodintents.object.PersonMedia;
+import com.udacity.adcs.app.goodintents.objects.Event;
+import com.udacity.adcs.app.goodintents.objects.Person;
+import com.udacity.adcs.app.goodintents.objects.PersonEvent;
+import com.udacity.adcs.app.goodintents.objects.PersonMedia;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,16 +109,16 @@ public class AppProviderUtils {
             event.setDate(cursor.getLong(idxDate));
         }
         if (idxDesc > -1) {
-            event.setDesc(cursor.getString(idxDesc));
+            event.setDescription(cursor.getString(idxDesc));
         }
         if (idxDisplayAddress > -1) {
             event.setDisplayAddress(cursor.getString(idxDisplayAddress));
         }
         if (idxLatitude > -1) {
-            event.setLatitude(cursor.getDouble(idxLatitude));
+            event.setLat(cursor.getDouble(idxLatitude));
         }
         if (idxLongitude > -1) {
-            event.setLongitude(cursor.getDouble(idxLongitude));
+            event.setLong(cursor.getDouble(idxLongitude));
         }
         if (idxName > -1) {
             event.setName(cursor.getString(idxName));
@@ -151,7 +151,7 @@ public class AppProviderUtils {
             person.setDisplayName(cursor.getString(idxDisplayName));
         }
         if (idxEmailAddress > -1) {
-            person.setEmailAddress(cursor.getString(idxEmailAddress));
+            person.setEmailAddres(cursor.getString(idxEmailAddress));
         }
         if (idxPhotoUrl > -1) {
             person.setPhotoUrl(cursor.getString(idxPhotoUrl));
@@ -216,10 +216,10 @@ public class AppProviderUtils {
             personMedia.setId(cursor.getInt(idxId));
         }
         if (idxPersonEventsId > -1) {
-            personMedia.setPersonEventsId(cursor.getLong(idxPersonEventsId));
+            personMedia.setPersonEventId(cursor.getLong(idxPersonEventsId));
         }
         if (idxLocalStorageUrl > -1) {
-            personMedia.setLocalStorageUrl(cursor.getString(idxLocalStorageUrl));
+            personMedia.setLocalStorageURL(cursor.getString(idxLocalStorageUrl));
         }
         if (idxMediaName > -1) {
             personMedia.setMediaName(cursor.getString(idxMediaName));
@@ -238,10 +238,10 @@ public class AppProviderUtils {
             contentValues.put(EventsColumns._ID, obj.getId());
         }
         contentValues.put(EventsColumns.DATE, obj.getDate());
-        contentValues.put(EventsColumns.DESC, obj.getDesc());
-        contentValues.put(EventsColumns.DISPLAY_ADDRESS, obj.getDisplayName());
-        contentValues.put(EventsColumns.LATITUDE, obj.getLatitude());
-        contentValues.put(EventsColumns.LONGITUDE, obj.getLongitude());
+        contentValues.put(EventsColumns.DESC, obj.getDescription());
+        contentValues.put(EventsColumns.DISPLAY_ADDRESS, obj.getDisplayAddress());
+        contentValues.put(EventsColumns.LATITUDE, obj.getLat());
+        contentValues.put(EventsColumns.LONGITUDE, obj.getLong());
         contentValues.put(EventsColumns.NAME, obj.getName());
         contentValues.put(EventsColumns.ORGANIZATION, obj.getOrganization());
 
@@ -285,9 +285,9 @@ public class AppProviderUtils {
         if (obj.getId() > 0) {
             contentValues.put(PersonMediaColumns._ID, obj.getId());
         }
-        contentValues.put(PersonMediaColumns.LOCAL_STORAGE_URL, obj.getLocalStorageUrl());
+        contentValues.put(PersonMediaColumns.LOCAL_STORAGE_URL, obj.getLocalStorageURL());
         contentValues.put(PersonMediaColumns.MEDIA_NAME, obj.getMediaName());
-        contentValues.put(PersonMediaColumns.PERSON_EVENTS_ID, obj.getPersonEventsId());
+        contentValues.put(PersonMediaColumns.PERSON_EVENTS_ID, obj.getPersonEventId());
 
         return contentValues;
     }
