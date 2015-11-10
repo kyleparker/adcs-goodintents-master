@@ -34,7 +34,7 @@ public class Person implements Comparable<Person> {
     public String getEmailAddress() {
         return emailAddress;
     }
-    public void setEmailAddres(String value) {
+    public void setEmailAddress(String value) {
         this.emailAddress = value == null ? "" : value.trim();
     }
 
