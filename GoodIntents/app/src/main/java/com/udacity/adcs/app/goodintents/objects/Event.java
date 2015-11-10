@@ -14,6 +14,8 @@ public class Event implements Comparable<Event> {
     private double Lat;
     private double Long;
     private String DisplayAddress;
+    private String PhotoUrl;
+    private String OrgPhotoUrl;
 
     public Event() { }
 
@@ -71,6 +73,20 @@ public class Event implements Comparable<Event> {
     }
     public void setDisplayAddress(String value) {
         this.DisplayAddress = value == null ? "" : value.trim();
+    }
+
+    public String getPhotoUrl() {
+        return PhotoUrl;
+    }
+    public void setPhotoUrl(String value) {
+        this.PhotoUrl = value == null ? "" : value.trim();
+    }
+
+    public String getOrgPhotoUrl() {
+        return OrgPhotoUrl;
+    }
+    public void setOrgPhotoUrl(String value) {
+        this.OrgPhotoUrl = value == null ? "" : value.trim();
     }
 
     public int compareTo(@NonNull Event another) {

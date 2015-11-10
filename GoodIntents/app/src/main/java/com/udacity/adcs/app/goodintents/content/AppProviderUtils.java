@@ -335,6 +335,8 @@ public class AppProviderUtils {
         int idxLongitude = cursor.getColumnIndex(EventsColumns.LONGITUDE);
         int idxName = cursor.getColumnIndex(EventsColumns.NAME);
         int idxOrganization = cursor.getColumnIndex(EventsColumns.ORGANIZATION);
+        int idxPhotoUrl = cursor.getColumnIndex(EventsColumns.PHOTO_URL);
+        int idxOrgPhotoUrl = cursor.getColumnIndex(EventsColumns.ORG_PHOTO_URL);
 
         Event event = new Event();
 
@@ -361,6 +363,12 @@ public class AppProviderUtils {
         }
         if (idxOrganization > -1) {
             event.setOrganization(cursor.getString(idxOrganization));
+        }
+        if (idxPhotoUrl > -1) {
+            event.setPhotoUrl(cursor.getString(idxPhotoUrl));
+        }
+        if (idxOrgPhotoUrl > -1) {
+            event.setOrgPhotoUrl(cursor.getString(idxOrgPhotoUrl));
         }
 
         return event;
@@ -537,6 +545,8 @@ public class AppProviderUtils {
         contentValues.put(EventsColumns.LONGITUDE, obj.getLong());
         contentValues.put(EventsColumns.NAME, obj.getName());
         contentValues.put(EventsColumns.ORGANIZATION, obj.getOrganization());
+        contentValues.put(EventsColumns.PHOTO_URL, obj.getPhotoUrl());
+        contentValues.put(EventsColumns.ORG_PHOTO_URL, obj.getOrgPhotoUrl());
 
         return contentValues;
     }

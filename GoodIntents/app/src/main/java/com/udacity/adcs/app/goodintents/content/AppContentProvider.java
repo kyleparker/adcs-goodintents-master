@@ -40,7 +40,7 @@ public class AppContentProvider extends ContentProvider {
     public static final String CONTENT_URI = "content://com.udacity.adcs.app.goodintents/";
 
     private static final String DATABASE_NAME = "goodintents.db";
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 8;
     private static final String SQL_INNER_JOIN = " INNER JOIN ";
     private static final String SQL_OUTER_JOIN = " LEFT OUTER JOIN ";
     private static final String SQL_ON = " ON ";
@@ -72,6 +72,10 @@ public class AppContentProvider extends ContentProvider {
             }
             if (oldVersion < 7) {
                 db.execSQL("ALTER TABLE " + PersonColumns.TABLE_NAME + " ADD " + PersonColumns.GOOGLE_ACCOUNT_ID + " TEXT");
+            }
+            if (oldVersion < 8) {
+                db.execSQL("ALTER TABLE " + EventsColumns.TABLE_NAME + " ADD " + EventsColumns.PHOTO_URL + " TEXT");
+                db.execSQL("ALTER TABLE " + EventsColumns.TABLE_NAME + " ADD " + EventsColumns.ORG_PHOTO_URL + " TEXT");
             }
         }
     }

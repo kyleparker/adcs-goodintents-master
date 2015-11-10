@@ -23,6 +23,8 @@ public interface EventsColumns extends BaseColumns {
     String LATITUDE = "latitude";
     String LONGITUDE = "longitude";
     String DISPLAY_ADDRESS = "display_address";
+    String PHOTO_URL = "event_photo_url";
+    String ORG_PHOTO_URL = "org_photo_url";
 
     String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + " ("
@@ -33,7 +35,9 @@ public interface EventsColumns extends BaseColumns {
                     + DATE + " INTEGER, "
                     + LATITUDE + " INTEGER, "
                     + LONGITUDE + " INTEGER, "
-                    + DISPLAY_ADDRESS + " TEXT "
+                    + DISPLAY_ADDRESS + " TEXT, "
+                    + PHOTO_URL + " TEXT, "
+                    + ORG_PHOTO_URL + " TEXT "
                     + ");";
 
     String DEFAULT_SORT_ORDER = TABLE_NAME + "." + _ID + " DESC";
