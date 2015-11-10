@@ -168,6 +168,9 @@
             <!--android:name=".services.RegistrationIntentService"-->
             <!--android:exported="false">-->
         <!--</service>-->
+
+        <service android:name=".service.NotificationService"
+            android:exported="true"/>
     </application>
 
 </manifest>
