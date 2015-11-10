@@ -41,13 +41,13 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         ImageView mProfilePicImageView;
         TextView mNameTextView;
-        TextView mExtraInfo;
+        TextView mPoints;
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
             mProfilePicImageView = (ImageView) itemView.findViewById(R.id.profile_picture_imageview);
             mNameTextView = (TextView) itemView.findViewById(R.id.name_textview);
-            mExtraInfo = (TextView) itemView.findViewById(R.id.extra_info_textview);
+            mPoints = (TextView) itemView.findViewById(R.id.points_textview);
         }
     }
 
@@ -85,7 +85,7 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             // TODO update image later
             ((HeaderViewHolder) viewHolder).mProfilePicImageView.setImageResource(R.mipmap.ic_launcher);
             ((HeaderViewHolder) viewHolder).mNameTextView.setText("Test");
-            ((HeaderViewHolder) viewHolder).mExtraInfo.setText("Test Location");
+            ((HeaderViewHolder) viewHolder).mPoints.setText("Points");
 
         } else {
             // Position - 1 counts for header
