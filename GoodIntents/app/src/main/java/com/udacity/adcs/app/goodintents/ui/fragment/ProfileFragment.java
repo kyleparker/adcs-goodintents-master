@@ -56,7 +56,7 @@ public class ProfileFragment extends BaseFragment {
 
         mProvider = new AppProviderUtils(getActivity().getContentResolver());
         mEventList = new ArrayList();
-        //getPersonObject();
+        getPersonObject();
         getEventList();
 
         RecyclerView eventsRecyclerView = (RecyclerView) mRootView.findViewById(R.id.events_recycler_view);
@@ -92,4 +92,34 @@ public class ProfileFragment extends BaseFragment {
             mEventListAdapter.notifyDataSetChanged();
         }
     };
+
+
+    public void getPersonObject(){
+
+        SharedPreferences prefs = getActivity().getSharedPreferences("goodintent_prefs", Context.MODE_PRIVATE);
+        final String googleId = prefs.getString(getString(R.string.google_account_id_key), null);
+
+        Runnable load = new Runnable() {
+            public void run() {
+                try {
+                    mPerson = mProvider.getPersonByGoogleId(googleId);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    mActivity.runOnUiThread(getPersonObjectRunnable);
+                }
+            }
+        };
+
+        Thread thread = new Thread(null, load, "getPersonObject");
+        thread.start();
+    }
+
+    private final Runnable getPersonObjectRunnable = new Runnable() {
+        public void run() {
+            mEventListAdapter.setProfileData(mPerson);
+            mEventListAdapter.notifyDataSetChanged();
+        }
+    };
+
 }
