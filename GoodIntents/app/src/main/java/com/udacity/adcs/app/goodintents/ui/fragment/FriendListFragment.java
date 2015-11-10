@@ -8,9 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.udacity.adcs.app.goodintents.R;
+import com.udacity.adcs.app.goodintents.objects.Event;
 import com.udacity.adcs.app.goodintents.ui.base.BaseFragment;
 import com.udacity.adcs.app.goodintents.ui.list.EventListAdapter;
 import com.udacity.adcs.app.goodintents.ui.list.EventListRecyclerViewAdapter;
+
+import java.util.ArrayList;
 
 /**
  * Created by kyleparker on 11/9/2015.
@@ -41,7 +44,7 @@ public class FriendListFragment extends BaseFragment {
         RecyclerView rv_event_list = (RecyclerView) mRootView.findViewById(R.id.rv_friend_list);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mActivity);
         rv_event_list.setLayoutManager(mLayoutManager);
-        EventListRecyclerViewAdapter rv_adapter = new EventListRecyclerViewAdapter(new String[10]);
+        EventListRecyclerViewAdapter rv_adapter = new EventListRecyclerViewAdapter(new ArrayList<Event>());
         rv_event_list.setAdapter(rv_adapter);
         return mRootView;
     }

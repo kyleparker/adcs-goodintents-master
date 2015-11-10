@@ -8,14 +8,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.udacity.adcs.app.goodintents.R;
-import com.udacity.adcs.app.goodintents.utils.DateUtils;
+import com.udacity.adcs.app.goodintents.objects.Event;
+import com.udacity.adcs.app.goodintents.utils.StringUtils;
+
+import java.util.List;
 
 /**
  * Created by perklun on 11/10/2015.
  */
 public class EventListRecyclerViewAdapter extends RecyclerView.Adapter<EventListRecyclerViewAdapter.ViewHolder> {
 
-    private String[] mDataset;
+    private List<Event> mDataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -37,7 +40,7 @@ public class EventListRecyclerViewAdapter extends RecyclerView.Adapter<EventList
         }
     }
 
-    public EventListRecyclerViewAdapter(String[] mDataset){
+    public EventListRecyclerViewAdapter(List<Event> mDataset){
         this.mDataset = mDataset;
     }
 
@@ -52,15 +55,20 @@ public class EventListRecyclerViewAdapter extends RecyclerView.Adapter<EventList
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tv_friend_name.setText("Android Machine");
-        holder.tv_friend_event_details.setText("Donating Blood");
-        holder.tv_friend_event_date.setText(DateUtils.getRelativeTimeAgo("Mon Nov 09 20:07:10 +0000 2015"));
+        Event e = mDataset.get(position);
+        holder.tv_friend_name.setText(e.getOrganization());
+        holder.tv_friend_event_details.setText(e.getDescription());
+        holder.tv_friend_event_date.setText(StringUtils.getRelativeTimeAgo(e.getDate()));
         holder.iv_friend_pic.setImageResource(R.mipmap.ic_launcher);
         holder.iv_friend_event_image.setImageResource(R.mipmap.ic_launcher);
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
+    }
+
+    public void setEventList(List<Event> mdataset){
+        this.mDataset = mdataset;
     }
 }
