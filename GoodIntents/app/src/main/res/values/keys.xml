@@ -5,6 +5,7 @@
     <string name="google_account_key">googleAccount</string>
     <string name="google_account_id_key">googleAccountId</string>
     <string name="feed_list_selected_key">feedListSelected</string>
+    <string name="initial_db_load_key">initialDbLoad</string>
     <string name="initial_search_load_key">initialSearchLoad</string>
     <string name="login_completed_key">loginCompleted</string>
     <string name="person_id_key">personId</string>
