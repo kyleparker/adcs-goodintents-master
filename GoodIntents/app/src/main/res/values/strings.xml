@@ -42,4 +42,5 @@
     <string name="toast_error_saving_event">Oops, there was an error saving the event</string>
     <string name="toast_success_event_found">Event found</string>
     <string name="toast_success_event_saved">Event saved</string>
+
 </resources>
