@@ -34,7 +34,7 @@ public class AppProviderUtils {
         mContentResolver = contentResolver;
     }
 
-    public Event getEvent(int id) {
+    public Event getEvent(long id) {
         Uri uri = Uri.parse(EventsColumns.CONTENT_URI + "/" + id);
 
         Cursor cursor = mContentResolver.query(uri, null, null, null, null);
@@ -117,7 +117,7 @@ public class AppProviderUtils {
         return list;
     }
 
-    public Person getPerson(int id) {
+    public Person getPerson(long id) {
         Uri uri = Uri.parse(PersonColumns.CONTENT_URI + "/" + id);
 
         Cursor cursor = mContentResolver.query(uri, null, null, null, null);

@@ -1,7 +1,6 @@
 package com.udacity.adcs.app.goodintents.ui.list;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import android.widget.TextView;
 
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.objects.Event;
+import com.udacity.adcs.app.goodintents.utils.DateUtils;
 
 import java.util.ArrayList;
 
@@ -111,5 +111,4 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public int getItemViewType(int position) {
         return (position == 0) ? VIEW_TYPE_HEADER : VIEW_TYPE_ITEM;
     }
-
 }

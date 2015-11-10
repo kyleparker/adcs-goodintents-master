@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+<<<<<<< HEAD
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/udacity/adcs/app/goodintents/camera/BarcodeGraphic.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/udacity/adcs/app/goodintents/camera/BarcodeTrackerFactory.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/udacity/adcs/app/goodintents/camera/CameraSourcePreview.java" charset="windows-1252" />
@@ -24,6 +25,8 @@
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi/ic_fab_check_disabled.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi/ic_fab_check_enabled.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/recyclerview_item_foreground.xml" charset="windows-1252" />
+=======
+>>>>>>> origin/master
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

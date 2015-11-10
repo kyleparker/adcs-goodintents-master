@@ -23,4 +23,5 @@ public abstract class BaseFragment extends Fragment {
         mActivity = getActivity();
         mProvider = AppProviderUtils.Factory.get(mActivity);
     }
+
 }
