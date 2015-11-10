@@ -99,7 +99,7 @@ public class AppProviderUtils {
         String selection = EventsColumns.TABLE_NAME + "." + EventsColumns._ID + " = ? ";
         String[] selectionArgs = new String[] { String.valueOf(eventId) };
 
-        Cursor cursor = mContentResolver.query(uri, getPersonEventProjection(), null, null, null);
+        Cursor cursor = mContentResolver.query(uri, getPersonEventProjection(), selection, selectionArgs, null);
 
         if (cursor != null) {
             list.ensureCapacity(cursor.getCount());
