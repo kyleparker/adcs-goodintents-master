@@ -2,14 +2,14 @@
     <string name="app_name">Good Intents</string>
     <string name="tagline">Some catchy tagline...</string>
 
-    <string name="content_empty_activities">No activities available</string>
-    <string name="content_empty_friends">No friend activities</string>
+    <string name="content_empty_activities">No events available</string>
+    <string name="content_empty_friends">No friend activity.</string>
     <string name="content_no_wifi_settings">Oops! You need a data connection to start using Good Intents.\n\nTap the icon below to open your
         settings and connect to WiFi or a mobile network.</string>
     <string name="content_open_settings">Open Settings</string>
-    <string name="content_search_desc">Activities, organizations and charities</string>
+    <string name="content_search_desc">Events, organizations and charities</string>
     <string name="content_search_hint">Search</string>
-    <string name="content_search_voice_prompt">Search for activities</string>
+    <string name="content_search_voice_prompt">Search for events</string>
     <string name="content_share_path_picker_title">Select an application</string>
 
     <string name="dialog_login_message">Please wait&#8230;\n\nSigning into Good Intents</string>
@@ -20,7 +20,7 @@
     <string name="title_friends">Friends</string>
     <string name="title_profile">Profile</string>
     <string name="title_scan_qr_code">Scan QR code</string>
-    <string name="title_upcoming">Upcoming activities</string>
+    <string name="title_upcoming">Events</string>
 
     <string name="toast_error_login">Problem logging into Good Intents. Check your network connection and try again.</string>
     <string name="toast_error_activity_already_added">Activity already added</string>
