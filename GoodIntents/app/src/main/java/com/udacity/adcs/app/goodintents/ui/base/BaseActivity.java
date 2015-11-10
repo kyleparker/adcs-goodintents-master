@@ -52,12 +52,6 @@ public class BaseActivity extends AppCompatActivity {
             mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar);
             if (mActionBarToolbar != null) {
                 setSupportActionBar(mActionBarToolbar);
-
-                final ActionBar ab = getSupportActionBar();
-                if (ab != null) {
-                    ab.setHomeAsUpIndicator(R.drawable.ic_drawer);
-                    ab.setDisplayHomeAsUpEnabled(true);
-                }
             }
         }
 
