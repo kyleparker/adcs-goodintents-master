@@ -10,8 +10,10 @@ import android.widget.TextView;
 
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.objects.Event;
+import com.udacity.adcs.app.goodintents.objects.PersonEvent;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by pedram on 09/11/15.
@@ -21,7 +23,7 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int VIEW_TYPE_HEADER = 0;
     private static final int VIEW_TYPE_ITEM = 1;
 
-    private final ArrayList<Event> mListItems;
+    private List<PersonEvent> mListItems;
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
 
@@ -58,7 +60,7 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      * @param context  The current context.
      * @param resource The resource ID for a layout file containing a TextView to use when
      */
-    public EventListAdapter(ArrayList<Event> listItems) {
+    public EventListAdapter(List<PersonEvent> listItems) {
         this.mListItems = listItems;
     }
 
@@ -88,12 +90,12 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         } else {
             // Position - 1 counts for header
-            Event event = mListItems.get(position - 1);
+            PersonEvent personEvent = mListItems.get(position - 1);
 
-            ((ItemViewHolder) viewHolder).mEventNameTextView.setText(event.getName());
+            ((ItemViewHolder) viewHolder).mEventNameTextView.setText(personEvent.event.getName());
             // TODO Convert date to a human readable string
-            ((ItemViewHolder) viewHolder).mEventDateTextView.setText(Long.toString(event.getDate()));
-            ((ItemViewHolder) viewHolder).mOrganizationTextView.setText(event.getOrganization());
+            ((ItemViewHolder) viewHolder).mEventDateTextView.setText(Long.toString(personEvent.getDate()));
+            ((ItemViewHolder) viewHolder).mOrganizationTextView.setText(personEvent.event.getOrganization());
         }
     }
 
@@ -110,6 +112,10 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public int getItemViewType(int position) {
         return (position == 0) ? VIEW_TYPE_HEADER : VIEW_TYPE_ITEM;
+    }
+
+    public void setEventList(List<PersonEvent> eventList){
+        mListItems = eventList;
     }
 
 }

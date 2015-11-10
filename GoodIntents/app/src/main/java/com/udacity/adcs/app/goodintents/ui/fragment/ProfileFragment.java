@@ -3,24 +3,30 @@ package com.udacity.adcs.app.goodintents.ui.fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.udacity.adcs.app.goodintents.R;
+import com.udacity.adcs.app.goodintents.content.AppContentProvider;
+import com.udacity.adcs.app.goodintents.content.AppProviderUtils;
 import com.udacity.adcs.app.goodintents.objects.Event;
+import com.udacity.adcs.app.goodintents.objects.PersonEvent;
 import com.udacity.adcs.app.goodintents.ui.base.BaseFragment;
 import com.udacity.adcs.app.goodintents.ui.list.EventListAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kyleparker on 11/9/2015.
  */
 public class ProfileFragment extends BaseFragment {
+
+    private List<PersonEvent> mEventList;
+    private AppProviderUtils mProvider;
+    private EventListAdapter mEventListAdapter;
 
     /**
      * Factory method to generate a new instance of the fragment
@@ -43,31 +49,42 @@ public class ProfileFragment extends BaseFragment {
         mRootView = (ViewGroup) inflater.inflate(R.layout.fragment_profile, container, false);
         mRootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        // Dummy Data
-        ArrayList<Event> eventsList = new ArrayList<>();
-        Event event = new Event();
-        event.setName("Test Event");
-        event.setDate(123456);
-        event.setOrganization("Test Organization");
-
-        eventsList.add(event);
-        eventsList.add(event);
-        eventsList.add(event);
-        eventsList.add(event);
-        eventsList.add(event);
-        eventsList.add(event);
-        eventsList.add(event);
-        eventsList.add(event);
-        eventsList.add(event);
-        eventsList.add(event);
+        mProvider = new AppProviderUtils(getActivity().getContentResolver());
+        mEventList = new ArrayList();
+        getEventList();
 
         RecyclerView eventsRecyclerView = (RecyclerView) mRootView.findViewById(R.id.events_recycler_view);
-        EventListAdapter eventListAdapter = new EventListAdapter(eventsList);
+        mEventListAdapter = new EventListAdapter(mEventList);
+        eventsRecyclerView.setAdapter(mEventListAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         eventsRecyclerView.setLayoutManager(linearLayoutManager);
-        eventsRecyclerView.setAdapter(eventListAdapter);
 
         return mRootView;
     }
+
+    public void getEventList() {
+        Runnable load = new Runnable() {
+            public void run() {
+                try {
+                    mEventList = mProvider.getEventListByType(1);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    mActivity.runOnUiThread(getEventListRunnable);
+                }
+            }
+        };
+
+        Thread thread = new Thread(null, load, "getEventList");
+        thread.start();
+    }
+
+    private final Runnable getEventListRunnable = new Runnable() {
+        public void run() {
+            mEventListAdapter.setEventList(mEventList);
+            mEventListAdapter.notifyDataSetChanged();
+        }
+    };
+
 }
