@@ -23,4 +23,7 @@
     <dimen name="text_size_title">20sp</dimen>
     <dimen name="text_size_subtitle">16sp</dimen>
 
+    <dimen name="friend_pic_size_in_item">40dp</dimen>
+
+
 </resources>
