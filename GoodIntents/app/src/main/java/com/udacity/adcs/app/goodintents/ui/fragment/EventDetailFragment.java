@@ -1,6 +1,8 @@
 package com.udacity.adcs.app.goodintents.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +35,12 @@ public class EventDetailFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRootView = (ViewGroup) inflater.inflate(R.layout.fragment_event_detail, container, false);
         mRootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+
+        RecyclerView eventPhotos = (RecyclerView) mRootView.findViewById(R.id.event_photos);
+        eventPhotos.setLayoutManager(layoutManager);
 
         return mRootView;
     }
