@@ -19,7 +19,7 @@ public interface EventsColumns extends BaseColumns {
     String NAME = "name";
     String DESC = "desc";
     String ORGANIZATION = "organization";
-    String DATE = "date";
+    String DATE = "event_date";
     String LATITUDE = "latitude";
     String LONGITUDE = "longitude";
     String DISPLAY_ADDRESS = "display_address";

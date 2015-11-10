@@ -12,7 +12,7 @@ public interface PersonMediaColumns extends BaseColumns {
 
     String TABLE_NAME = "person_media";
     Uri CONTENT_URI = Uri.parse(AppContentProvider.CONTENT_URI + TABLE_NAME);
-    Uri CONTENT_URI_BY_TYPE_ID = Uri.parse(AppContentProvider.CONTENT_URI + TABLE_NAME + "/personevent");
+    Uri CONTENT_URI_BY_PERSON_EVENT = Uri.parse(AppContentProvider.CONTENT_URI + TABLE_NAME + "/personevent");
     String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.bsu" + TABLE_NAME;
     String CONTENT_ITEMTYPE = "vnd.android.cursor.item/vnd.bsu" + TABLE_NAME;
 

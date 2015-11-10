@@ -190,9 +190,9 @@ public class AppContentProvider extends ContentProvider {
             case PERSON_ID:
                 return PersonColumns.CONTENT_ITEMTYPE;
             case PERSON_EVENTS:
-                return EventsColumns.CONTENT_TYPE;
+                return PersonEventsColumns.CONTENT_TYPE;
             case PERSON_EVENTS_ID:
-                return EventsColumns.CONTENT_ITEMTYPE;
+                return PersonEventsColumns.CONTENT_ITEMTYPE;
             case PERSON_MEDIA:
                 return PersonMediaColumns.CONTENT_TYPE;
             case PERSON_MEDIA_ID:

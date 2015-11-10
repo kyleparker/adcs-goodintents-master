@@ -19,7 +19,7 @@ public interface PersonEventsColumns extends BaseColumns {
     String _ID = "_id";
     String PERSON_ID = "person_id";
     String EVENT_ID = "event_id";
-    String DATE = "date";
+    String DATE = "participation_date";
     String POINTS = "points";
 
     String CREATE_TABLE =

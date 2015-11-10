@@ -17,10 +17,10 @@
 
     <string name="menu_search">Search</string>
 
+    <string name="title_events">Events</string>
     <string name="title_friends">Friends</string>
     <string name="title_profile">Profile</string>
     <string name="title_scan_qr_code">Scan QR code</string>
-    <string name="title_upcoming">Upcoming</string>
 
     <string name="toast_error_login">Problem logging into Good Intents. Check your network connection and try again.</string>
     <string name="toast_error_event_already_added">Event already added</string>

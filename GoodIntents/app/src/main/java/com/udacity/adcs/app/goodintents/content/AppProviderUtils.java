@@ -48,6 +48,25 @@ public class AppProviderUtils {
         return null;
     }
 
+    public List<Event> getEventList() {
+        ArrayList<Event> list = new ArrayList<>();
+
+        Cursor cursor = mContentResolver.query(EventsColumns.CONTENT_URI, null, null, null, EventsColumns.DATE + " DESC");
+
+        if (cursor != null) {
+            list.ensureCapacity(cursor.getCount());
+
+            if (cursor.moveToFirst()) {
+                do {
+                    list.add(createEvent(cursor));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+
+        return list;
+    }
+
     public Person getPerson(int id) {
         Uri uri = Uri.parse(PersonColumns.CONTENT_URI + "/" + id);
 
@@ -66,17 +85,44 @@ public class AppProviderUtils {
         return null;
     }
 
-    public List<Event> getEventListByType(long typeId) {
-        ArrayList<Event> list = new ArrayList<>();
+    public List<PersonEvent> getEventListByType(long typeId) {
+        ArrayList<PersonEvent> list = new ArrayList<>();
 
-        Cursor cursor = mContentResolver.query(EventsColumns.CONTENT_URI, null, null, null, null);
+        Uri uri = Uri.parse(PersonEventsColumns.CONTENT_URI_BY_TYPE_ID + "/" + typeId);
+        Cursor cursor = mContentResolver.query(uri, getPersonEventProjection(), null, null, null);
 
         if (cursor != null) {
             list.ensureCapacity(cursor.getCount());
 
             if (cursor.moveToFirst()) {
                 do {
-                    list.add(createEvent(cursor));
+                    list.add(createPersonEvent(cursor));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+
+        return list;
+    }
+
+    public List<PersonMedia> getMediaByPersonEvent(long personId, long eventId) {
+        ArrayList<PersonMedia> list = new ArrayList<>();
+
+        Uri uri = Uri.parse(PersonMediaColumns.CONTENT_URI_BY_PERSON_EVENT + "/" + personId);
+
+        String selection = PersonColumns.TABLE_NAME + "." + PersonColumns._ID + " = ? " +
+                " AND " +
+                EventsColumns.TABLE_NAME + "." + EventsColumns._ID + " = ? ";
+        String[] selectionArgs = new String[] { String.valueOf(personId), String.valueOf(eventId) };
+
+        Cursor cursor = mContentResolver.query(uri, getPersonEventProjection(), selection, selectionArgs, null);
+
+        if (cursor != null) {
+            list.ensureCapacity(cursor.getCount());
+
+            if (cursor.moveToFirst()) {
+                do {
+                    list.add(createPersonMedia(cursor));
                 } while (cursor.moveToNext());
             }
             cursor.close();
@@ -151,7 +197,7 @@ public class AppProviderUtils {
             person.setDisplayName(cursor.getString(idxDisplayName));
         }
         if (idxEmailAddress > -1) {
-            person.setEmailAddres(cursor.getString(idxEmailAddress));
+            person.setEmailAddress(cursor.getString(idxEmailAddress));
         }
         if (idxPhotoUrl > -1) {
             person.setPhotoUrl(cursor.getString(idxPhotoUrl));
@@ -290,6 +336,27 @@ public class AppProviderUtils {
         contentValues.put(PersonMediaColumns.PERSON_EVENTS_ID, obj.getPersonEventId());
 
         return contentValues;
+    }
+
+    private String[] getPersonEventProjection() {
+        return new String[] {
+                PersonEventsColumns.TABLE_NAME + "." + PersonEventsColumns._ID,
+                PersonEventsColumns.TABLE_NAME + "." + PersonEventsColumns.DATE,
+                PersonEventsColumns.TABLE_NAME + "." + PersonEventsColumns.EVENT_ID,
+                PersonEventsColumns.TABLE_NAME + "." + PersonEventsColumns.PERSON_ID,
+                PersonEventsColumns.TABLE_NAME + "." + PersonEventsColumns.POINTS,
+                PersonColumns.TABLE_NAME + "." + PersonColumns.DISPLAY_NAME,
+                PersonColumns.TABLE_NAME + "." + PersonColumns.EMAIL_ADDRESS,
+                PersonColumns.TABLE_NAME + "." + PersonColumns.PHOTO_URL,
+                PersonColumns.TABLE_NAME + "." + PersonColumns.TYPE_ID,
+                EventsColumns.TABLE_NAME + "." + EventsColumns.DATE,
+                EventsColumns.TABLE_NAME + "." + EventsColumns.DESC,
+                EventsColumns.TABLE_NAME + "." + EventsColumns.DISPLAY_ADDRESS,
+                EventsColumns.TABLE_NAME + "." + EventsColumns.LATITUDE,
+                EventsColumns.TABLE_NAME + "." + EventsColumns.LONGITUDE,
+                EventsColumns.TABLE_NAME + "." + EventsColumns.NAME,
+                EventsColumns.TABLE_NAME + "." + EventsColumns.ORGANIZATION
+        };
     }
 
     /**

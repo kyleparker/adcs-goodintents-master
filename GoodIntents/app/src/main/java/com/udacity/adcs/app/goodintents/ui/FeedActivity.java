@@ -1,11 +1,16 @@
 package com.udacity.adcs.app.goodintents.ui;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.ui.base.BaseActivity;
@@ -14,6 +19,11 @@ import com.udacity.adcs.app.goodintents.ui.fragment.FriendListFragment;
 import com.udacity.adcs.app.goodintents.ui.fragment.ProfileFragment;
 import com.udacity.adcs.app.goodintents.ui.view.ZoomOutSlideTransformer;
 import com.udacity.adcs.app.goodintents.utils.PreferencesUtils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 
 /**
  *
@@ -26,6 +36,88 @@ public class FeedActivity extends BaseActivity {
         setContentView(R.layout.activity_feed);
 
         setupViewPager();
+        setupToolbar();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.search, menu);
+
+//        setupSearchView(menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_backup:
+                handleBackup();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void handleBackup() {
+        Runnable load = new Runnable() {
+            public void run() {
+                try {
+                    File sd = new File(mActivity.getExternalFilesDir(null) + "/");
+                    File data = Environment.getDataDirectory();
+
+//                    if (sd.canWrite()) {
+                        String backupName = Long.toString(System.currentTimeMillis());
+
+                        String currentDBPath = "//data//com.udacity.adcs.app.goodintents//databases//goodintents.db";
+                        String backupDBPath = backupName + ".db";
+
+                        File currentDB = new File(data, currentDBPath);
+                        File backupDB = new File(sd, backupDBPath);
+
+                        if (currentDB.exists()) {
+                            FileInputStream is = new FileInputStream(currentDB);
+                            FileOutputStream os = new FileOutputStream(backupDB);
+
+                            FileChannel src = is.getChannel();
+                            FileChannel dst = os.getChannel();
+                            dst.transferFrom(src, 0, src.size());
+
+                            is.close();
+                            os.close();
+                            src.close();
+                            dst.close();
+                        }
+//                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    mActivity.runOnUiThread(backupRunnable);
+                }
+            }
+        };
+
+        Thread thread = new Thread(null, load, "handleBackup");
+        thread.start();
+    }
+
+    private final Runnable backupRunnable = new Runnable() {
+        public void run() {
+            Toast.makeText(mActivity, "done", Toast.LENGTH_LONG).show();
+        }
+    };
+
+    /**
+     * Setup the toolbar for the activity
+     */
+    private void setupToolbar() {
+        final Toolbar toolbar = getActionBarToolbar();
+        toolbar.post(new Runnable() {
+            @Override
+            public void run() {
+                toolbar.setTitle(mActivity.getString(R.string.app_name));
+            }
+        });
     }
 
     /**
@@ -37,7 +129,7 @@ public class FeedActivity extends BaseActivity {
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
 
         if (viewPager != null) {
-            int tabPosition = PreferencesUtils.getInt(mActivity, R.string.feed_list_selected_key, PreferencesUtils.Tab.FEED_LIST_UPCOMING);
+            int tabPosition = PreferencesUtils.getInt(mActivity, R.string.feed_list_selected_key, PreferencesUtils.Tab.FEED_LIST_EVENT);
 
             FeedPagerAdapter adapter = new FeedPagerAdapter(fm);
             viewPager.setAdapter(adapter);
@@ -78,8 +170,8 @@ public class FeedActivity extends BaseActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
-                case PreferencesUtils.Tab.FEED_LIST_UPCOMING:
-                    return mActivity.getString(R.string.title_upcoming);
+                case PreferencesUtils.Tab.FEED_LIST_EVENT:
+                    return mActivity.getString(R.string.title_events);
                 case PreferencesUtils.Tab.FEED_LIST_FRIENDS:
                     return mActivity.getString(R.string.title_friends);
                 case PreferencesUtils.Tab.FEED_LIST_PROFILE:
@@ -92,7 +184,7 @@ public class FeedActivity extends BaseActivity {
         @Override
         public Fragment getItem(int position) {
             switch (position) {
-                case PreferencesUtils.Tab.FEED_LIST_UPCOMING:
+                case PreferencesUtils.Tab.FEED_LIST_EVENT:
                     return EventListFragment.newInstance();
                 case PreferencesUtils.Tab.FEED_LIST_FRIENDS:
                     return FriendListFragment.newInstance();
