@@ -56,7 +56,7 @@ public class FeedActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.menu_backup:
 //                handleBackup();
-                launchNotification();
+//                launchNotification();
                 startActivity(new Intent(mActivity, AddEventActivity.class));
                 return true;
         }

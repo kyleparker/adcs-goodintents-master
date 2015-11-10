@@ -18,9 +18,11 @@ public class Constants {
     public static final String APP_INVITE_HOST = "http://goodintents.com";
     public static final String APP_INVITE_IMAGE_URL = "https://apps.bsu.edu/traveler/images/icon512x512.png";
 
-    public static final String FULL_DATE_FORMAT = "MMM d, yyyy";
     public static final String DATE_FORMAT = "MM/dd/yyyy";
+    public static final String DATE_FORMAT_LONG = "MMM d, yyyy";
     public static final String TIME_FORMAT = "h:mm a";
+    public static final String TIME_FORMAT_LONG = "HH:mm:ss";
+    public static final String DATE_TIME_FORMAT = "MM/dd/yyyy HH:mm:ss";
 
     public static final Locale LOCALE_DEFAULT = Locale.US;
 

@@ -187,11 +187,6 @@ public class MainActivity extends BaseActivity {
 //                            startService(intent);
 //                        }
 
-                if (!PreferencesUtils.getBoolean(mActivity, R.string.initial_search_load_key, false)) {
-                    LoadSearch task = new LoadSearch();
-                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                }
-
                 if (!PreferencesUtils.getBoolean(mActivity, R.string.initial_db_load_key, false)) {
                     LoadDatabase task = new LoadDatabase();
                     task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -384,6 +379,15 @@ public class MainActivity extends BaseActivity {
             }
 
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (!PreferencesUtils.getBoolean(mActivity, R.string.initial_search_load_key, false)) {
+                LoadSearch task = new LoadSearch();
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
         }
 
         private File getFileFromAsset(Context context, String path, String filename) {

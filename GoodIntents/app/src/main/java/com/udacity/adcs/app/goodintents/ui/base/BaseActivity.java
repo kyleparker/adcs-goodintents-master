@@ -39,7 +39,7 @@ public class BaseActivity extends AppCompatActivity {
         mActivity = this;
         mProvider = AppProviderUtils.Factory.get(mActivity);
 
-        mPerson = mProvider.getPerson(PreferencesUtils.getInt(mActivity, R.string.person_id_key, 0));
+        mPerson = mProvider.getPersonByGoogleId(PreferencesUtils.getString(mActivity, R.string.google_account_id_key, ""));
     }
 
     /**

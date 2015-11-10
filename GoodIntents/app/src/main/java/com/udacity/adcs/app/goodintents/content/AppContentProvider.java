@@ -11,17 +11,18 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.content.layout.EventsColumns;
 import com.udacity.adcs.app.goodintents.content.layout.PersonColumns;
 import com.udacity.adcs.app.goodintents.content.layout.PersonEventsColumns;
 import com.udacity.adcs.app.goodintents.content.layout.PersonMediaColumns;
 import com.udacity.adcs.app.goodintents.content.layout.SearchColumns;
 import com.udacity.adcs.app.goodintents.content.layout.TypeColumns;
+import com.udacity.adcs.app.goodintents.utils.PreferencesUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,7 +41,7 @@ public class AppContentProvider extends ContentProvider {
     public static final String CONTENT_URI = "content://com.udacity.adcs.app.goodintents/";
 
     private static final String DATABASE_NAME = "goodintents.db";
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 4;
     private static final String SQL_INNER_JOIN = " INNER JOIN ";
     private static final String SQL_OUTER_JOIN = " LEFT OUTER JOIN ";
     private static final String SQL_ON = " ON ";
@@ -67,19 +68,31 @@ public class AppContentProvider extends ContentProvider {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            if (oldVersion < 4) {
-                db.execSQL(SearchColumns.CREATE_TABLE);
-            }
-            if (oldVersion < 7) {
-                db.execSQL("ALTER TABLE " + PersonColumns.TABLE_NAME + " ADD " + PersonColumns.GOOGLE_ACCOUNT_ID + " TEXT");
-            }
+//            if (oldVersion < 4) {
+//                db.execSQL(SearchColumns.CREATE_TABLE);
+//            }
+//            if (oldVersion < 7) {
+//                try {
+//                    db.execSQL("ALTER TABLE " + PersonColumns.TABLE_NAME + " ADD " + PersonColumns.GOOGLE_ACCOUNT_ID + " TEXT");
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                }
+//            }
+//            if (oldVersion < 8) {
+//                try {
+//                    db.execSQL("ALTER TABLE " + EventsColumns.TABLE_NAME + " ADD " + EventsColumns.PHOTO_URL + " TEXT");
+//                    db.execSQL("ALTER TABLE " + EventsColumns.TABLE_NAME + " ADD " + EventsColumns.ORG_PHOTO_URL + " TEXT");
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                }
+//            }
         }
     }
 
     private enum UrlType {
         EVENT, EVENT_ID,
         PERSON, PERSON_ID, PERSON_GOOGLE_ACCOUNT,
-        PERSON_EVENTS, PERSON_EVENTS_ID, PERSON_EVENTS_TYPE_ID,
+        PERSON_EVENTS, PERSON_EVENTS_ID, PERSON_EVENTS_TYPE_ID, PERSON_EVENT_PERSON,
         PERSON_MEDIA, PERSON_MEDIA_ID, PERSON_MEDIA_PERSON_EVENT_ID,
         SEARCH, SEARCH_ID,
     }
@@ -97,6 +110,7 @@ public class AppContentProvider extends ContentProvider {
         mUriMatcher.addURI(AUTHORITY, PersonEventsColumns.TABLE_NAME, UrlType.PERSON_EVENTS.ordinal());
         mUriMatcher.addURI(AUTHORITY, PersonEventsColumns.TABLE_NAME + "/#", UrlType.PERSON_EVENTS_ID.ordinal());
         mUriMatcher.addURI(AUTHORITY, PersonEventsColumns.TABLE_NAME + "/typeid/#", UrlType.PERSON_EVENTS_TYPE_ID.ordinal());
+        mUriMatcher.addURI(AUTHORITY, PersonEventsColumns.TABLE_NAME + "/person/#", UrlType.PERSON_EVENT_PERSON.ordinal());
 
         mUriMatcher.addURI(AUTHORITY, PersonMediaColumns.TABLE_NAME, UrlType.PERSON_MEDIA.ordinal());
         mUriMatcher.addURI(AUTHORITY, PersonMediaColumns.TABLE_NAME + "/#", UrlType.PERSON_MEDIA_ID.ordinal());
@@ -113,6 +127,8 @@ public class AppContentProvider extends ContentProvider {
 
         try {
             mDb = databaseHelper.getWritableDatabase();
+            mDb.execSQL("update person set google_account_id = '106859072981465803219' where _id = 6");
+            PreferencesUtils.setString(mContext, R.string.google_account_id_key, "106859072981465803219");
 
 //            try {
 //                File sd = new File(mContext.getExternalFilesDir(null) + "/");
@@ -183,6 +199,7 @@ public class AppContentProvider extends ContentProvider {
                 queryBuilder.appendWhere(PersonEventsColumns._ID + " = " + uri.getPathSegments().get(1));
                 break;
             case PERSON_EVENTS_TYPE_ID:
+            case PERSON_EVENT_PERSON:
                 queryBuilder.setTables(PersonEventsColumns.TABLE_NAME +
                         SQL_INNER_JOIN +
                         PersonColumns.TABLE_NAME + SQL_ON +
@@ -258,6 +275,7 @@ public class AppContentProvider extends ContentProvider {
             case PERSON_EVENTS:
                 return PersonEventsColumns.CONTENT_TYPE;
             case PERSON_EVENTS_ID:
+            case PERSON_EVENT_PERSON:
                 return PersonEventsColumns.CONTENT_ITEMTYPE;
             case PERSON_MEDIA:
                 return PersonMediaColumns.CONTENT_TYPE;
@@ -341,57 +359,58 @@ public class AppContentProvider extends ContentProvider {
                 table = EventsColumns.TABLE_NAME;
                 whereClause = where;
                 break;
-            case EVENT_ID:
-                table = EventsColumns.TABLE_NAME;
-                whereClause = EventsColumns._ID + "=" + uri.getPathSegments().get(1);
-                if (!TextUtils.isEmpty(where)) {
-                    whereClause += " AND (" + where + ")";
-                }
-                break;
+//            case EVENT_ID:
+//                table = EventsColumns.TABLE_NAME;
+//                whereClause = EventsColumns._ID + "=" + uri.getPathSegments().get(1);
+//                if (!TextUtils.isEmpty(where)) {
+//                    whereClause += " AND (" + where + ")";
+//                }
+//                break;
             case PERSON:
                 table = PersonColumns.TABLE_NAME;
                 whereClause = where;
                 break;
-            case PERSON_ID:
-                table = PersonColumns.TABLE_NAME;
-                whereClause = PersonColumns._ID + "=" + uri.getPathSegments().get(1);
-                if (!TextUtils.isEmpty(where)) {
-                    whereClause += " AND (" + where + ")";
-                }
-                break;
+//            case PERSON_ID:
+//                table = PersonColumns.TABLE_NAME;
+//                whereClause = PersonColumns._ID + "=" + uri.getPathSegments().get(1);
+//                if (!TextUtils.isEmpty(where)) {
+//                    whereClause += " AND (" + where + ")";
+//                }
+//                break;
             case PERSON_EVENTS:
                 table = PersonEventsColumns.TABLE_NAME;
                 whereClause = where;
                 break;
-            case PERSON_EVENTS_ID:
-                table = PersonEventsColumns.TABLE_NAME;
-                whereClause = PersonEventsColumns._ID + "=" + uri.getPathSegments().get(1);
-                if (!TextUtils.isEmpty(where)) {
-                    whereClause += " AND (" + where + ")";
-                }
-                break;
+//            case PERSON_EVENTS_ID:
+//            case PERSON_EVENT_PERSON:
+//                table = PersonEventsColumns.TABLE_NAME;
+//                whereClause = PersonEventsColumns._ID + "=" + uri.getPathSegments().get(1);
+//                if (!TextUtils.isEmpty(where)) {
+//                    whereClause += " AND (" + where + ")";
+//                }
+//                break;
             case PERSON_MEDIA:
                 table = PersonMediaColumns.TABLE_NAME;
                 whereClause = where;
                 break;
-            case PERSON_MEDIA_ID:
-                table = PersonMediaColumns.TABLE_NAME;
-                whereClause = PersonMediaColumns._ID + "=" + uri.getPathSegments().get(1);
-                if (!TextUtils.isEmpty(where)) {
-                    whereClause += " AND (" + where + ")";
-                }
-                break;
+//            case PERSON_MEDIA_ID:
+//                table = PersonMediaColumns.TABLE_NAME;
+//                whereClause = PersonMediaColumns._ID + "=" + uri.getPathSegments().get(1);
+//                if (!TextUtils.isEmpty(where)) {
+//                    whereClause += " AND (" + where + ")";
+//                }
+//                break;
             case SEARCH:
                 table = SearchColumns.TABLE_NAME;
                 whereClause = where;
                 break;
-            case SEARCH_ID:
-                table = SearchColumns.TABLE_NAME;
-                whereClause = SearchColumns.ITEM_ID + "=" + uri.getPathSegments().get(1);
-                if (!TextUtils.isEmpty(where)) {
-                    whereClause += " AND (" + where + ")";
-                }
-                break;
+//            case SEARCH_ID:
+//                table = SearchColumns.TABLE_NAME;
+//                whereClause = SearchColumns.ITEM_ID + "=" + uri.getPathSegments().get(1);
+//                if (!TextUtils.isEmpty(where)) {
+//                    whereClause += " AND (" + where + ")";
+//                }
+//                break;
             default:
                 throw new IllegalArgumentException("Unknown Uri " + uri);
         }

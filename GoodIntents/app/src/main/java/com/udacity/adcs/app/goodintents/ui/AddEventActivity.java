@@ -1,10 +1,12 @@
 package com.udacity.adcs.app.goodintents.ui;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -26,8 +28,7 @@ import com.udacity.adcs.app.goodintents.ui.base.BaseActivity;
 import com.udacity.adcs.app.goodintents.utils.Constants;
 import com.udacity.adcs.app.goodintents.utils.IntentUtils;
 import com.udacity.adcs.app.goodintents.utils.StringUtils;
-
-import org.w3c.dom.Text;
+import com.udacity.adcs.app.goodintents.utils.UIUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -39,13 +40,16 @@ import java.util.Date;
  */
 public class AddEventActivity extends BaseActivity {
 
-    private TextView mEventDate;
-    private TextView mEventTime;
+    private static TextView mEventDate;
+    private static TextView mEventTime;
     private EditText mEditName;
     private EditText mEditDesc;
     private EditText mEditOrganization;
 
     private TextInputLayout mInputLayoutName;
+
+    private static String mDate;
+    private static String mTime;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,8 +69,12 @@ public class AddEventActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_scan:
-                startActivity(new Intent(mActivity, ScanActivity.class));
+            case R.id.menu_save:
+                boolean success = validateInput(mEditName, mInputLayoutName, R.string.content_error_event_name);
+
+                if (success) {
+                    saveEvent();
+                }
                 return true;
         }
 
@@ -92,11 +100,12 @@ public class AddEventActivity extends BaseActivity {
 
             PersonEvent personEvent = new PersonEvent();
 
-//            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Constants.LOCALE_DEFAULT);
-//            Date eventDate = formatter.parse(mEditDate.getText().toString());
-//            personEvent.setDate(eventDate.getTime());
-//            personEvent.setEventId(id);
-//            personEvent.setPersonId(mPerson.getId());
+            String date = mDate + " " + mTime;
+            SimpleDateFormat formatter = new SimpleDateFormat(Constants.DATE_TIME_FORMAT, Constants.LOCALE_DEFAULT);
+            Date eventDate = formatter.parse(date);
+            personEvent.setDate(eventDate.getTime());
+            personEvent.setEventId(id);
+            personEvent.setPersonId(mPerson.getId());
 
             Intent intent = IntentUtils.newIntent(mActivity, EventDetailActivity.class);
             intent.putExtra(Constants.Extra.EVENT_ID, id);
@@ -116,11 +125,11 @@ public class AddEventActivity extends BaseActivity {
      */
     private void setupToolbar() {
         final Toolbar toolbar = getActionBarToolbar();
-        toolbar.setNavigationIcon(R.drawable.ic_action_up);
+        toolbar.setNavigationIcon(R.drawable.ic_action_close);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mActivity.startActivity(IntentUtils.newIntent(mActivity, FeedActivity.class));
+                mActivity.finish();
             }
         });
         toolbar.post(new Runnable() {
@@ -132,21 +141,35 @@ public class AddEventActivity extends BaseActivity {
     }
 
     private void setupView() {
+        FloatingActionButton scan = (FloatingActionButton) findViewById(R.id.fab_scan);
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mActivity.startActivity(new Intent(mActivity, ScanActivity.class));
+            }
+        });
+
+        if (UIUtils.isLollipop()) {
+            scan.setOnTouchListener(UIUtils.getFABTouchListener(mActivity, scan));
+        }
+
+        long currentDate = System.currentTimeMillis();
         mEditName = (EditText) findViewById(R.id.edit_event_name);
         mEditDesc = (EditText) findViewById(R.id.edit_event_desc);
         mEditOrganization = (EditText) findViewById(R.id.edit_organization);
 
         mEventDate = (TextView) findViewById(R.id.event_date);
-        mEventDate.setText(StringUtils.getDateString(System.currentTimeMillis(), Constants.FULL_DATE_FORMAT));
+        mEventDate.setText(StringUtils.getDateString(currentDate, Constants.DATE_FORMAT_LONG));
         mEventDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                DialogFragment newFragment = new DatePickerFragment();
+                newFragment.show(getSupportFragmentManager(), "datePicker");
             }
         });
 
         mEventTime = (TextView) findViewById(R.id.event_time);
-        mEventTime.setText(StringUtils.getDateString(System.currentTimeMillis(), Constants.TIME_FORMAT));
+        mEventTime.setText(StringUtils.getDateString(currentDate, Constants.TIME_FORMAT));
         mEventTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -157,25 +180,8 @@ public class AddEventActivity extends BaseActivity {
 
         mInputLayoutName = (TextInputLayout) findViewById(R.id.input_event_name);
 
-        Button save = (Button) findViewById(R.id.button_save);
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean error = validateInput(mEditName, mInputLayoutName, R.string.content_error_event_name);
-
-                if (!error) {
-                    saveEvent();
-                }
-            }
-        });
-
-        Button cancel = (Button) findViewById(R.id.button_cancel);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mActivity.finish();
-            }
-        });
+        mDate = StringUtils.getDateString(currentDate, Constants.DATE_FORMAT);
+        mTime = StringUtils.getDateString(currentDate, Constants.TIME_FORMAT_LONG);
     }
 
     private boolean validateInput(EditText editText, TextInputLayout inputLayout, int message) {
@@ -196,7 +202,7 @@ public class AddEventActivity extends BaseActivity {
         }
     }
 
-    private static class TimePickerFragment extends DialogFragment
+    public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
 
         @Override
@@ -213,6 +219,43 @@ public class AddEventActivity extends BaseActivity {
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             // Do something with the time chosen by the user
+            mTime = String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + ":00";
+
+            SimpleDateFormat f = new SimpleDateFormat(Constants.TIME_FORMAT_LONG);
+            try {
+                Date d = f.parse(mTime);
+                mEventTime.setText(StringUtils.getDateString(d.getTime(), Constants.TIME_FORMAT));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            // Do something with the date chosen by the user
+            mDate = String.valueOf(month+1) + "/" + String.valueOf(day) + "/" + String.valueOf(year);
+
+            SimpleDateFormat f = new SimpleDateFormat(Constants.DATE_FORMAT);
+            try {
+                Date d = f.parse(mDate);
+                mEventDate.setText(StringUtils.getDateString(d.getTime(), Constants.DATE_FORMAT_LONG));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 }
