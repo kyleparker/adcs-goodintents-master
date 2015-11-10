@@ -32,8 +32,6 @@ import java.nio.channels.FileChannel;
  */
 public class FeedActivity extends BaseActivity {
 
-    private Toolbar toolbar;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +54,8 @@ public class FeedActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_backup:
-                startActivity(new Intent(mActivity, AddEventActivity.class));
+                handleBackup();
+//                startActivity(new Intent(mActivity, AddEventActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
