@@ -8,11 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.udacity.adcs.app.goodintents.R;
-import com.udacity.adcs.app.goodintents.objects.Event;
 import com.udacity.adcs.app.goodintents.objects.PersonEvent;
 import com.udacity.adcs.app.goodintents.ui.base.BaseFragment;
-import com.udacity.adcs.app.goodintents.ui.list.EventListAdapter;
-import com.udacity.adcs.app.goodintents.ui.list.EventListRecyclerViewAdapter;
 import com.udacity.adcs.app.goodintents.ui.list.PersonEventListRecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -50,12 +47,13 @@ public class FriendListFragment extends BaseFragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mActivity);
         rv_event_list.setLayoutManager(mLayoutManager);
         mPersonEventListRecyclerViewAdapter = new PersonEventListRecyclerViewAdapter(new ArrayList<PersonEvent>());
-        getEventList();
         rv_event_list.setAdapter(mPersonEventListRecyclerViewAdapter);
+        //Start thread to get event list
+        getFriendEventList();
         return mRootView;
     }
 
-    public void getEventList() {
+    public void getFriendEventList() {
         Runnable load = new Runnable() {
             public void run() {
                 try {
@@ -67,7 +65,7 @@ public class FriendListFragment extends BaseFragment {
                 }
             }
         };
-        Thread thread = new Thread(null, load, "getEventList");
+        Thread thread = new Thread(null, load, "getFriendEventList");
         thread.start();
     }
 
