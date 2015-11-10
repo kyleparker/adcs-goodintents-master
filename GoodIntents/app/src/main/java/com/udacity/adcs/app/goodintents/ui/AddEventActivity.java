@@ -75,7 +75,7 @@ public class AddEventActivity extends BaseActivity {
             case R.id.menu_save:
                 boolean success = validateInput(mEditName, mInputLayoutName, R.string.content_error_event_name);
 
-                if (!success) {
+                if (success) {
                     saveEvent();
                 }
                 return true;
