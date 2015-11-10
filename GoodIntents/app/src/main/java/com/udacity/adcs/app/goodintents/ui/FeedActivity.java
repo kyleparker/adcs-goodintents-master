@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.udacity.adcs.app.goodintents.R;
+import com.udacity.adcs.app.goodintents.service.NotificationService;
 import com.udacity.adcs.app.goodintents.ui.base.BaseActivity;
 import com.udacity.adcs.app.goodintents.ui.fragment.EventListFragment;
 import com.udacity.adcs.app.goodintents.ui.fragment.FriendListFragment;
@@ -55,12 +56,18 @@ public class FeedActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.menu_backup:
 //                handleBackup();
+                launchNotification();
                 startActivity(new Intent(mActivity, AddEventActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void launchNotification(){
+        Intent intent = new Intent(this, NotificationService.class);
+        startService(intent);
+
+    }
     private void handleBackup() {
         Runnable load = new Runnable() {
             public void run() {
