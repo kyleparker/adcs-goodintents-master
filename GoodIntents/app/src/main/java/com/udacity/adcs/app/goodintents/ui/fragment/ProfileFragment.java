@@ -43,15 +43,6 @@ public class ProfileFragment extends BaseFragment {
         mRootView = (ViewGroup) inflater.inflate(R.layout.fragment_profile, container, false);
         mRootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        ImageView profilePicImageView = (ImageView) mRootView.findViewById(R.id.profile_picture_imageview);
-        TextView nameTextView = (TextView) mRootView.findViewById(R.id.name_textview);
-        TextView extraInfo = (TextView) mRootView.findViewById(R.id.extra_info_textview);
-
-        // TODO update image later
-        profilePicImageView.setImageResource(R.mipmap.ic_launcher);
-        nameTextView.setText("Test");
-        extraInfo.setText("Test Location");
-
         // Dummy Data
         ArrayList<Event> eventsList = new ArrayList<>();
         Event event = new Event();
@@ -69,7 +60,6 @@ public class ProfileFragment extends BaseFragment {
         eventsList.add(event);
         eventsList.add(event);
         eventsList.add(event);
-
 
         RecyclerView eventsRecyclerView = (RecyclerView) mRootView.findViewById(R.id.events_recycler_view);
         EventListAdapter eventListAdapter = new EventListAdapter(eventsList);
