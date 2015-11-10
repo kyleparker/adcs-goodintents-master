@@ -1,6 +1,8 @@
 package com.udacity.adcs.app.goodintents.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,11 +65,18 @@ public class ProfileFragment extends BaseFragment {
         eventsList.add(event);
         eventsList.add(event);
         eventsList.add(event);
+        eventsList.add(event);
+        eventsList.add(event);
+        eventsList.add(event);
+        eventsList.add(event);
 
 
-        ListView eventsListView = (ListView) mRootView.findViewById(R.id.events_list_view);
-        EventListAdapter eventListAdapter = new EventListAdapter(getActivity(), R.layout.list_item_event, eventsList);
-        eventsListView.setAdapter(eventListAdapter);
+        RecyclerView eventsRecyclerView = (RecyclerView) mRootView.findViewById(R.id.events_recycler_view);
+        EventListAdapter eventListAdapter = new EventListAdapter(eventsList);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        eventsRecyclerView.setLayoutManager(linearLayoutManager);
+        eventsRecyclerView.setAdapter(eventListAdapter);
 
         return mRootView;
     }
