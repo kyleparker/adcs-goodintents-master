@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.ui.base.BaseActivity;
@@ -19,11 +20,20 @@ import com.udacity.adcs.app.goodintents.utils.PreferencesUtils;
  *
  * Created by kyleparker on 11/9/2015.
  */
+
+
+
 public class FeedActivity extends BaseActivity {
+
+    private Toolbar toolbar;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         setupViewPager();
     }
