@@ -14,6 +14,7 @@ import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.objects.Person;
 import com.udacity.adcs.app.goodintents.objects.PersonEvent;
 import com.udacity.adcs.app.goodintents.ui.EventDetailActivity;
+import com.udacity.adcs.app.goodintents.utils.Constants;
 
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public void onClick(View v) {
             // TODO Launch event detail activity
             Intent intent = new Intent(mContext, EventDetailActivity.class);
-            intent.putExtra(mContext.getString(R.string.intent_event_id), mListItems.get(getPosition() - 1).getId());
+            intent.putExtra(Constants.Extra.EVENT_ID, mListItems.get(getPosition() - 1).getId());
             mContext.startActivity(intent);
         }
     }
