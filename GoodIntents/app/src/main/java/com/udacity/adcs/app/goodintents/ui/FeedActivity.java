@@ -29,11 +29,20 @@ import java.nio.channels.FileChannel;
  *
  * Created by kyleparker on 11/9/2015.
  */
+
+
+
 public class FeedActivity extends BaseActivity {
+
+    private Toolbar toolbar;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         setupViewPager();
         setupToolbar();

@@ -28,7 +28,6 @@
             android:background="@color/theme_primary"
             android:elevation="@dimen/elevation_toolbar"
             android:fitsSystemWindows="true"
-            android:paddingLeft="@dimen/keyline_1"
             app:tabIndicatorColor="@color/theme_toolbar_tab_text"
             app:tabMode="fixed"
             app:tabGravity="fill"
