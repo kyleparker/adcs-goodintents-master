@@ -91,30 +91,6 @@ public class AppProviderUtils {
         return list;
     }
 
-    public List<PersonEvent> getEventListByEvent(long eventId, long typeId) {
-        ArrayList<PersonEvent> list = new ArrayList<>();
-
-        Uri uri = Uri.parse(PersonEventsColumns.CONTENT_URI_BY_TYPE_ID + "/" + typeId);
-
-        String selection = EventsColumns.TABLE_NAME + "." + EventsColumns._ID + " = ? ";
-        String[] selectionArgs = new String[] { String.valueOf(eventId) };
-
-        Cursor cursor = mContentResolver.query(uri, getPersonEventProjection(), selection, selectionArgs, null);
-
-        if (cursor != null) {
-            list.ensureCapacity(cursor.getCount());
-
-            if (cursor.moveToFirst()) {
-                do {
-                    list.add(createPersonEvent(cursor));
-                } while (cursor.moveToNext());
-            }
-            cursor.close();
-        }
-
-        return list;
-    }
-
     public List<PersonMedia> getMediaByPersonEvent(long personId, long eventId) {
         ArrayList<PersonMedia> list = new ArrayList<>();
 
@@ -192,6 +168,30 @@ public class AppProviderUtils {
             if (cursor.moveToFirst()) {
                 do {
                     list.add(createPerson(cursor));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+
+        return list;
+    }
+
+    public List<PersonEvent> getPersonListByEvent(long eventId, long typeId) {
+        ArrayList<PersonEvent> list = new ArrayList<>();
+
+        Uri uri = Uri.parse(PersonEventsColumns.CONTENT_URI_BY_TYPE_ID + "/" + typeId);
+
+        String selection = EventsColumns.TABLE_NAME + "." + EventsColumns._ID + " = ? ";
+        String[] selectionArgs = new String[] { String.valueOf(eventId) };
+
+        Cursor cursor = mContentResolver.query(uri, getPersonEventProjection(), selection, selectionArgs, null);
+
+        if (cursor != null) {
+            list.ensureCapacity(cursor.getCount());
+
+            if (cursor.moveToFirst()) {
+                do {
+                    list.add(createPersonEvent(cursor));
                 } while (cursor.moveToNext());
             }
             cursor.close();
