@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import com.udacity.adcs.app.goodintents.content.layout.EventsColumns;
 import com.udacity.adcs.app.goodintents.content.layout.PersonColumns;
@@ -85,6 +86,28 @@ public class AppProviderUtils {
         return null;
     }
 
+    public Person getPersonByGoogleId(String googleAccountId) {
+        if (TextUtils.isEmpty(googleAccountId)) {
+            return null;
+        }
+
+        Uri uri = Uri.parse(PersonColumns.CONTENT_URI_BY_GOOGLE_ACCOUNT + "/" + Uri.encode(googleAccountId));
+
+        Cursor cursor = mContentResolver.query(uri, null, null, null, null);
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    return createPerson(cursor);
+                }
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+            } finally {
+                cursor.close();
+            }
+        }
+        return null;
+    }
+
     public List<PersonEvent> getEventListByType(long typeId) {
         ArrayList<PersonEvent> list = new ArrayList<>();
 
@@ -135,8 +158,17 @@ public class AppProviderUtils {
         return mContentResolver.insert(EventsColumns.CONTENT_URI, createContentValues(obj));
     }
 
+    public Uri insertPerson(Person obj) {
+        return mContentResolver.insert(PersonColumns.CONTENT_URI, createContentValues(obj));
+    }
+
     public Uri insertPersonEvent(PersonEvent obj) {
         return mContentResolver.insert(PersonEventsColumns.CONTENT_URI, createContentValues(obj));
+    }
+
+    public void updatePerson(Person obj) {
+        mContentResolver.update(PersonColumns.CONTENT_URI, createContentValues(obj),
+                PersonColumns.GOOGLE_ACCOUNT_ID + "='" + obj.getGoogleAccountId() + "'", null);
     }
 
     /**
