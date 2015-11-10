@@ -29,9 +29,6 @@ import java.nio.channels.FileChannel;
  *
  * Created by kyleparker on 11/9/2015.
  */
-
-
-
 public class FeedActivity extends BaseActivity {
 
     private Toolbar toolbar;
@@ -75,7 +72,7 @@ public class FeedActivity extends BaseActivity {
                     File sd = new File(mActivity.getExternalFilesDir(null) + "/");
                     File data = Environment.getDataDirectory();
 
-//                    if (sd.canWrite()) {
+                    if (sd.canWrite()) {
                         String backupName = Long.toString(System.currentTimeMillis());
 
                         String currentDBPath = "//data//com.udacity.adcs.app.goodintents//databases//goodintents.db";
@@ -97,7 +94,7 @@ public class FeedActivity extends BaseActivity {
                             src.close();
                             dst.close();
                         }
-//                    }
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 } finally {
