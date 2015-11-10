@@ -17,14 +17,14 @@
     <string name="content_search_hint">Search</string>
     <string name="content_search_person">Friend</string>
     <string name="content_search_voice_prompt">Search for events</string>
-    <string name="content_share_path_picker_title">Select an application</string> 
+    <string name="content_share_path_picker_title">Select an application</string>
 
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_save">Save</string>
     <string name="dialog_login_message">Please wait&#8230;\n\nSigning into Good Intents</string>
     <string name="dialog_logout_message">Please wait&#8230;\n\nSigning out of Good Intents</string>
 
-    <string name="menu_scan">Scan QR code</string>
+    <string name="menu_scan">Scan QR code</string> 
     <string name="menu_search">Search</string>
 
     <string name="title_add_event">Add new event</string>
