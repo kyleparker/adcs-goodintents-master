@@ -54,7 +54,7 @@ public class AddEventActivity extends BaseActivity {
 
             Event event = new Event();
             event.setName(mEditName.getText().toString());
-            event.setDescription(mEditDate.getText().toString());
+            event.setDescription(mEditDesc.getText().toString());
             event.setOrganization(mEditOrganization.getText().toString());
 
             Uri uri = mProvider.insertEvent(event);
