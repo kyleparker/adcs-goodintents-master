@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.google.android.gms.appinvite.AppInviteReferral;
@@ -25,6 +27,12 @@ import com.udacity.adcs.app.goodintents.utils.IntentUtils;
 import com.udacity.adcs.app.goodintents.utils.LogUtils;
 import com.udacity.adcs.app.goodintents.utils.PreferencesUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.channels.FileChannel;
 import java.util.List;
 
 /**
@@ -184,6 +192,10 @@ public class MainActivity extends BaseActivity {
                     task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 }
 
+                if (!PreferencesUtils.getBoolean(mActivity, R.string.initial_db_load_key, false)) {
+                    LoadDatabase task = new LoadDatabase();
+                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                }
 
                 startActivity();
 //                    }
@@ -332,6 +344,75 @@ public class MainActivity extends BaseActivity {
             }
 
             return null;
+        }
+    }
+
+    /**
+     * Initial load for the database
+     */
+    private class LoadDatabase extends AsyncTask<Void, Void, Void> {
+        protected Void doInBackground(Void... args) {
+            try {
+                boolean isSuccess = false;
+                File data = Environment.getDataDirectory();
+
+                String currentDbPath = "//data//com.udacity.adcs.app.goodintents//databases//goodintents.db";
+
+                File currentDb = new File(data, currentDbPath);
+                File restoreDb = getFileFromAsset(mActivity, mActivity.getExternalFilesDir(null) + "/", "goodintents.db");
+
+                if (restoreDb != null ? restoreDb.exists() : false) {
+                    FileInputStream is = new FileInputStream(restoreDb);
+                    FileOutputStream os = new FileOutputStream(currentDb);
+
+                    FileChannel src = is.getChannel();
+                    FileChannel dst = os.getChannel();
+                    dst.transferFrom(src, 0, src.size());
+
+                    is.close();
+                    os.close();
+                    src.close();
+                    dst.close();
+                    isSuccess = true;
+                }
+
+                if (isSuccess) {
+                    PreferencesUtils.setBoolean(mActivity, R.string.initial_db_load_key, true);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+            return null;
+        }
+
+        private File getFileFromAsset(Context context, String path, String filename) {
+            AssetManager assetManager = context.getResources().getAssets();
+            File destinationFile = new File(path, new File(filename).getName());
+
+            if (destinationFile.exists()) {
+                destinationFile.delete();
+            }
+
+            try {
+                // The local file does not exist, so move the download into the proper folder
+                InputStream in = assetManager.open(filename);
+                OutputStream out = new FileOutputStream(destinationFile);
+
+                byte[] buffer = new byte[1024];
+                int read;
+                while ((read = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, read);
+                }
+
+                in.close();
+                out.flush();
+                out.close();
+
+                return destinationFile;
+            } catch (Exception ex) {
+                return null;
+            }
         }
     }
 }
