@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Created by pedram on 09/11/15.
  */
-public class ActivityListAdapter extends ArrayAdapter<String> {
+public class EventListAdapter extends ArrayAdapter<String> {
 
     private Context mContext;
 
@@ -23,7 +23,7 @@ public class ActivityListAdapter extends ArrayAdapter<String> {
      * @param context  The current context.
      * @param resource The resource ID for a layout file containing a TextView to use when
      */
-    public ActivityListAdapter(Context context, int resource) {
+    public EventListAdapter(Context context, int resource) {
         super(context, resource);
         this.mContext = context;
     }
@@ -37,8 +37,8 @@ public class ActivityListAdapter extends ArrayAdapter<String> {
      * View holder for activity list adapter
      */
     static class ViewHolder {
-        TextView activityNameTextView;
-        TextView activtyDateTextView;
+        TextView eventNameTextView;
+        TextView eventDateTextView;
         TextView pointsTextView;
         ImageView pointsIconImageView;
     }
