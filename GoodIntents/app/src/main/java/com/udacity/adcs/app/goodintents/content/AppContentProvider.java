@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,6 +21,11 @@ import com.udacity.adcs.app.goodintents.content.layout.PersonColumns;
 import com.udacity.adcs.app.goodintents.content.layout.PersonEventsColumns;
 import com.udacity.adcs.app.goodintents.content.layout.PersonMediaColumns;
 import com.udacity.adcs.app.goodintents.content.layout.TypeColumns;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 
 /**
  * Content provider
@@ -33,7 +39,7 @@ public class AppContentProvider extends ContentProvider {
     public static final String CONTENT_URI = "content://com.udacity.adcs.app.goodintents/";
 
     private static final String DATABASE_NAME = "goodintents.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String SQL_INNER_JOIN = " INNER JOIN ";
     private static final String SQL_OUTER_JOIN = " LEFT OUTER JOIN ";
     private static final String SQL_ON = " ON ";
@@ -60,12 +66,15 @@ public class AppContentProvider extends ContentProvider {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            if (oldVersion < 1) {
+                db.execSQL("ALTER TABLE " + PersonColumns.TABLE_NAME + " ADD " + PersonColumns.GOOGLE_ACCOUNT_ID + " TEXT");
+            }
         }
     }
 
     private enum UrlType {
         EVENT, EVENT_ID,
-        PERSON, PERSON_ID,
+        PERSON, PERSON_ID, PERSON_GOOGLE_ACCOUNT,
         PERSON_EVENTS, PERSON_EVENTS_ID, PERSON_EVENTS_TYPE_ID,
         PERSON_MEDIA, PERSON_MEDIA_ID, PERSON_MEDIA_PERSON_EVENT_ID
     }
@@ -78,6 +87,7 @@ public class AppContentProvider extends ContentProvider {
 
         mUriMatcher.addURI(AUTHORITY, PersonColumns.TABLE_NAME, UrlType.PERSON.ordinal());
         mUriMatcher.addURI(AUTHORITY, PersonColumns.TABLE_NAME + "/#", UrlType.PERSON_ID.ordinal());
+        mUriMatcher.addURI(AUTHORITY, PersonColumns.TABLE_NAME + "/googleaccount/*", UrlType.PERSON_GOOGLE_ACCOUNT.ordinal());
 
         mUriMatcher.addURI(AUTHORITY, PersonEventsColumns.TABLE_NAME, UrlType.PERSON_EVENTS.ordinal());
         mUriMatcher.addURI(AUTHORITY, PersonEventsColumns.TABLE_NAME + "/#", UrlType.PERSON_EVENTS_ID.ordinal());
@@ -95,6 +105,34 @@ public class AppContentProvider extends ContentProvider {
 
         try {
             mDb = databaseHelper.getWritableDatabase();
+
+//            try {
+//                File sd = new File(mContext.getExternalFilesDir(null) + "/");
+//                File data = Environment.getDataDirectory();
+//
+//                if (sd.canWrite()) {
+//                    String currentDBPath = "//data//com.udacity.adcs.app.goodintents//databases//goodintents.db";
+//
+//                    File currentDb = new File(data, currentDBPath);
+//                    File restoreDb = new File(sd, "goodintents.db");
+//
+//                    if (restoreDb != null && restoreDb.exists()) {
+//                        FileInputStream is = new FileInputStream(restoreDb);
+//                        FileOutputStream os = new FileOutputStream(currentDb);
+//
+//                        FileChannel src = is.getChannel();
+//                        FileChannel dst = os.getChannel();
+//                        dst.transferFrom(src, 0, src.size());
+//
+//                        is.close();
+//                        os.close();
+//                        src.close();
+//                        dst.close();
+//                    }
+//                }
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//            }
         } catch (SQLiteException e) {
             e.printStackTrace();
             Log.e(TAG, "Unable to open database for writing", e);
@@ -123,6 +161,10 @@ public class AppContentProvider extends ContentProvider {
             case PERSON_ID:
                 queryBuilder.setTables(PersonColumns.TABLE_NAME);
                 queryBuilder.appendWhere(PersonColumns._ID + " = " + uri.getPathSegments().get(1));
+                break;
+            case PERSON_GOOGLE_ACCOUNT:
+                queryBuilder.setTables(PersonColumns.TABLE_NAME);
+                queryBuilder.appendWhere(PersonColumns.GOOGLE_ACCOUNT_ID + " = '" + uri.getPathSegments().get(2) + "'");
                 break;
             case PERSON_EVENTS:
                 queryBuilder.setTables(PersonEventsColumns.TABLE_NAME);
