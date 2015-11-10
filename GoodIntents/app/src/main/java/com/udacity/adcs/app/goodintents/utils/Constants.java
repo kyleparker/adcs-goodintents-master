@@ -18,10 +18,16 @@ public class Constants {
     public static final String APP_INVITE_HOST = "http://goodintents.com";
     public static final String APP_INVITE_IMAGE_URL = "https://apps.bsu.edu/traveler/images/icon512x512.png";
 
+    public static final String FULL_DATE_FORMAT = "MMM d, yyyy";
+    public static final String DATE_FORMAT = "MM/dd/yyyy";
+
     public static final Locale LOCALE_DEFAULT = Locale.US;
 
     public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
     public static final String MESSAGE_KEY = "MESSAGE_EXTRA";
+
+    public static final String VALUE_STRING_DELIMITER = "|";
+    public static final String VALUE_SEARCH_SUGGESTION_PREFIX = "id:";
 
     public class Extra {
         private static final String PREFIX = ".extra.";
@@ -57,6 +63,8 @@ public class Constants {
     public class Type {
         public static final long SELF = 1L;
         public static final long FRIEND = 2L;
+        public static final long PERSON = 3L;
+        public static final long EVENT = 4L;
     }
 
     public enum Action {

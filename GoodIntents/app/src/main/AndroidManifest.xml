@@ -75,6 +75,8 @@
         </activity>
 
         <!-- UI activity -->
+        <activity android:name=".ui.AddEventActivity" />
+        <activity android:name=".ui.EventDetailActivity" />
         <activity android:name=".ui.FeedActivity">
             <meta-data
                 android:name="android.app.default_searchable"
@@ -98,7 +100,7 @@
                     android:scheme="http"/>
             </intent-filter>
         </activity>
-
+        <activity android:name=".ui.ScanActivity" />
         <activity
             android:name=".ui.SearchActivity"
             android:launchMode="singleTop">
@@ -140,11 +142,11 @@
             android:authorities="com.udacity.adcs.app.goodintents"
             android:exported="true"
             android:grantUriPermissions="true" />
-        <!--&lt;!&ndash; Search suggestion provider &ndash;&gt;-->
-        <!--<provider-->
-            <!--android:name=".content.SearchRecentProvider"-->
-            <!--android:authorities="edu.bsu.android.apps.traveler.SearchRecentProvider"-->
-            <!--android:exported="false"/>-->
+        <!-- Search suggestion provider -->
+        <provider
+            android:name=".content.SearchRecentProvider"
+            android:authorities="com.udacity.adcs.app.goodintents.SearchRecentProvider"
+            android:exported="false"/>
         <!--&lt;!&ndash; Services &ndash;&gt;-->
         <!--&lt;!&ndash; Google Cloud Messaging listener &ndash;&gt;-->
         <!--<service-->

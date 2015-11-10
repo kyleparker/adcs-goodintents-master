@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -41,6 +43,23 @@ public class AddEventActivity extends BaseActivity {
 
         setupToolbar();
         setupView();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        mActivity.getMenuInflater().inflate(R.menu.add_event, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_scan:
+                startActivity(new Intent(mActivity, ScanActivity.class));
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -85,12 +104,18 @@ public class AddEventActivity extends BaseActivity {
      * Setup the toolbar for the activity
      */
     private void setupToolbar() {
-        Toolbar toolbar = getActionBarToolbar();
+        final Toolbar toolbar = getActionBarToolbar();
         toolbar.setNavigationIcon(R.drawable.ic_action_up);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mActivity.startActivity(IntentUtils.newIntent(mActivity, FeedActivity.class));
+            }
+        });
+        toolbar.post(new Runnable() {
+            @Override
+            public void run() {
+                toolbar.setTitle(mActivity.getString(R.string.title_add_event));
             }
         });
     }
@@ -120,7 +145,7 @@ public class AddEventActivity extends BaseActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Show confirmation dialog, if confirm, then finish activity
+                mActivity.finish();
             }
         });
     }
