@@ -176,6 +176,30 @@ public class AppProviderUtils {
         return list;
     }
 
+    public List<PersonEvent> getPersonListByEvent(long eventId, long typeId) {
+        ArrayList<PersonEvent> list = new ArrayList<>();
+
+        Uri uri = Uri.parse(PersonEventsColumns.CONTENT_URI_BY_TYPE_ID + "/" + typeId);
+
+        String selection = EventsColumns.TABLE_NAME + "." + EventsColumns._ID + " = ? ";
+        String[] selectionArgs = new String[] { String.valueOf(eventId) };
+
+        Cursor cursor = mContentResolver.query(uri, getPersonEventProjection(), selection, selectionArgs, null);
+
+        if (cursor != null) {
+            list.ensureCapacity(cursor.getCount());
+
+            if (cursor.moveToFirst()) {
+                do {
+                    list.add(createPersonEvent(cursor));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+
+        return list;
+    }
+
     public Search getSearch(long id, long typeId) {
 
         Uri uri = Uri.parse(SearchColumns.CONTENT_URI + "/" + id);
