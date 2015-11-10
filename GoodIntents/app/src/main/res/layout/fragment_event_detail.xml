@@ -108,16 +108,41 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
-                <RecyclerView
-                    android:id="@+id/event_photos"
+                <TextView
+                    android:id="@+id/friends_header"
+                    style="@style/TextTitle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/keyline_1"
+                    android:text="@string/content_event_friends"
+                    android:visibility="gone"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/friends_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal" />
+
+                <TextView
+                    android:id="@+id/photos_header"
+                    style="@style/TextTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/keyline_1"
+                    android:text="@string/content_event_photos"
+                    android:visibility="gone"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/photos_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal" />
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_book_guide"
+            android:id="@+id/fab_checkin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
