@@ -80,12 +80,11 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
 
         int viewType = getItemViewType(position);
-        Log.e("asdzsdas", viewType + "");
         if (viewType == VIEW_TYPE_HEADER) {
             // TODO update image later
-            ((HeaderViewHolder) viewHolder).mProfilePicImageView.setImageResource(R.mipmap.ic_launcher);
-            ((HeaderViewHolder) viewHolder).mNameTextView.setText("Test");
-            ((HeaderViewHolder) viewHolder).mPoints.setText("Points");
+            //((HeaderViewHolder) viewHolder).mProfilePicImageView.setImageResource(R.mipmap.ic_launcher);
+            ((HeaderViewHolder) viewHolder).mNameTextView.setText("Pedram Veisi");
+            ((HeaderViewHolder) viewHolder).mPoints.setText("Points: 100");
 
         } else {
             // Position - 1 counts for header
