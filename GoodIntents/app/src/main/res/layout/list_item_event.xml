@@ -34,5 +34,12 @@
         android:textColor="@color/text_accent_dark"
         tools:text="Organization" />
 
+    <TextView
+        android:id="@+id/event_points_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/organization_text_view"
+        android:text="Points"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>
