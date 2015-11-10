@@ -82,7 +82,7 @@
                         style="@style/Widget.EditText.Single"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/content_organization"
+                        android:hint="@string/content_event_organization"
                         android:imeOptions="actionNext"/>
 
                 </android.support.design.widget.TextInputLayout>
