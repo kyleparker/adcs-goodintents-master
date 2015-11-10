@@ -11,10 +11,13 @@ import com.udacity.adcs.app.goodintents.content.layout.EventsColumns;
 import com.udacity.adcs.app.goodintents.content.layout.PersonColumns;
 import com.udacity.adcs.app.goodintents.content.layout.PersonEventsColumns;
 import com.udacity.adcs.app.goodintents.content.layout.PersonMediaColumns;
+import com.udacity.adcs.app.goodintents.content.layout.SearchColumns;
 import com.udacity.adcs.app.goodintents.objects.Event;
 import com.udacity.adcs.app.goodintents.objects.Person;
 import com.udacity.adcs.app.goodintents.objects.PersonEvent;
 import com.udacity.adcs.app.goodintents.objects.PersonMedia;
+import com.udacity.adcs.app.goodintents.objects.Search;
+import com.udacity.adcs.app.goodintents.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +34,7 @@ public class AppProviderUtils {
         mContentResolver = contentResolver;
     }
 
-    public Event getEvent(int id) {
+    public Event getEvent(long id) {
         Uri uri = Uri.parse(EventsColumns.CONTENT_URI + "/" + id);
 
         Cursor cursor = mContentResolver.query(uri, null, null, null, null);
@@ -66,46 +69,6 @@ public class AppProviderUtils {
         }
 
         return list;
-    }
-
-    public Person getPerson(int id) {
-        Uri uri = Uri.parse(PersonColumns.CONTENT_URI + "/" + id);
-
-        Cursor cursor = mContentResolver.query(uri, null, null, null, null);
-        if (cursor != null) {
-            try {
-                if (cursor.moveToFirst()) {
-                    return createPerson(cursor);
-                }
-            } catch (RuntimeException e) {
-                e.printStackTrace();
-            } finally {
-                cursor.close();
-            }
-        }
-        return null;
-    }
-
-    public Person getPersonByGoogleId(String googleAccountId) {
-        if (TextUtils.isEmpty(googleAccountId)) {
-            return null;
-        }
-
-        Uri uri = Uri.parse(PersonColumns.CONTENT_URI_BY_GOOGLE_ACCOUNT + "/" + Uri.encode(googleAccountId));
-
-        Cursor cursor = mContentResolver.query(uri, null, null, null, null);
-        if (cursor != null) {
-            try {
-                if (cursor.moveToFirst()) {
-                    return createPerson(cursor);
-                }
-            } catch (RuntimeException e) {
-                e.printStackTrace();
-            } finally {
-                cursor.close();
-            }
-        }
-        return null;
     }
 
     public List<PersonEvent> getEventListByType(long typeId) {
@@ -154,11 +117,138 @@ public class AppProviderUtils {
         return list;
     }
 
+    public Person getPerson(long id) {
+        Uri uri = Uri.parse(PersonColumns.CONTENT_URI + "/" + id);
+
+        Cursor cursor = mContentResolver.query(uri, null, null, null, null);
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    return createPerson(cursor);
+                }
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+            } finally {
+                cursor.close();
+            }
+        }
+        return null;
+    }
+
+    public Person getPersonByGoogleId(String googleAccountId) {
+        if (TextUtils.isEmpty(googleAccountId)) {
+            return null;
+        }
+
+        Uri uri = Uri.parse(PersonColumns.CONTENT_URI_BY_GOOGLE_ACCOUNT + "/" + Uri.encode(googleAccountId));
+
+        Cursor cursor = mContentResolver.query(uri, null, null, null, null);
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    return createPerson(cursor);
+                }
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+            } finally {
+                cursor.close();
+            }
+        }
+        return null;
+    }
+
+    public List<Person> getPersonList() {
+        ArrayList<Person> list = new ArrayList<>();
+
+        Cursor cursor = mContentResolver.query(PersonColumns.CONTENT_URI, null, null, null, null);
+
+        if (cursor != null) {
+            list.ensureCapacity(cursor.getCount());
+
+            if (cursor.moveToFirst()) {
+                do {
+                    list.add(createPerson(cursor));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+
+        return list;
+    }
+
+    public Search getSearch(long id, long typeId) {
+
+        Uri uri = Uri.parse(SearchColumns.CONTENT_URI + "/" + id);
+
+        String selection = SearchColumns.TABLE_NAME + "." + SearchColumns.TYPE_ID + " = ? ";
+        String[] selectionArgs = new String[] { String.valueOf(typeId) };
+
+        Cursor cursor = mContentResolver.query(uri, null, selection, selectionArgs, null);
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    return createSearch(cursor);
+                }
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+            } finally {
+                cursor.close();
+            }
+        }
+        return null;
+    }
+
+    public List<Search> getSearchList(String query) {
+        if (TextUtils.isEmpty(query)) {
+            return null;
+        }
+
+        String selection = SearchColumns.TABLE_NAME + " MATCH ?";
+        String[] selectionArgs = new String[] { query };
+
+        ArrayList<Search> search = new ArrayList<>();
+
+        Cursor cursor = mContentResolver.query(SearchColumns.CONTENT_URI, null, selection, selectionArgs, SearchColumns.DEFAULT_SORT_ORDER);
+
+        if (cursor != null) {
+            search.ensureCapacity(cursor.getCount());
+
+            if (cursor.moveToFirst()) {
+                do {
+                    search.add(createSearch(cursor));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+
+        return search;
+    }
+
     public Uri insertEvent(Event obj) {
+        Search s = getSearch(obj.getId(), Constants.Type.EVENT);
+        Search search = createSearch(obj.getId(), obj.getName(), obj.getDescription(), 1,
+                Constants.Type.EVENT);
+
+        if (s == null) {
+            insertSearch(search);
+        } else {
+            updateSearch(search);
+        }
+
         return mContentResolver.insert(EventsColumns.CONTENT_URI, createContentValues(obj));
     }
 
     public Uri insertPerson(Person obj) {
+        Search s = getSearch(obj.getId(), Constants.Type.PERSON);
+        Search search = createSearch(obj.getId(), obj.getDisplayName(), obj.getEmailAddress(), 2,
+                Constants.Type.PERSON);
+
+        if (s == null) {
+            insertSearch(search);
+        } else {
+            updateSearch(search);
+        }
+
         return mContentResolver.insert(PersonColumns.CONTENT_URI, createContentValues(obj));
     }
 
@@ -166,9 +256,45 @@ public class AppProviderUtils {
         return mContentResolver.insert(PersonEventsColumns.CONTENT_URI, createContentValues(obj));
     }
 
+    public Uri insertSearch(Search obj) {
+        return mContentResolver.insert(SearchColumns.CONTENT_URI, createContentValues(obj));
+    }
+
+    public void updateEvent(Event obj) {
+        Search s = getSearch(obj.getId(), Constants.Type.EVENT);
+        Search search = createSearch(obj.getId(), obj.getName(), obj.getDescription(), 1,
+                Constants.Type.EVENT);
+
+        if (s == null) {
+            insertSearch(search);
+        } else {
+            updateSearch(search);
+        }
+
+        mContentResolver.update(EventsColumns.CONTENT_URI, createContentValues(obj),
+                EventsColumns._ID + "=" + obj.getId(), null);
+    }
+
     public void updatePerson(Person obj) {
+        Search s = getSearch(obj.getId(), Constants.Type.PERSON);
+        Search search = createSearch(obj.getId(), obj.getDisplayName(), obj.getEmailAddress(), 2,
+                Constants.Type.PERSON);
+
+        if (s == null) {
+            insertSearch(search);
+        } else {
+            updateSearch(search);
+        }
+
         mContentResolver.update(PersonColumns.CONTENT_URI, createContentValues(obj),
                 PersonColumns.GOOGLE_ACCOUNT_ID + "='" + obj.getGoogleAccountId() + "'", null);
+    }
+
+    public void updateSearch(Search obj) {
+        String where = SearchColumns.ITEM_ID + "=" + obj.getId() +
+                " AND " + SearchColumns.TYPE_ID + "=" + obj.getTypeId();
+
+        mContentResolver.update(SearchColumns.CONTENT_URI, createContentValues(obj), where, null);
     }
 
     /**
@@ -316,6 +442,63 @@ public class AppProviderUtils {
         return personMedia;
     }
 
+    /**
+     * Create a basic search object based on the incoming data
+     *
+     * @param id
+     * @param name
+     * @param desc
+     * @param orderBy
+     * @param typeId
+     * @return
+     */
+    private Search createSearch(long id, String name, String desc, int orderBy, long typeId) {
+        Search search = new Search();
+        search.setId(id);
+        search.setName(name);
+        search.setDesc(desc);
+        search.setOrderBy(orderBy);
+        search.setTypeId(typeId);
+
+        return search;
+    }
+
+    /**
+     *
+     * @param cursor
+     * @return
+     */
+    private Search createSearch(Cursor cursor) {
+        int idxDesc = cursor.getColumnIndex(SearchColumns.DESC);
+        int idxId = cursor.getColumnIndex(SearchColumns.ITEM_ID);
+        int idxName = cursor.getColumnIndex(SearchColumns.NAME);
+        int idxOrderBy = cursor.getColumnIndex(SearchColumns.ORDER_BY);
+        int idxTypeId = cursor.getColumnIndex(SearchColumns.TYPE_ID);
+
+        Search search = new Search();
+
+        if (idxDesc > -1) {
+            search.setDesc(cursor.getString(idxDesc));
+        }
+        if (idxId > -1) {
+            search.setId(cursor.getLong(idxId));
+        }
+        if (idxName > -1) {
+            search.setName(cursor.getString(idxName));
+        }
+        if (idxOrderBy > -1) {
+            search.setOrderBy(cursor.getInt(idxOrderBy));
+        }
+        if (idxTypeId > -1) {
+            search.setTypeId(cursor.getLong(idxTypeId));
+        }
+
+        search.person = createPerson(cursor);
+        search.event = createEvent(cursor);
+
+        return search;
+    }
+
     public ContentValues createContentValues(Event obj) {
         ContentValues contentValues = new ContentValues();
 
@@ -376,6 +559,23 @@ public class AppProviderUtils {
         contentValues.put(PersonMediaColumns.PERSON_EVENTS_ID, obj.getPersonEventId());
 
         return contentValues;
+    }
+
+    /**
+     *
+     * @param obj
+     * @return
+     */
+    private ContentValues createContentValues(Search obj) {
+        ContentValues values = new ContentValues();
+
+        values.put(SearchColumns.DESC, obj.getDesc());
+        values.put(SearchColumns.ITEM_ID, obj.getId());
+        values.put(SearchColumns.NAME, obj.getName());
+        values.put(SearchColumns.ORDER_BY, obj.getOrderBy());
+        values.put(SearchColumns.TYPE_ID, obj.getTypeId());
+
+        return values;
     }
 
     private String[] getPersonEventProjection() {

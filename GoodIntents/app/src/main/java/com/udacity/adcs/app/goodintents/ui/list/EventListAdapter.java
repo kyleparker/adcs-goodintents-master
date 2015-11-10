@@ -8,10 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.udacity.adcs.app.goodintents.R;
-import com.udacity.adcs.app.goodintents.objects.Event;
 import com.udacity.adcs.app.goodintents.objects.PersonEvent;
-import com.udacity.adcs.app.goodintents.utils.DateUtils;
-import java.util.ArrayList;
+
 import java.util.List;
 
 /**
@@ -29,12 +27,14 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView mEventNameTextView;
         TextView mEventDateTextView;
         TextView mOrganizationTextView;
+        TextView mEventPoints;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
             mEventNameTextView = (TextView) itemView.findViewById(R.id.event_name_textview);
             mEventDateTextView = (TextView) itemView.findViewById(R.id.event_date_textview);
             mOrganizationTextView = (TextView) itemView.findViewById(R.id.organization_text_view);
+            mEventPoints = (TextView) itemView.findViewById(R.id.event_points_textview);
         }
     }
 
@@ -42,13 +42,13 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         ImageView mProfilePicImageView;
         TextView mNameTextView;
-        TextView mPoints;
+        TextView mPersonPoints;
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
             mProfilePicImageView = (ImageView) itemView.findViewById(R.id.profile_picture_imageview);
             mNameTextView = (TextView) itemView.findViewById(R.id.name_textview);
-            mPoints = (TextView) itemView.findViewById(R.id.points_textview);
+            mPersonPoints = (TextView) itemView.findViewById(R.id.person_points_textview);
         }
     }
 
@@ -85,7 +85,7 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             // TODO update image later
             //((HeaderViewHolder) viewHolder).mProfilePicImageView.setImageResource(R.mipmap.ic_launcher);
             ((HeaderViewHolder) viewHolder).mNameTextView.setText("Pedram Veisi");
-            ((HeaderViewHolder) viewHolder).mPoints.setText("Points: 100");
+            ((HeaderViewHolder) viewHolder).mPersonPoints.setText("Points: 100");
 
         } else {
             // Position - 1 counts for header
@@ -95,6 +95,7 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             // TODO Convert date to a human readable string
             ((ItemViewHolder) viewHolder).mEventDateTextView.setText(Long.toString(personEvent.getDate()));
             ((ItemViewHolder) viewHolder).mOrganizationTextView.setText(personEvent.event.getOrganization());
+            ((ItemViewHolder) viewHolder).mEventPoints.setText(String.valueOf(personEvent.getPoints()));
         }
     }
 
