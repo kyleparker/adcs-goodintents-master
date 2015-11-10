@@ -82,7 +82,7 @@ public class ProfileFragment extends BaseFragment {
             }
         };
 
-        Thread thread = new Thread(null, load, "getEventList");
+        Thread thread = new Thread(null, load, "getFriendEventList");
         thread.start();
     }
 
