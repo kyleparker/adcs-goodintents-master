@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.ui.base.BaseFragment;
@@ -33,6 +35,15 @@ public class ProfileFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRootView = (ViewGroup) inflater.inflate(R.layout.fragment_profile, container, false);
         mRootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        ImageView profilePicImageView = (ImageView) mRootView.findViewById(R.id.profile_picture_imageview);
+        TextView nameTextView = (TextView) mRootView.findViewById(R.id.name_textview);
+        TextView extraInfo = (TextView) mRootView.findViewById(R.id.extra_info_textview);
+
+        // TODO update image later
+        profilePicImageView.setImageResource(R.mipmap.ic_launcher);
+        nameTextView.setText("Test");
+        extraInfo.setText("Test Location");
 
         return mRootView;
     }
