@@ -1,5 +1,6 @@
 package com.udacity.adcs.app.goodintents.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.TabLayout;
@@ -44,10 +45,9 @@ public class FeedActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.search, menu);
+        mActivity.getMenuInflater().inflate(R.menu.search, menu);
 
-//        setupSearchView(menu);
+        setupSearchView(menu);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -56,7 +56,7 @@ public class FeedActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_backup:
-                handleBackup();
+                startActivity(new Intent(mActivity, AddEventActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
