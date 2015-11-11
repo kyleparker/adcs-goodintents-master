@@ -2,14 +2,17 @@ package com.udacity.adcs.app.goodintents.ui.list;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.objects.Person;
 import com.udacity.adcs.app.goodintents.objects.PersonEvent;
@@ -32,6 +35,7 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private List<PersonEvent> mListItems;
     private Person mPerson;
+    private int mPersonTotalPoints;
 
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -39,6 +43,7 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         private TextView mEventDateTextView;
         private TextView mOrganizationTextView;
         private TextView mEventPoints;
+        private ImageView mEventThumbnail;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
@@ -46,6 +51,8 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             mEventDateTextView = (TextView) itemView.findViewById(R.id.event_date_textview);
             mOrganizationTextView = (TextView) itemView.findViewById(R.id.organization_text_view);
             mEventPoints = (TextView) itemView.findViewById(R.id.event_points_textview);
+            mEventThumbnail = (ImageView) itemView.findViewById(R.id.event_thumbnail_imageview);
+
             itemView.setOnClickListener(this);
         }
 
@@ -118,7 +125,7 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 ((HeaderViewHolder) viewHolder).mProfilePicImageView.setImageURI(profilePicUri);
                 ((HeaderViewHolder) viewHolder).mNameTextView.setText(mPerson.getDisplayName());
-                ((HeaderViewHolder) viewHolder).mPersonPoints.setText("Points: 100");
+                ((HeaderViewHolder) viewHolder).mPersonPoints.setText(Integer.toString(mPersonTotalPoints));
             }
 
         } else {
@@ -139,6 +146,10 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 ((ItemViewHolder) viewHolder).mOrganizationTextView.setText(personEvent.event.getOrganization());
                 ((ItemViewHolder) viewHolder).mEventPoints.setText(String.valueOf(personEvent.getPoints()));
+
+                Log.e("Test", "Photo URL: " + personEvent.event.getPhotoUrl());
+                Picasso.with(mContext).load(personEvent.event.getPhotoUrl()).into(((ItemViewHolder) viewHolder).mEventThumbnail);
+
             }
         }
     }
@@ -165,4 +176,9 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void setProfileData(Person person) {
         this.mPerson = person;
     }
+
+    public void setPersonTotalPoints(int personTotalPoints) {
+        this.mPersonTotalPoints = personTotalPoints;
+    }
+
 }
