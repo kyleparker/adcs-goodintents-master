@@ -147,7 +147,6 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 ((ItemViewHolder) viewHolder).mOrganizationTextView.setText(personEvent.event.getOrganization());
                 ((ItemViewHolder) viewHolder).mEventPoints.setText(String.valueOf(personEvent.getPoints()));
 
-                Log.e("Test", "Photo URL: " + personEvent.event.getPhotoUrl());
                 Picasso.with(mContext).load(personEvent.event.getPhotoUrl()).
                 transform(new PicassoRoundTransform()).into(((ItemViewHolder) viewHolder).mEventThumbnail);
 
