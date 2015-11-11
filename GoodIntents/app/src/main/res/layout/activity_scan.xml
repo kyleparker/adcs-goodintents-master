@@ -42,25 +42,24 @@
             android:orientation="horizontal"
             android:padding="@dimen/keyline_1_half">
 
-            <com.udacity.adcs.app.goodintents.ui.view.BezelImageView
+            <ImageView
                 android:id="@+id/book_cover"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/keyline_1_half"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_margin="@dimen/keyline_1_half"
                 android:layout_marginRight="@dimen/keyline_1_half"
-                android:layout_weight=".3"
-                android:scaleType="centerCrop"/>
+                android:src="@drawable/red_cross_logo" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/keyline_1_half"
                 android:layout_marginRight="@dimen/keyline_1_half"
-                android:layout_weight=".7"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/activity_title"
+                    android:id="@+id/event_name"
                     style="@style/TextTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -69,24 +68,22 @@
                     android:maxLines="2"/>
 
                 <TextView
-                    android:id="@+id/activity_date"
+                    android:id="@+id/event_date"
                     style="@style/TextSubTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:singleLine="true"
-                    android:visibility="gone"/>
+                    android:singleLine="true" />
 
                 <TextView
-                    android:id="@+id/activity_location"
+                    android:id="@+id/event_location"
                     style="@style/TextCaption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:singleLine="true"
-                    android:visibility="gone"/>
+                    android:singleLine="true" />
             </LinearLayout>
 
         </LinearLayout>

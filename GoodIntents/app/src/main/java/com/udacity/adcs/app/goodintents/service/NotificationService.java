@@ -49,7 +49,7 @@ public class NotificationService extends Service {
         //build your notification here.
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setColor(this.getResources().getColor(R.color.primary_material_light))
-                .setSmallIcon(R.drawable.google_logo)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(title)
                 .setContentText(contentText);
 

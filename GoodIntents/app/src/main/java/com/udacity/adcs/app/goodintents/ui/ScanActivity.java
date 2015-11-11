@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -29,6 +30,7 @@ import com.udacity.adcs.app.goodintents.camera.CameraSourcePreview;
 import com.udacity.adcs.app.goodintents.camera.GraphicOverlay;
 import com.udacity.adcs.app.goodintents.ui.base.BaseActivity;
 import com.udacity.adcs.app.goodintents.utils.Constants;
+import com.udacity.adcs.app.goodintents.utils.IntentUtils;
 import com.udacity.adcs.app.goodintents.utils.LogUtils;
 import com.udacity.adcs.app.goodintents.utils.UIUtils;
 
@@ -73,6 +75,7 @@ public class ScanActivity extends BaseActivity {
         createCameraSource();
         setupToolbar();
         setupFAB();
+        displayActivityInfo();
 
         // HACK: cannot get FitsSystemWindow to work on LinearLayout
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -152,6 +155,8 @@ public class ScanActivity extends BaseActivity {
 
                             mActivityId = Integer.parseInt(barcode.rawValue);
 
+                            LogUtils.LOGE("***> barcode", "barcode found");
+
                             // TODO: Retrieve the activity information to load in the database
                         }
                     }
@@ -192,8 +197,14 @@ public class ScanActivity extends BaseActivity {
 //            return;
 //        }
 //
-//        TextView title = (TextView) findViewById(R.id.book_title);
-//        title.setText(mBook.getTitle());
+        TextView title = (TextView) findViewById(R.id.event_name);
+        title.setText("Blood drive, sponsored by Red Cross");
+
+        TextView date = (TextView) findViewById(R.id.event_date);
+        date.setText("Nov 12, 2015");
+
+        TextView location = (TextView) findViewById(R.id.event_location);
+        location.setText("123 Google Way, Mountain View, CA");
 //
 //        if (!TextUtils.isEmpty(mBook.getSubtitle())) {
 //            TextView subtitle = (TextView) findViewById(R.id.book_subtitle);
@@ -274,7 +285,7 @@ public class ScanActivity extends BaseActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mActivity.finish();
+                mActivity.startActivity(IntentUtils.newIntent(mActivity, AddEventActivity.class));
             }
         });
         toolbar.post(new Runnable() {

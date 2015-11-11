@@ -7,7 +7,7 @@
         android:id="@+id/menu_backup"
         android:orderInCategory="10"
         app:showAsAction="always"
-        android:title="backup"/>
+        android:title="*"/>
     <item
         android:id="@+id/menu_search"
         android:orderInCategory="10"
