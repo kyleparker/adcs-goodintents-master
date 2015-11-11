@@ -6,7 +6,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.udacity.adcs.app.goodintents.content.layout.EventsColumns;
 import com.udacity.adcs.app.goodintents.content.layout.PersonColumns;
@@ -308,6 +307,10 @@ public class AppProviderUtils {
 
     public Uri insertPersonEvent(PersonEvent obj) {
         return mContentResolver.insert(PersonEventsColumns.CONTENT_URI, createContentValues(obj));
+    }
+
+    public Uri insertPersonMedia(PersonMedia obj) {
+        return mContentResolver.insert(PersonMediaColumns.CONTENT_URI, createContentValues(obj));
     }
 
     public Uri insertSearch(Search obj) {
