@@ -4,6 +4,7 @@
 
     <string name="content_empty_events">No events available</string>
     <string name="content_empty_friends">No friend activity</string>
+    <string name="content_empty_search_result">No results found for \"%1$s\".</string>
     <string name="content_error_event_name">Event name is required</string>
     <string name="content_event_date">Date</string>
     <string name="content_event_desc">Description</string>
@@ -30,6 +31,7 @@
 
 
     <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_loading">Loading&#8230;</string>
     <string name="dialog_save">Save</string>
     <string name="dialog_login_message">Please wait&#8230;\n\nSigning into Good Intents</string>
     <string name="dialog_logout_message">Please wait&#8230;\n\nSigning out of Good Intents</string>

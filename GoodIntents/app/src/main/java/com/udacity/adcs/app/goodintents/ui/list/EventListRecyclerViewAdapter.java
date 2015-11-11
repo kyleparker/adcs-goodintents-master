@@ -3,10 +3,12 @@ package com.udacity.adcs.app.goodintents.ui.list;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -15,8 +17,12 @@ import com.udacity.adcs.app.goodintents.objects.Event;
 import com.udacity.adcs.app.goodintents.ui.EventDetailActivity;
 import com.udacity.adcs.app.goodintents.ui.MapActivity;
 import com.udacity.adcs.app.goodintents.utils.Constants;
+import com.udacity.adcs.app.goodintents.utils.PicassoRoundTransform;
 import com.udacity.adcs.app.goodintents.utils.StringUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,18 +40,33 @@ public class EventListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     // you provide access to all the views for a data item in a view holder
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
+//        public TextView tv_friend_name;
+//        public TextView tv_friend_event_details;
+//        public TextView tv_friend_event_date;
+//        public ImageView iv_friend_event_image;
+//        public ImageView iv_friend_pic;
+
         public TextView tv_friend_name;
-        public TextView tv_friend_event_details;
-        public TextView tv_friend_event_date;
-        public ImageView iv_friend_event_image;
-        public ImageView iv_friend_pic;
+        private TextView mEventNameTextView;
+        private TextView mEventDateTextView;
+        private TextView mOrganizationTextView;
+        private TextView mEventPoints;
+        private ImageView mEventThumbnail;
+
         public ViewHolder(View v) {
             super(v);
-            tv_friend_name = (TextView) v.findViewById(R.id.tv_friend_name);
-            tv_friend_event_details = (TextView) v.findViewById(R.id.tv_friend_event_details);
-            tv_friend_event_date = (TextView) v.findViewById(R.id.tv_friend_event_date);
-            iv_friend_event_image = (ImageView) v.findViewById(R.id.iv_friend_event_image);
-            iv_friend_pic = (ImageView) v.findViewById(R.id.iv_friend_pic);
+            tv_friend_name = (TextView) v.findViewById(R.id.friend_name_text_view);
+            mEventNameTextView = (TextView) itemView.findViewById(R.id.event_name_textview);
+            mEventDateTextView = (TextView) itemView.findViewById(R.id.event_date_textview);
+            mOrganizationTextView = (TextView) itemView.findViewById(R.id.organization_text_view);
+            mEventPoints = (TextView) itemView.findViewById(R.id.event_points_text_view);
+            mEventThumbnail = (ImageView) itemView.findViewById(R.id.event_thumbnail_imageview);
+
+//            tv_friend_name = (TextView) v.findViewById(R.id.tv_friend_name);
+//            tv_friend_event_details = (TextView) v.findViewById(R.id.tv_friend_event_details);
+//            tv_friend_event_date = (TextView) v.findViewById(R.id.tv_friend_event_date);
+//            iv_friend_event_image = (ImageView) v.findViewById(R.id.iv_friend_event_image);
+//            iv_friend_pic = (ImageView) v.findViewById(R.id.iv_friend_pic);
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -97,20 +118,38 @@ public class EventListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             ((MapViewHolder) holder).mMapImageView.setImageResource(R.drawable.map);
         } else{
             Event e = mDataset.get(position-1);
-            ((ViewHolder)holder).tv_friend_name.setText(e.getOrganization());
-            ((ViewHolder)holder).tv_friend_event_details.setText(e.getDescription());
-            ((ViewHolder)holder).tv_friend_event_date.setText(StringUtils.getDateString(e.getDate(), "MMM dd, yyyy hh:mm a"));
-            String photo_url = e.getPhotoUrl();
-            if(photo_url != null && photo_url.length() > 0){
-                Picasso.with(mContext)
-                        .load(photo_url)
-                        .into(((ViewHolder) holder).iv_friend_event_image);
-            }
-            String organizer_photo_url = e.getOrgPhotoUrl();
-            if(organizer_photo_url != null && organizer_photo_url.length() > 0){
-                Picasso.with(mContext)
-                        .load(organizer_photo_url)
-                        .into(((ViewHolder)holder).iv_friend_pic);
+            ((ViewHolder)holder).tv_friend_name.setVisibility(View.GONE);
+//            ((ViewHolder)holder).tv_friend_event_details.setText(e.getDescription());
+//            ((ViewHolder)holder).tv_friend_event_date.setText(StringUtils.getDateString(e.getDate(), "MMM dd, yyyy hh:mm a"));
+//            String photo_url = e.getPhotoUrl();
+//            if(photo_url != null && photo_url.length() > 0){
+//                Picasso.with(mContext)
+//                        .load(photo_url)
+//                        .into(((ViewHolder) holder).iv_friend_event_image);
+//            }
+//            String organizer_photo_url = e.getOrgPhotoUrl();
+//            if(organizer_photo_url != null && organizer_photo_url.length() > 0){
+//                Picasso.with(mContext)
+//                        .load(organizer_photo_url)
+//                        .into(((ViewHolder)holder).iv_friend_pic);
+//            }
+
+            ((ViewHolder)holder).mEventNameTextView.setText(e.getName());
+
+            Date date = new java.util.Date(e.getDate() * 1000);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+
+            String month = new SimpleDateFormat("MMM").format(calendar.getTime());
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            ((ViewHolder)holder).mEventDateTextView.setText(month + " " + day);
+
+            ((ViewHolder)holder).mOrganizationTextView.setText(e.getOrganization());
+
+            if (!TextUtils.isEmpty(e.getPhotoUrl())) {
+            Picasso.with(mContext).load(e.getPhotoUrl()).
+                    transform(new PicassoRoundTransform()).into(((ViewHolder)holder).mEventThumbnail);
             }
         }
     }

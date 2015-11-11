@@ -34,6 +34,8 @@
     <dimen name="profile_name_text_size">36sp</dimen>
     <dimen name="profile_header_height">200dp</dimen>
 
+    <dimen name="search_result_item_height">112dp</dimen>
+
     <dimen name="event_detail_friend_photo">64dp</dimen>
     <dimen name="event_detail_friend_photo_padding">16dp</dimen>
 
