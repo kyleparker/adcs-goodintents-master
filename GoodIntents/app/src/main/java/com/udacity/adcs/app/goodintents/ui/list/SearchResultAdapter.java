@@ -3,10 +3,10 @@ package com.udacity.adcs.app.goodintents.ui.list;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -14,11 +14,14 @@ import com.squareup.picasso.Picasso;
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.objects.Header;
 import com.udacity.adcs.app.goodintents.objects.Search;
-import com.udacity.adcs.app.goodintents.ui.view.BezelImageView;
 import com.udacity.adcs.app.goodintents.utils.Constants;
+import com.udacity.adcs.app.goodintents.utils.PicassoRoundTransform;
 import com.udacity.adcs.app.goodintents.utils.StringUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -69,6 +72,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                 Search item = lineItem.search;
 
                 if (item != null) {
+                    viewHolder.organization.setVisibility(View.GONE);
                     viewHolder.name.setText(item.getName());
 
                     if (item.getTypeId() == Constants.Type.PERSON) {
@@ -77,11 +81,29 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
                         Uri iconUri = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/" + mName);
 
-                        viewHolder.image.setImageURI(iconUri);
+                        Picasso.with(context)
+                                .load(iconUri)
+                                .transform(new PicassoRoundTransform())
+                                .into(viewHolder.image);
+
                         viewHolder.date.setText("Member of 3 shared groups and 5 events");
                     } else if (item.getTypeId() == Constants.Type.EVENT) {
-                        viewHolder.date.setText(StringUtils.getDateString(item.event.getDate(), Constants.DATE_TIME_FORMAT_2));
-                        Picasso.with(context).load(item.event.getPhotoUrl()).into(viewHolder.image);
+                        viewHolder.organization.setVisibility(View.VISIBLE);
+                        viewHolder.organization.setText(item.event.getOrganization());
+
+                        Date date = new java.util.Date(item.event.getDate());
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(date);
+
+                        String month = new SimpleDateFormat("MMM").format(calendar.getTime());
+                        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                        viewHolder.date.setText(month + ", " + day);
+
+                        Picasso.with(context)
+                                .load(item.event.getPhotoUrl())
+                                .transform(new PicassoRoundTransform())
+                                .into(viewHolder.image);
                     }
                 }
             }
@@ -147,18 +169,18 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView date;
         private TextView name;
-        private BezelImageView image;
-        private ProgressBar progress;
+        private TextView organization;
+        private ImageView image;
 
         private TextView header;
 
         public ViewHolder(View base) {
             super(base);
 
-            date = (TextView) base.findViewById(R.id.date);
-            name = (TextView) base.findViewById(R.id.name);
-            image = (BezelImageView) base.findViewById(R.id.image);
-            progress = (ProgressBar) base.findViewById(R.id.progress);
+            date = (TextView) base.findViewById(R.id.event_date_textview);
+            name = (TextView) base.findViewById(R.id.event_name_textview);
+            organization = (TextView) base.findViewById(R.id.organization_text_view);
+            image = (ImageView) base.findViewById(R.id.event_thumbnail_imageview);
 
             header = (TextView) base.findViewById(R.id.header);
 

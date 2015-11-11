@@ -4,7 +4,7 @@
              android:id="@+id/main_content"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             android:background="@color/background_window">
+             android:background="@color/background_content">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinator_layout"
@@ -43,9 +43,6 @@
             android:id="@+id/search_result_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/keyline_1_half"
-            android:layout_marginRight="@dimen/keyline_1_half"
-            android:layout_marginTop="@dimen/keyline_1_half"
             android:fadeScrollbars="true"
             android:scrollbarAlwaysDrawVerticalTrack="true"
             android:scrollbars="vertical"
