@@ -1,11 +1,13 @@
 package com.udacity.adcs.app.goodintents.ui.fragment;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.objects.PersonEvent;
@@ -50,6 +52,13 @@ public class FriendListFragment extends BaseFragment {
         rv_event_list.setAdapter(mPersonEventListRecyclerViewAdapter);
         //Start thread to get event list
         getFriendEventList();
+        FloatingActionButton addButton = (FloatingActionButton) mRootView.findViewById(R.id.fab_friend_list);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mActivity, "Test", Toast.LENGTH_SHORT).show();
+            }
+        });
         return mRootView;
     }
 

@@ -6,6 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_window">
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout_event_list"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <!-- A RecyclerView with some commonly used attributes -->
     <android.support.v7.widget.RecyclerView
@@ -13,5 +19,22 @@
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_event_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/fab_margin_with_list"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:clickable="true"
+        android:src="@drawable/ic_fab_checkin_off"
+        app:backgroundTint="@color/fab_normal"
+        app:borderWidth="0dp"
+        app:elevation="@dimen/elevation_fab_default"
+        app:fabSize="normal"
+        app:layout_anchor="@id/rv_event_list"
+        app:layout_anchorGravity="bottom|right|end"
+        app:rippleColor="@color/fab_pressed"
+        app:layout_behavior="com.udacity.adcs.app.goodintents.utils.FABehavior"
+        />
+    </android.support.design.widget.CoordinatorLayout>
 </FrameLayout>
