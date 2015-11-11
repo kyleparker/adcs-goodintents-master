@@ -101,9 +101,7 @@ public class ProfileFragment extends BaseFragment {
 
     public void getPersonObject(){
 
-        // TODO Move "goodintent_prefs" to Constants file (also used in PreferencesUtils.java)
-        SharedPreferences prefs = getActivity().getSharedPreferences("goodintent_prefs", Context.MODE_PRIVATE);
-        final String googleId = prefs.getString(getString(R.string.google_account_id_key), null);
+        final String googleId = PreferencesUtils.getString(mActivity, R.string.google_account_id_key, "");
 
         Runnable load = new Runnable() {
             public void run() {
