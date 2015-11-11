@@ -1,6 +1,7 @@
 package com.udacity.adcs.app.goodintents.ui.list;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,19 +63,21 @@ public class PersonEventListRecyclerViewAdapter extends RecyclerView.Adapter<Per
         PersonEvent e = mDataset.get(position);
         holder.tv_friend_name.setText(e.person.getDisplayName());
         holder.tv_friend_event_details.setText(e.event.getDescription());
-        holder.tv_friend_event_date.setText(StringUtils.getRelativeTimeAgo(e.getDate()));
+        holder.tv_friend_event_date.setText(StringUtils.getDateString(e.event.getDate(), "MMM dd, yyyy hh:mm a"));
         String photo_url = e.event.getPhotoUrl();
         if(photo_url != null & photo_url.length() > 0){
             Picasso.with(mContext)
                     .load(photo_url)
                     .into( holder.iv_friend_event_image);
         }
-        String profile_pic_url = e.person.getPhotoUrl();
-        if(profile_pic_url != null & profile_pic_url.length() > 0){
-            Picasso.with(mContext)
-                    .load(profile_pic_url)
-                    .into( holder.iv_friend_pic);
-        }
+
+        //May want to try and catch this
+        String mName = e.person.getDisplayName();
+        mName = mName.replaceAll(" ", "_").toLowerCase();
+        Uri iconUri = Uri.parse("android.resource://" + mContext.getPackageName() +
+                "/drawable/" + mName);
+        holder.iv_friend_pic.setImageURI(iconUri);
+
     }
 
     @Override

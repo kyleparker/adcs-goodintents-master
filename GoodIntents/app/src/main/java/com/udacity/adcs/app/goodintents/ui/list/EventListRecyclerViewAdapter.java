@@ -99,7 +99,7 @@ public class EventListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             Event e = mDataset.get(position-1);
             ((ViewHolder)holder).tv_friend_name.setText(e.getOrganization());
             ((ViewHolder)holder).tv_friend_event_details.setText(e.getDescription());
-            ((ViewHolder)holder).tv_friend_event_date.setText(StringUtils.getRelativeTimeAgo(e.getDate()));
+            ((ViewHolder)holder).tv_friend_event_date.setText(StringUtils.getDateString(e.getDate(), "MMM dd, yyyy hh:mm a"));
             String photo_url = e.getPhotoUrl();
             if(photo_url != null && photo_url.length() > 0){
                 Picasso.with(mContext)
