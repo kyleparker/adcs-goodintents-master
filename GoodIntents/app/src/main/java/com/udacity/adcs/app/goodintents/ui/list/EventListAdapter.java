@@ -35,6 +35,7 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private List<PersonEvent> mListItems;
     private Person mPerson;
+    private int mPersonTotalPoints;
 
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -124,7 +125,7 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 ((HeaderViewHolder) viewHolder).mProfilePicImageView.setImageURI(profilePicUri);
                 ((HeaderViewHolder) viewHolder).mNameTextView.setText(mPerson.getDisplayName());
-                ((HeaderViewHolder) viewHolder).mPersonPoints.setText("Points: 100");
+                ((HeaderViewHolder) viewHolder).mPersonPoints.setText(Integer.toString(mPersonTotalPoints));
             }
 
         } else {
@@ -146,7 +147,7 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 ((ItemViewHolder) viewHolder).mOrganizationTextView.setText(personEvent.event.getOrganization());
                 ((ItemViewHolder) viewHolder).mEventPoints.setText(String.valueOf(personEvent.getPoints()));
 
-                //Log.e("Test", personEvent.event.getPhotoUrl());
+                Log.e("Test", "Photo URL: " + personEvent.event.getPhotoUrl());
                 Picasso.with(mContext).load(personEvent.event.getPhotoUrl()).into(((ItemViewHolder) viewHolder).mEventThumbnail);
 
             }
@@ -175,4 +176,9 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void setProfileData(Person person) {
         this.mPerson = person;
     }
+
+    public void setPersonTotalPoints(int personTotalPoints) {
+        this.mPersonTotalPoints = personTotalPoints;
+    }
+
 }

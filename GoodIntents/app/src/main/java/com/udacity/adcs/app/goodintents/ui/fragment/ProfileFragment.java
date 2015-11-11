@@ -89,6 +89,11 @@ public class ProfileFragment extends BaseFragment {
     private final Runnable getEventListRunnable = new Runnable() {
         public void run() {
             mEventListAdapter.setEventList(mEventList);
+            int totalPoints = 0;
+            for (PersonEvent event : mEventList){
+                totalPoints += event.getPoints();
+            }
+            mEventListAdapter.setPersonTotalPoints(totalPoints);
             mEventListAdapter.notifyDataSetChanged();
         }
     };
