@@ -4,11 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
-    android:minHeight="?android:attr/listPreferredItemHeight"
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp">
+
+    <TextView
+        android:id="@+id/organization_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/text_accent_dark"
+        tools:text="Organization"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/date_photo_linear_layout"
+        android:layout_marginBottom="8dp"
+        />
 
     <TextView
         android:id="@+id/event_name_textview"
@@ -19,14 +30,17 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         tools:text="Event Name"
         android:textStyle="bold"
+        android:layout_below="@id/organization_text_view"
         />
 
     <LinearLayout
         android:id="@+id/points_linear_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/event_name_textview"
-        android:layout_marginTop="16dp">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="12dp"
+        >
 
 
         <ImageView
@@ -45,18 +59,6 @@
             android:textStyle="bold" />
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/organization_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/points_linear_layout"
-        android:layout_marginBottom="8dp"
-        android:layout_toLeftOf="@id/date_photo_linear_layout"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/text_accent_dark"
-        tools:text="Organization" />
 
     <LinearLayout
         android:id="@+id/date_photo_linear_layout"
