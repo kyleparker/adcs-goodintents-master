@@ -13,35 +13,31 @@
         android:id="@+id/organization_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="8dp"
+        android:layout_toLeftOf="@+id/date_photo_linear_layout"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/text_accent_dark"
-        tools:text="Organization"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/date_photo_linear_layout"
-        android:layout_marginBottom="8dp"
-        />
+        tools:text="Organization" />
 
     <TextView
         android:id="@+id/event_name_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_below="@id/organization_text_view"
         android:layout_toLeftOf="@+id/date_photo_linear_layout"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        tools:text="Event Name"
         android:textStyle="bold"
-        android:layout_below="@id/organization_text_view"
-        />
+        tools:text="Event Name" />
 
     <LinearLayout
         android:id="@+id/points_linear_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:paddingBottom="12dp"
-        >
-
+        android:layout_alignParentStart="true"
+        android:paddingBottom="12dp">
 
         <ImageView
             android:id="@+id/event_points_icon_imageview"
@@ -80,8 +76,8 @@
 
         <ImageView
             android:id="@+id/event_thumbnail_imageview"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
+            android:layout_width="@dimen/event_list_thumbnail_width"
+            android:layout_height="@dimen/event_list_thumbnail_height"
             android:adjustViewBounds="true"
             tools:src="@mipmap/ic_launcher" />
 
@@ -93,6 +89,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:background="#33999999" />
+        android:background="@color/list_separator_bgcolor" />
 
 </RelativeLayout>
