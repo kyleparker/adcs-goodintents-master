@@ -110,6 +110,7 @@ public class EventDetailActivity extends BaseActivity {
         } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             addPhotoToDatabase();
             mMediaList = mProvider.getMediaByPersonEvent(mPerson.getId(), mEventId);
+            findViewById(R.id.friends_header).setVisibility(View.VISIBLE);
             photosListAdapter.addAll(mMediaList);
         }
     }
