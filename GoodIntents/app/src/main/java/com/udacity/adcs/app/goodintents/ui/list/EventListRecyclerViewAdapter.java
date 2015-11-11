@@ -61,7 +61,7 @@ public class EventListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
         ImageView mMapImageView;
         public MapViewHolder(View itemView) {
             super(itemView);
-            mMapImageView = (ImageView) itemView.findViewById(R.id.list_item_event_photo);
+            mMapImageView = (ImageView) itemView.findViewById(R.id.item_map);
             mMapImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
