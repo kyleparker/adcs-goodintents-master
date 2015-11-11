@@ -112,6 +112,8 @@ public class EventDetailActivity extends BaseActivity {
         }
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             addPhotoToDatabase();
+            mMediaList = mProvider.getMediaByPersonEvent(mPerson.getId(), mEventId);
+            photosListAdapter.addAll(mMediaList);
         }
     }
 
@@ -122,7 +124,7 @@ public class EventDetailActivity extends BaseActivity {
                 try {
                     mEvent = mProvider.getEvent(mEventId);
                     mPersonList = mProvider.getPersonListByEvent(mEventId, Constants.Type.FRIEND);
-                    mMediaList = mProvider.getMediaByPersonEvent(Constants.Type.SELF, mEventId);
+                    mMediaList = mProvider.getMediaByPersonEvent(mPerson.getId(), mEventId);
                     Log.d("MediaList", ":" + mMediaList.toString());
                 } catch (Exception ex) {
                     ex.printStackTrace();
