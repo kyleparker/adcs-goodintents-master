@@ -45,6 +45,7 @@ public class AddEventActivity extends BaseActivity {
     private EditText mEditName;
     private EditText mEditDesc;
     private EditText mEditOrganization;
+    private EditText mEditLocation;
 
     private TextInputLayout mInputLayoutName;
 
@@ -94,6 +95,7 @@ public class AddEventActivity extends BaseActivity {
             event.setName(mEditName.getText().toString());
             event.setDescription(mEditDesc.getText().toString());
             event.setOrganization(mEditOrganization.getText().toString());
+            event.setDisplayAddress(mEditLocation.getText().toString());
 
             Uri uri = mProvider.insertEvent(event);
             long id = Long.valueOf(uri.getLastPathSegment());
@@ -107,9 +109,10 @@ public class AddEventActivity extends BaseActivity {
             personEvent.setEventId(id);
             personEvent.setPersonId(mPerson.getId());
 
-            Intent intent = IntentUtils.newIntent(mActivity, EventDetailActivity.class);
-            intent.putExtra(Constants.Extra.EVENT_ID, id);
+//            Intent intent = IntentUtils.newIntent(mActivity, EventDetailActivity.class);
+//            intent.putExtra(Constants.Extra.EVENT_ID, id);
 
+            Intent intent = IntentUtils.newIntent(mActivity, FeedActivity.class);
             mActivity.startActivity(intent);
             mActivity.finish();
         } catch (Exception ex) {
@@ -157,6 +160,7 @@ public class AddEventActivity extends BaseActivity {
         mEditName = (EditText) findViewById(R.id.edit_event_name);
         mEditDesc = (EditText) findViewById(R.id.edit_event_desc);
         mEditOrganization = (EditText) findViewById(R.id.edit_organization);
+        mEditLocation = (EditText) findViewById(R.id.edit_location);
 
         mEventDate = (TextView) findViewById(R.id.event_date);
         mEventDate.setText(StringUtils.getDateString(currentDate, Constants.DATE_FORMAT_LONG));
