@@ -2,7 +2,6 @@ package com.udacity.adcs.app.goodintents.ui.list;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,6 +17,7 @@ import com.udacity.adcs.app.goodintents.objects.Person;
 import com.udacity.adcs.app.goodintents.objects.PersonEvent;
 import com.udacity.adcs.app.goodintents.ui.EventDetailActivity;
 import com.udacity.adcs.app.goodintents.utils.Constants;
+import com.udacity.adcs.app.goodintents.utils.PicassoRoundTransform;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -50,7 +50,7 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             mEventNameTextView = (TextView) itemView.findViewById(R.id.event_name_textview);
             mEventDateTextView = (TextView) itemView.findViewById(R.id.event_date_textview);
             mOrganizationTextView = (TextView) itemView.findViewById(R.id.organization_text_view);
-            mEventPoints = (TextView) itemView.findViewById(R.id.event_points_textview);
+            mEventPoints = (TextView) itemView.findViewById(R.id.event_points_text_view);
             mEventThumbnail = (ImageView) itemView.findViewById(R.id.event_thumbnail_imageview);
 
             itemView.setOnClickListener(this);
@@ -148,7 +148,8 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 ((ItemViewHolder) viewHolder).mEventPoints.setText(String.valueOf(personEvent.getPoints()));
 
                 Log.e("Test", "Photo URL: " + personEvent.event.getPhotoUrl());
-                Picasso.with(mContext).load(personEvent.event.getPhotoUrl()).into(((ItemViewHolder) viewHolder).mEventThumbnail);
+                Picasso.with(mContext).load(personEvent.event.getPhotoUrl()).
+                transform(new PicassoRoundTransform()).into(((ItemViewHolder) viewHolder).mEventThumbnail);
 
             }
         }
@@ -180,5 +181,4 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void setPersonTotalPoints(int personTotalPoints) {
         this.mPersonTotalPoints = personTotalPoints;
     }
-
 }
