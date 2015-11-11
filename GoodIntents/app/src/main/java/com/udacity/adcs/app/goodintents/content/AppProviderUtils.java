@@ -186,12 +186,12 @@ public class AppProviderUtils {
     }
 
     public PersonEvent getPersonEvent(long personId, long eventId) {
-        Uri uri = Uri.parse(PersonEventsColumns.CONTENT_URI + "/" + personId);
+        String selection = PersonEventsColumns.TABLE_NAME + "." + PersonEventsColumns.PERSON_ID + " = ? " +
+                " AND " +
+                PersonEventsColumns.TABLE_NAME + "." + PersonEventsColumns.EVENT_ID + " = ? ";
+        String[] selectionArgs = new String[] { String.valueOf(personId), String.valueOf(eventId) };
 
-        String selection = PersonEventsColumns.TABLE_NAME + "." + PersonEventsColumns.EVENT_ID + " = ? ";
-        String[] selectionArgs = new String[] { String.valueOf(eventId) };
-
-        Cursor cursor = mContentResolver.query(uri, null, selection, selectionArgs, null);
+        Cursor cursor = mContentResolver.query(PersonEventsColumns.CONTENT_URI, null, selection, selectionArgs, null);
         if (cursor != null) {
             try {
                 if (cursor.moveToFirst()) {
