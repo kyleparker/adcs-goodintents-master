@@ -1,14 +1,18 @@
 package com.udacity.adcs.app.goodintents.ui;
 
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.objects.Event;
 import com.udacity.adcs.app.goodintents.objects.PersonEvent;
@@ -28,11 +32,14 @@ import java.util.List;
 public class EventDetailActivity extends BaseActivity {
 
     private Event mEvent = new Event();
+    private PersonEvent mPersonEvent;
     private long mEventId;
 
     private TextView mDesc;
     private TextView mOrg;
     private TextView mDate;
+
+    private ImageView mEventImage;
 
     private RecyclerView eventFriends;
     private RecyclerView eventPhotos;
@@ -54,8 +61,17 @@ public class EventDetailActivity extends BaseActivity {
             mEventId = extras.getLong(Constants.Extra.EVENT_ID);
         }
 
+        if (mProvider.getPersonEvent(mPerson.getId(), mEventId) != null) {
+            Log.d("Already Checked", "This user is already checked in.");
+            isChecked = true;
+        }
+        Log.d("Already Checked", "This user is NOT already checked in.");
+        Log.d("Event ID", ": " + mEventId);
+        Log.d("APerson ID", ": " + mPerson.getId());
+
         setContentView(R.layout.activity_event_detail);
 
+        setupToolbar();
         setupView();
         getEvent();
     }
@@ -94,6 +110,8 @@ public class EventDetailActivity extends BaseActivity {
     private final Runnable getEventRunnable = new Runnable() {
         public void run() {
 
+            Picasso.with(getApplicationContext()).load(mEvent.getPhotoUrl()).into(mEventImage);
+
             mDesc.setText(mEvent.getDescription());
             mOrg.setText(mEvent.getOrganization());
 
@@ -110,11 +128,30 @@ public class EventDetailActivity extends BaseActivity {
                 photosListAdapter.addAll(mMediaList);
             }
 
+            CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+            collapsingToolbarLayout.setTitle(mEvent.getName());
+
         }
     };
 
+    /**
+     * Setup the toolbar for the activity
+     */
+    private void setupToolbar() {
+//        final Toolbar toolbar = getActionBarToolbar();
+//        toolbar.setNavigationIcon(R.drawable.ic_action_up);
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mActivity.finish();
+//            }
+//        });
+    }
+
 
     private void setupView() {
+
+        mEventImage = (ImageView) findViewById(R.id.event_image);
         mDesc = (TextView) findViewById(R.id.event_description);
         mOrg = (TextView) findViewById(R.id.event_organization);
         mDate = (TextView) findViewById(R.id.event_date);
@@ -137,15 +174,26 @@ public class EventDetailActivity extends BaseActivity {
 
         final FloatingActionButton checkIn = (FloatingActionButton) findViewById(R.id.fab_checkin);
 
+        if (isChecked) {
+            checkIn.setImageResource(R.drawable.ic_fab_checkin_on);
+        }
+
         checkIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!isChecked) {
-                    // TODO: onClick insert into PersonEvent table for self.
+                    mPersonEvent = new PersonEvent();
+                    mPersonEvent.setDate(System.currentTimeMillis());
+                    mPersonEvent.setEventId(mEventId);
+                    mPersonEvent.setPersonId(mPerson.getId());
+                    mPersonEvent.setPoints(10);
+                    mProvider.insertPersonEvent(mPersonEvent);
+                    Log.d("Adding Checkin", "This user is now checked in.");
                     checkIn.setImageResource(R.drawable.ic_fab_checkin_on);
                     isChecked = true;
                 } else {
-                    // TODO: remove PersonEvent table for self.
+                    mProvider.deletePersonEvent(mPerson.getId(), mEventId);
+                    Log.d("Removed Checkin", "This user is NOT checked in anymore.");
                     checkIn.setImageResource(R.drawable.ic_fab_checkin_off);
                     isChecked = false;
                 }

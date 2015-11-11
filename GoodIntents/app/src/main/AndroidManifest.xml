@@ -56,8 +56,8 @@
 
         <!-- Maps API -->
         <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/android_api_key_development"/>
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
 
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
@@ -173,6 +173,13 @@
 
         <service android:name=".service.NotificationService"
             android:exported="true"/>
+
+
+
+        <activity
+            android:name=".ui.MapActivity"
+            android:label="@string/title_activity_maps" >
+        </activity>
     </application>
 
 </manifest>

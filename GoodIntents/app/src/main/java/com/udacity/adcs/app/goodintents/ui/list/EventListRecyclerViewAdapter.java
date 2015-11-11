@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.objects.Event;
 import com.udacity.adcs.app.goodintents.ui.EventDetailActivity;
+import com.udacity.adcs.app.goodintents.ui.MapActivity;
 import com.udacity.adcs.app.goodintents.utils.Constants;
 import com.udacity.adcs.app.goodintents.utils.StringUtils;
 
@@ -24,7 +25,7 @@ public class EventListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     private static final int VIEW_TYPE_HEADER = 0;
     private static final int VIEW_TYPE_ITEM = 1;
     private List<Event> mDataset;
-    private final Context mContext;
+    private static Context mContext;
 
 
     // Provide a reference to the views for each data item
@@ -60,6 +61,12 @@ public class EventListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
         public MapViewHolder(View itemView) {
             super(itemView);
             mMapImageView = (ImageView) itemView.findViewById(R.id.list_item_event_photo);
+            mMapImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mContext.startActivity(new Intent(mContext, MapActivity.class));
+                }
+            });
         }
     }
 
