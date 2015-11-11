@@ -132,7 +132,7 @@ public class AddEventActivity extends BaseActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mActivity.finish();
+                mActivity.startActivity(IntentUtils.newIntent(mActivity, FeedActivity.class));
             }
         });
         toolbar.post(new Runnable() {
