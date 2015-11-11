@@ -10,8 +10,8 @@
     <string name="content_event_location">Location</string>
     <string name="content_event_name">Event name</string>
     <string name="content_event_organization">Organization</string>
-    <string name="content_event_friends">Friends</string>
-    <string name="content_event_photos">Photos</string>
+    <string name="content_event_friends">Friends Participating</string>
+    <string name="content_event_photos">Your Photos of Event</string>
     <string name="content_invite_friends">Invite friends</string>
     <string name="content_no_wifi_settings">Oops! You need a data connection to start using Good Intents.\n\nTap the icon below to open your
         settings and connect to WiFi or a mobile network.</string>
