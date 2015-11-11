@@ -55,12 +55,20 @@ public class FeedActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_backup:
-//                handleBackup();
+                handleBackup();
 //                launchNotification();
+
+
                 startActivity(new Intent(mActivity, AddEventActivity.class));
+
+
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void launchMap(){
+        startActivity(new Intent(mActivity, MapActivity.class));
     }
 
     private void launchNotification(){

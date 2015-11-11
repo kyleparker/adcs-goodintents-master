@@ -1,16 +1,18 @@
 <resources>
     <string name="app_name">Good Intents</string>
-    <string name="tagline">Awesome Tagline...</string>
+    <string name="tagline">Developed for the Android Developer Career Summit - Hackathon for Social Good</string>
 
     <string name="content_empty_events">No events available</string>
     <string name="content_empty_friends">No friend activity</string>
     <string name="content_error_event_name">Event name is required</string>
     <string name="content_event_date">Date</string>
     <string name="content_event_desc">Description</string>
+    <string name="content_event_location">Location</string>
     <string name="content_event_name">Event name</string>
     <string name="content_event_organization">Organization</string>
     <string name="content_event_friends">Friends</string>
     <string name="content_event_photos">Photos</string>
+    <string name="content_invite_friends">Invite friends</string>
     <string name="content_no_wifi_settings">Oops! You need a data connection to start using Good Intents.\n\nTap the icon below to open your
         settings and connect to WiFi or a mobile network.</string>
     <string name="content_open_settings">Open Settings</string>
@@ -20,6 +22,12 @@
     <string name="content_search_person">Friend</string>
     <string name="content_search_voice_prompt">Search for events</string>
     <string name="content_share_path_picker_title">Select an application</string>
+    <string name="content_take_picture">Take picture</string>
+
+    <string name="content_value_invitation_message">Please join me at this event - %1$s</string>
+    <string name="content_join_event_invite_message">Please join me at this event - %1$s.</string>
+    <string name="content_join_event_invite_title">Join %1$s</string>
+
 
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_save">Save</string>
@@ -41,7 +49,12 @@
     <string name="toast_error_event_not_found">No event found</string>
     <string name="toast_error_offline">Data connection unavailable, connect to WiFi or mobile network and try again.</string>
     <string name="toast_error_saving_event">Oops, there was an error saving the event</string>
+    <string name="toast_error_inviting_friends">Problem inviting friends</string>
     <string name="toast_success_event_found">Event found</string>
     <string name="toast_success_event_saved">Event saved</string>
+    <string name="title_activity_maps">Events Map</string>
+
+    <string name="snackbar_event_checkin">You\'re checked in</string>
+    <string name="snackbar_event_checkout">You\'re checked out</string>
 
 </resources>

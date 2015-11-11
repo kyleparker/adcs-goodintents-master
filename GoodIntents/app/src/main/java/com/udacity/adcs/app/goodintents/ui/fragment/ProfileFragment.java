@@ -82,13 +82,18 @@ public class ProfileFragment extends BaseFragment {
             }
         };
 
-        Thread thread = new Thread(null, load, "getEventList");
+        Thread thread = new Thread(null, load, "getFriendEventList");
         thread.start();
     }
 
     private final Runnable getEventListRunnable = new Runnable() {
         public void run() {
             mEventListAdapter.setEventList(mEventList);
+            int totalPoints = 0;
+            for (PersonEvent event : mEventList){
+                totalPoints += event.getPoints();
+            }
+            mEventListAdapter.setPersonTotalPoints(totalPoints);
             mEventListAdapter.notifyDataSetChanged();
         }
     };
@@ -96,6 +101,7 @@ public class ProfileFragment extends BaseFragment {
 
     public void getPersonObject(){
 
+        // TODO Move "goodintent_prefs" to Constants file (also used in PreferencesUtils.java)
         SharedPreferences prefs = getActivity().getSharedPreferences("goodintent_prefs", Context.MODE_PRIVATE);
         final String googleId = prefs.getString(getString(R.string.google_account_id_key), null);
 

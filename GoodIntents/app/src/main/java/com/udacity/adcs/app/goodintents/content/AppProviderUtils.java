@@ -35,6 +35,13 @@ public class AppProviderUtils {
         mContentResolver = contentResolver;
     }
 
+    public void deletePersonEvent(long personId, long eventId) {
+        String where = PersonEventsColumns.PERSON_ID + "=" + personId +
+                " AND " + PersonEventsColumns.EVENT_ID + "=" + eventId;
+
+        mContentResolver.delete(PersonEventsColumns.CONTENT_URI, where, null);
+    }
+
     public Event getEvent(long id) {
         Uri uri = Uri.parse(EventsColumns.CONTENT_URI + "/" + id);
 
@@ -76,6 +83,7 @@ public class AppProviderUtils {
         ArrayList<PersonEvent> list = new ArrayList<>();
 
         Uri uri = Uri.parse(PersonEventsColumns.CONTENT_URI_BY_TYPE_ID + "/" + typeId);
+
         Cursor cursor = mContentResolver.query(uri, getPersonEventProjection(), null, null, null);
 
         if (cursor != null) {
@@ -178,12 +186,12 @@ public class AppProviderUtils {
     }
 
     public PersonEvent getPersonEvent(long personId, long eventId) {
-        Uri uri = Uri.parse(PersonEventsColumns.CONTENT_URI + "/" + personId);
+        String selection = PersonEventsColumns.TABLE_NAME + "." + PersonEventsColumns.PERSON_ID + " = ? " +
+                " AND " +
+                PersonEventsColumns.TABLE_NAME + "." + PersonEventsColumns.EVENT_ID + " = ? ";
+        String[] selectionArgs = new String[] { String.valueOf(personId), String.valueOf(eventId) };
 
-        String selection = PersonEventsColumns.TABLE_NAME + "." + PersonEventsColumns.EVENT_ID + " = ? ";
-        String[] selectionArgs = new String[] { String.valueOf(eventId) };
-
-        Cursor cursor = mContentResolver.query(uri, null, selection, selectionArgs, null);
+        Cursor cursor = mContentResolver.query(PersonEventsColumns.CONTENT_URI, null, selection, selectionArgs, null);
         if (cursor != null) {
             try {
                 if (cursor.moveToFirst()) {
@@ -651,7 +659,9 @@ public class AppProviderUtils {
                 EventsColumns.TABLE_NAME + "." + EventsColumns.LATITUDE,
                 EventsColumns.TABLE_NAME + "." + EventsColumns.LONGITUDE,
                 EventsColumns.TABLE_NAME + "." + EventsColumns.NAME,
-                EventsColumns.TABLE_NAME + "." + EventsColumns.ORGANIZATION
+                EventsColumns.TABLE_NAME + "." + EventsColumns.ORGANIZATION,
+                EventsColumns.TABLE_NAME + "." + EventsColumns.PHOTO_URL,
+                EventsColumns.TABLE_NAME + "." + EventsColumns.ORG_PHOTO_URL
         };
     }
 

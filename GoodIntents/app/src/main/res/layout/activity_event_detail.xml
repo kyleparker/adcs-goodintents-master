@@ -14,7 +14,7 @@
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="320dp"
+            android:layout_height="240dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <android.support.design.widget.CollapsingToolbarLayout
@@ -40,6 +40,7 @@
                     android:id="@+id/header_background"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
+                    android:visibility="gone"
                     android:layout_gravity="bottom"
                     android:background="@color/transparent_black"/>
 
@@ -73,8 +74,15 @@
 
 
                 <TextView
+                    android:id="@+id/event_name"
+                    style="@style/TextTitle"
+                    android:layout_marginTop="@dimen/keyline_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
                     android:id="@+id/event_description"
                     style="@style/TextBody"
+                    android:layout_marginTop="24dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
@@ -85,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/keyline_1"
                     android:text="@string/content_event_organization"
-                    android:visibility="gone"/>
+                    />
 
                 <TextView
                     android:id="@+id/event_organization"
@@ -100,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/keyline_1"
                     android:text="@string/content_event_date"
-                    android:visibility="gone"/>
+                    />
 
                 <TextView
                     android:id="@+id/event_date"
@@ -120,7 +128,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/friends_recycler_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/event_detail_friend_photo"
                     android:layout_gravity="center_horizontal" />
 
                 <TextView

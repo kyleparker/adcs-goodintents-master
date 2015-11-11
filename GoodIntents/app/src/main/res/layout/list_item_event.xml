@@ -3,19 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
     android:background="?android:attr/selectableItemBackground"
     android:minHeight="?android:attr/listPreferredItemHeight"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp">
 
     <TextView
         android:id="@+id/event_name_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
         android:ellipsize="end"
-        android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:paddingRight="40dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"
         tools:text="Event Name" />
 
     <TextView
@@ -29,21 +32,46 @@
         tools:text="Event Date" />
 
     <TextView
+        android:id="@+id/event_points_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/event_name_textview"
+        android:layout_toRightOf="@+id/points_icon_imageview"
+        android:text="Points"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/points_icon_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/event_name_textview"
+        android:layout_marginRight="4dp"
+        android:src="@drawable/ic_star_circle_grey600_24dp" />
+
+    <TextView
         android:id="@+id/organization_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
+        android:layout_below="@id/event_points_textview"
+        android:layout_marginBottom="16dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/text_accent_dark"
         tools:text="Organization" />
 
-    <TextView
-        android:id="@+id/event_points_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/organization_text_view"
-        android:text="Points"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="#33999999" />
+
+    <ImageView
+        android:id="@+id/event_thumbnail_imageview"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_alignBottom="@+id/organization_text_view"
+        android:layout_alignParentEnd="true"
+        android:adjustViewBounds="true"
+        tools:src="@mipmap/ic_launcher" />
 
 </RelativeLayout>
