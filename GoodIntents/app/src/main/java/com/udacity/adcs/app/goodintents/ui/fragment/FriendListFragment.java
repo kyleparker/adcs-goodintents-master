@@ -56,13 +56,13 @@ public class FriendListFragment extends BaseFragment {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         rv_event_list.setLayoutManager(mLayoutManager);
 
-        FloatingActionButton addButton = (FloatingActionButton) mRootView.findViewById(R.id.fab_friend_list);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(mActivity, AddEventActivity.class));
-            }
-        });
+//        FloatingActionButton addButton = (FloatingActionButton) mRootView.findViewById(R.id.fab_friend_list);
+//        addButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(mActivity, AddEventActivity.class));
+//            }
+//        });
         return mRootView;
     }
 
