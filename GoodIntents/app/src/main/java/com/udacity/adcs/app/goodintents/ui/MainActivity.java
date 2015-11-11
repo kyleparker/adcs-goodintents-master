@@ -384,10 +384,10 @@ public class MainActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            if (!PreferencesUtils.getBoolean(mActivity, R.string.initial_search_load_key, false)) {
-                LoadSearch task = new LoadSearch();
-                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
+//            if (!PreferencesUtils.getBoolean(mActivity, R.string.initial_search_load_key, false)) {
+//                LoadSearch task = new LoadSearch();
+//                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//            }
         }
 
         private File getFileFromAsset(Context context, String path, String filename) {
