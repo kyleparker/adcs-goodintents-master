@@ -230,12 +230,12 @@ public class AppProviderUtils {
         return list;
     }
 
-    public Search getSearch(long id, long typeId) {
+    public Search getSearch(long itemId, long typeId) {
+        Uri uri = Uri.parse(SearchColumns.CONTENT_URI + "/" + itemId);
 
-        Uri uri = Uri.parse(SearchColumns.CONTENT_URI + "/" + id);
-
-        String selection = SearchColumns.TABLE_NAME + "." + SearchColumns.TYPE_ID + " = ? ";
-        String[] selectionArgs = new String[] { String.valueOf(typeId) };
+        String selection = SearchColumns.TABLE_NAME + "." + SearchColumns.ITEM_ID + " = ? " +
+                " AND " + SearchColumns.TABLE_NAME + "." + SearchColumns.TYPE_ID + " = ? ";
+        String[] selectionArgs = new String[] { String.valueOf(itemId), String.valueOf(typeId) };
 
         Cursor cursor = mContentResolver.query(uri, null, selection, selectionArgs, null);
         if (cursor != null) {

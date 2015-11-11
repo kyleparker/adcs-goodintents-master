@@ -23,6 +23,7 @@ public class Constants {
     public static final String TIME_FORMAT = "h:mm a";
     public static final String TIME_FORMAT_LONG = "HH:mm:ss";
     public static final String DATE_TIME_FORMAT = "MM/dd/yyyy HH:mm:ss";
+    public static final String DATE_TIME_FORMAT_2 = "MM/dd/yyyy h:mm a";
 
     public static final Locale LOCALE_DEFAULT = Locale.US;
 

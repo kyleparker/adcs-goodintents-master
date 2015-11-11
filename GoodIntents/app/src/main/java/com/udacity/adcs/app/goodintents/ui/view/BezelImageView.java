@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.udacity.adcs.app.goodintents.utils;
+package com.udacity.adcs.app.goodintents.ui.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
