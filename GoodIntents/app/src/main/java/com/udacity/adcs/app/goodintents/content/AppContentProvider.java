@@ -132,7 +132,7 @@ public class AppContentProvider extends ContentProvider {
             mDb.execSQL("update person set google_account_id = '110867124195627989646' where _id = 11");
             mDb.execSQL("update person set google_account_id = '115443414203611918363' where _id = 5");
             mDb.execSQL("update person set google_account_id = '110875950357608337255' where _id = 1");
-            mDb.execSQL("update person set google_account_id = '110867124195627989646' where _id = 3");
+            mDb.execSQL("update person set google_account_id = '106773569132196240394' where _id = 3");
             PreferencesUtils.setString(mContext, R.string.google_account_id_key, "106859072981465803219");
 
 //            try {
