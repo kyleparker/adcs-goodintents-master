@@ -88,6 +88,7 @@ public class EventDetailActivity extends BaseActivity {
         setupToolbar();
         setupView();
         getEvent();
+        getMedia();
     }
 
     @Override
@@ -121,7 +122,10 @@ public class EventDetailActivity extends BaseActivity {
                 try {
                     mEvent = mProvider.getEvent(mEventId);
                     mPersonList = mProvider.getPersonListByEvent(mEventId, Constants.Type.FRIEND);
-                    mMediaList = mProvider.getMediaByPersonEvent(mPerson.getId(), mEventId);
+                    if (mPersonList != null && !mPersonList.isEmpty()) {
+                        findViewById(R.id.friends_header).setVisibility(View.VISIBLE);
+                        friendsListAdapter.addAll(mPersonList);
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 } finally {
@@ -182,19 +186,31 @@ public class EventDetailActivity extends BaseActivity {
                 }
             });
 
-            if (mPersonList != null && !mPersonList.isEmpty()) {
-                findViewById(R.id.friends_header).setVisibility(View.VISIBLE);
-                friendsListAdapter.addAll(mPersonList);
-            }
-
-            if (mMediaList != null && !mMediaList.isEmpty()) {
-                findViewById(R.id.photos_header).setVisibility(View.VISIBLE);
-                photosListAdapter.addAll(mMediaList);
-            }
-
 
         }
     };
+
+    private void getMedia() {
+
+        Runnable load = new Runnable() {
+            public void run() {
+                try {
+                    mMediaList = mProvider.getMediaByPersonEvent(mPerson.getId(), mEventId);
+
+                    if (mMediaList != null && !mMediaList.isEmpty()) {
+                        findViewById(R.id.photos_header).setVisibility(View.VISIBLE);
+                        photosListAdapter.addAll(mMediaList);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                }
+            }
+        };
+
+        Thread thread = new Thread(null, load, "getMedia");
+        thread.start();
+    }
 
     /**
      * Setup the toolbar for the activity
