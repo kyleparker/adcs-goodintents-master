@@ -659,7 +659,9 @@ public class AppProviderUtils {
                 EventsColumns.TABLE_NAME + "." + EventsColumns.LATITUDE,
                 EventsColumns.TABLE_NAME + "." + EventsColumns.LONGITUDE,
                 EventsColumns.TABLE_NAME + "." + EventsColumns.NAME,
-                EventsColumns.TABLE_NAME + "." + EventsColumns.ORGANIZATION
+                EventsColumns.TABLE_NAME + "." + EventsColumns.ORGANIZATION,
+                EventsColumns.TABLE_NAME + "." + EventsColumns.PHOTO_URL,
+                EventsColumns.TABLE_NAME + "." + EventsColumns.ORG_PHOTO_URL
         };
     }
 
