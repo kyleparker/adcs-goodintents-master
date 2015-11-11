@@ -1,5 +1,6 @@
 package com.udacity.adcs.app.goodintents.ui.list;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.objects.PersonEvent;
 import com.udacity.adcs.app.goodintents.utils.StringUtils;
@@ -19,6 +21,7 @@ import java.util.List;
 public class PersonEventListRecyclerViewAdapter extends RecyclerView.Adapter<PersonEventListRecyclerViewAdapter.ViewHolder> {
 
     private List<PersonEvent> mDataset;
+    private static Context mContext;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -40,8 +43,9 @@ public class PersonEventListRecyclerViewAdapter extends RecyclerView.Adapter<Per
         }
     }
 
-    public PersonEventListRecyclerViewAdapter(List<PersonEvent> mDataset){
+    public PersonEventListRecyclerViewAdapter(Context context, List<PersonEvent> mDataset){
         this.mDataset = mDataset;
+        this.mContext = context;
     }
 
     @Override
@@ -59,8 +63,18 @@ public class PersonEventListRecyclerViewAdapter extends RecyclerView.Adapter<Per
         holder.tv_friend_name.setText(e.person.getDisplayName());
         holder.tv_friend_event_details.setText(e.event.getDescription());
         holder.tv_friend_event_date.setText(StringUtils.getRelativeTimeAgo(e.getDate()));
-        holder.iv_friend_pic.setImageResource(R.mipmap.ic_launcher);
-        holder.iv_friend_event_image.setImageResource(R.mipmap.ic_launcher);
+        String photo_url = e.event.getPhotoUrl();
+        if(photo_url != null & photo_url.length() > 0){
+            Picasso.with(mContext)
+                    .load(photo_url)
+                    .into( holder.iv_friend_event_image);
+        }
+        String profile_pic_url = e.person.getPhotoUrl();
+        if(profile_pic_url != null & profile_pic_url.length() > 0){
+            Picasso.with(mContext)
+                    .load(profile_pic_url)
+                    .into( holder.iv_friend_pic);
+        }
     }
 
     @Override

@@ -20,7 +20,7 @@
         android:layout_marginBottom="@dimen/fab_margin_with_list"
         android:layout_marginRight="@dimen/fab_margin"
         android:clickable="true"
-        android:src="@drawable/ic_fab_checkin_off"
+        android:src="@drawable/ic_fab_add"
         app:backgroundTint="@color/fab_normal"
         app:borderWidth="0dp"
         app:elevation="@dimen/elevation_fab_default"
