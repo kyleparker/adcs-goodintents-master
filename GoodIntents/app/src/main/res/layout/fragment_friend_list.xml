@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    android:id="@+id/coordinator_layout_friend_list"
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinator_layout_friend_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -11,24 +10,6 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_friend_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_friend_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/fab_margin_with_list"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:clickable="true"
-        android:src="@drawable/ic_fab_add"
-        app:backgroundTint="@color/fab_normal"
-        app:borderWidth="0dp"
-        app:elevation="@dimen/elevation_fab_default"
-        app:fabSize="normal"
-        app:layout_anchor="@id/rv_friend_list"
-        app:layout_anchorGravity="bottom|right|end"
-        app:rippleColor="@color/fab_pressed"
-        app:layout_behavior="com.udacity.adcs.app.goodintents.utils.FABehavior"
-        />
-
-</android.support.design.widget.CoordinatorLayout>
+</FrameLayout>
