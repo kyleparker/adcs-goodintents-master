@@ -2,6 +2,7 @@ package com.udacity.adcs.app.goodintents.ui.list;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,8 +107,14 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         int viewType = getItemViewType(position);
         if (viewType == VIEW_TYPE_HEADER) {
             if(mPerson != null){
-                // TODO update image later
-                //((HeaderViewHolder) viewHolder).mProfilePicImageView.setImageResource(R.mipmap.ic_launcher);
+
+                String displayName = mPerson.getDisplayName();
+                displayName = displayName.replaceAll(" ", "_").toLowerCase();
+
+                Uri profilePicUri = Uri.parse("android.resource://" + mContext.getPackageName() +
+                        "/drawable/" + displayName);
+
+                ((HeaderViewHolder) viewHolder).mProfilePicImageView.setImageURI(profilePicUri);
                 ((HeaderViewHolder) viewHolder).mNameTextView.setText(mPerson.getDisplayName());
                 ((HeaderViewHolder) viewHolder).mPersonPoints.setText("Points: 100");
             }
