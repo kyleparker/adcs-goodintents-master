@@ -75,6 +75,7 @@
                 <TextView
                     android:id="@+id/event_description"
                     style="@style/TextBody"
+                    android:layout_marginTop="24dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
@@ -85,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/keyline_1"
                     android:text="@string/content_event_organization"
-                    android:visibility="gone"/>
+                    />
 
                 <TextView
                     android:id="@+id/event_organization"
@@ -100,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/keyline_1"
                     android:text="@string/content_event_date"
-                    android:visibility="gone"/>
+                    />
 
                 <TextView
                     android:id="@+id/event_date"
@@ -120,7 +121,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/friends_recycler_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/event_detail_friend_photo"
                     android:layout_gravity="center_horizontal" />
 
                 <TextView

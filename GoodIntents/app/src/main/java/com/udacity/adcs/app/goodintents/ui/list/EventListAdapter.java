@@ -3,7 +3,6 @@ package com.udacity.adcs.app.goodintents.ui.list;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +55,7 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public void onClick(View v) {
             // TODO Launch event detail activity
             Intent intent = new Intent(mContext, EventDetailActivity.class);
-            intent.putExtra(Constants.Extra.EVENT_ID, mListItems.get(getPosition() - 1).getId());
+            intent.putExtra(Constants.Extra.EVENT_ID, mListItems.get(getPosition()- 1).getEventId());
             mContext.startActivity(intent);
         }
     }
@@ -80,7 +79,7 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      * Constructor
      *
      * @param context  The current context.
-     * @param resource The resource ID for a layout file containing a TextView to use when
+     * he resource ID for a layout file containing a TextView to use when
      */
     public EventListAdapter(Context context, List<PersonEvent> listItems) {
         this.mContext = context;
