@@ -39,6 +39,8 @@
 
     <dimen name="event_list_major_padding">8dp</dimen>
     <dimen name="event_list_minor_padding">4dp</dimen>
+    <dimen name="event_list_thumbnail_width">96dp</dimen>
+    <dimen name="event_list_thumbnail_height">96dp</dimen>
 
 
 </resources>
