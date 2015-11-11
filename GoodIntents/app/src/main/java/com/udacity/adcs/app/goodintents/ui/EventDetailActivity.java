@@ -3,9 +3,9 @@ package com.udacity.adcs.app.goodintents.ui;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,12 +63,8 @@ public class EventDetailActivity extends BaseActivity {
         }
 
         if (mProvider.getPersonEvent(mPerson.getId(), mEventId) != null) {
-            Log.d("Already Checked", "This user is already checked in.");
             isChecked = true;
         }
-        Log.d("Already Checked", "This user is NOT already checked in.");
-        Log.d("Event ID", ": " + mEventId);
-        Log.d("APerson ID", ": " + mPerson.getId());
 
         setupToolbar();
         setupView();
@@ -155,6 +151,8 @@ public class EventDetailActivity extends BaseActivity {
         mOrg = (TextView) findViewById(R.id.event_organization);
         mDate = (TextView) findViewById(R.id.event_date);
 
+        final View coordinatorLayoutView = findViewById(R.id.coordinator_layout);
+
         LinearLayoutManager friendsLayoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager photosLayoutManager
@@ -187,12 +185,16 @@ public class EventDetailActivity extends BaseActivity {
                     mPersonEvent.setPersonId(mPerson.getId());
                     mPersonEvent.setPoints(10);
                     mProvider.insertPersonEvent(mPersonEvent);
-                    Log.d("Adding Checkin", "This user is now checked in.");
+                    Snackbar
+                            .make(coordinatorLayoutView, R.string.snackbar_event_checkin, Snackbar.LENGTH_SHORT)
+                            .show();
                     checkIn.setImageResource(R.drawable.ic_fab_checkin_on);
                     isChecked = true;
                 } else {
                     mProvider.deletePersonEvent(mPerson.getId(), mEventId);
-                    Log.d("Removed Checkin", "This user is NOT checked in anymore.");
+                    Snackbar
+                            .make(coordinatorLayoutView, R.string.snackbar_event_checkout, Snackbar.LENGTH_SHORT)
+                            .show();
                     checkIn.setImageResource(R.drawable.ic_fab_checkin_off);
                     isChecked = false;
                 }
