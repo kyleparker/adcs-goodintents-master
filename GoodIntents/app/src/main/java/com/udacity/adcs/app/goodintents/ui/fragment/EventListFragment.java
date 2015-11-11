@@ -1,5 +1,6 @@
 package com.udacity.adcs.app.goodintents.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.objects.Event;
 import com.udacity.adcs.app.goodintents.objects.PersonEvent;
+import com.udacity.adcs.app.goodintents.ui.AddEventActivity;
 import com.udacity.adcs.app.goodintents.ui.base.BaseFragment;
 import com.udacity.adcs.app.goodintents.ui.list.EventListRecyclerViewAdapter;
 import com.udacity.adcs.app.goodintents.ui.list.PersonEventListRecyclerViewAdapter;
@@ -56,7 +58,7 @@ public class EventListFragment extends BaseFragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mActivity, "Test", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(mActivity, AddEventActivity.class));
             }
         });
         return mRootView;

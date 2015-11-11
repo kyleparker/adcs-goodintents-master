@@ -28,4 +28,6 @@
     <color name="fab_normal">@color/theme_accent</color>
     <color name="fab_pressed">@color/theme_accent_ripple</color>
     <color name="fab_disabled">#9E9E9E</color>
+
+    <color name="list_separator_bgcolor">#33999999</color>
 </resources>

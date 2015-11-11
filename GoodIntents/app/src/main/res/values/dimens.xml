@@ -24,7 +24,7 @@
     <dimen name="text_size_title">20sp</dimen>
     <dimen name="text_size_subtitle">16sp</dimen>
 
-    <dimen name="friend_pic_size_in_item">40dp</dimen>
+    <dimen name="friend_pic_size_in_item">45dp</dimen>
 
     <dimen name="name_profile_picture_margin">32dp</dimen>
     <dimen name="profile_fragment_extra_info_bottom_margin">16dp</dimen>
@@ -38,5 +38,11 @@
 
     <dimen name="event_detail_friend_photo">64dp</dimen>
     <dimen name="event_detail_friend_photo_padding">16dp</dimen>
+
+    <dimen name="event_list_major_padding">8dp</dimen>
+    <dimen name="event_list_minor_padding">4dp</dimen>
+    <dimen name="event_list_thumbnail_width">96dp</dimen>
+    <dimen name="event_list_thumbnail_height">96dp</dimen>
+
 
 </resources>

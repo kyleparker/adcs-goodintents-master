@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,6 +31,10 @@ import com.udacity.adcs.app.goodintents.ui.list.PhotosListAdapter;
 import com.udacity.adcs.app.goodintents.utils.Constants;
 import com.udacity.adcs.app.goodintents.utils.StringUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,8 +43,11 @@ import java.util.List;
  */
 public class EventDetailActivity extends BaseActivity {
 
+    static final int REQUEST_IMAGE_CAPTURE = 5;
+
     private Event mEvent = new Event();
     private PersonEvent mPersonEvent;
+    private PersonMedia mPersonMedia;
     private long mEventId;
 
     private TextView mDesc;
@@ -70,7 +78,10 @@ public class EventDetailActivity extends BaseActivity {
             mEventId = extras.getLong(Constants.Extra.EVENT_ID);
         }
 
-        if (mProvider.getPersonEvent(mPerson.getId(), mEventId) != null) {
+        mPersonEvent = new PersonEvent();
+        mPersonEvent = mProvider.getPersonEvent(mPerson.getId(), mEventId);
+
+        if (mPersonEvent != null) {
             isChecked = true;
         }
 
@@ -96,6 +107,11 @@ public class EventDetailActivity extends BaseActivity {
                 Toast.makeText(mActivity, R.string.toast_error_inviting_friends, Toast.LENGTH_LONG).show();
             }
         }
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            addPhotoToDatabase();
+            mMediaList = mProvider.getMediaByPersonEvent(mPerson.getId(), mEventId);
+            photosListAdapter.addAll(mMediaList);
+        }
     }
 
     private void getEvent() {
@@ -105,7 +121,7 @@ public class EventDetailActivity extends BaseActivity {
                 try {
                     mEvent = mProvider.getEvent(mEventId);
                     mPersonList = mProvider.getPersonListByEvent(mEventId, Constants.Type.FRIEND);
-                    mMediaList = mProvider.getMediaByPersonEvent(Constants.Type.SELF, mEventId);
+                    mMediaList = mProvider.getMediaByPersonEvent(mPerson.getId(), mEventId);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 } finally {
@@ -131,6 +147,41 @@ public class EventDetailActivity extends BaseActivity {
             String mDateString = StringUtils.getDateString(mEvent.getDate(), Constants.DATE_FORMAT);
             mDate.setText(mDateString);
 
+            final View coordinatorLayoutView = findViewById(R.id.coordinator_layout);
+
+            final FloatingActionButton checkIn = (FloatingActionButton) findViewById(R.id.fab_checkin);
+
+            if (isChecked) {
+                checkIn.setImageResource(R.drawable.ic_fab_checkin_on);
+            }
+
+            checkIn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!isChecked) {
+                        mPersonEvent = new PersonEvent();
+                        mPersonEvent.setDate(System.currentTimeMillis());
+                        mPersonEvent.setEventId(mEventId);
+                        mPersonEvent.setPersonId(mPerson.getId());
+                        mPersonEvent.setPoints(15);
+                        mProvider.insertPersonEvent(mPersonEvent);
+                        Snackbar
+                                .make(coordinatorLayoutView, R.string.snackbar_event_checkin, Snackbar.LENGTH_SHORT)
+                                .show();
+                        checkIn.setImageResource(R.drawable.ic_fab_checkin_on);
+                        isChecked = true;
+                    } else {
+                        mProvider.deletePersonEvent(mPerson.getId(), mEventId);
+                        Snackbar
+                                .make(coordinatorLayoutView, R.string.snackbar_event_checkout, Snackbar.LENGTH_SHORT)
+                                .show();
+                        checkIn.setImageResource(R.drawable.ic_fab_checkin_off);
+                        isChecked = false;
+                    }
+
+                }
+            });
+
             if (mPersonList != null && !mPersonList.isEmpty()) {
                 findViewById(R.id.friends_header).setVisibility(View.VISIBLE);
                 friendsListAdapter.addAll(mPersonList);
@@ -141,8 +192,6 @@ public class EventDetailActivity extends BaseActivity {
                 photosListAdapter.addAll(mMediaList);
             }
 
-            CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-//            collapsingToolbarLayout.setTitle(mEvent.getName());
 
         }
     };
@@ -168,7 +217,7 @@ public class EventDetailActivity extends BaseActivity {
                         startActivityForResult(getAppInviteJoinEventIntent(), Constants.RequestCode.APP_INVITE);
                         return true;
                     case R.id.menu_add_photo:
-                        //TODO: Launch camera.
+                        dispatchTakePictureIntent();
                         return true;
                 }
                 return false;
@@ -184,8 +233,6 @@ public class EventDetailActivity extends BaseActivity {
         mOrg = (TextView) findViewById(R.id.event_organization);
         mDate = (TextView) findViewById(R.id.event_date);
         mName = (TextView) findViewById(R.id.event_name);
-
-        final View coordinatorLayoutView = findViewById(R.id.coordinator_layout);
 
         LinearLayoutManager friendsLayoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -203,38 +250,6 @@ public class EventDetailActivity extends BaseActivity {
         photosListAdapter = new PhotosListAdapter(getApplicationContext());
         eventPhotos.setAdapter(photosListAdapter);
 
-        final FloatingActionButton checkIn = (FloatingActionButton) findViewById(R.id.fab_checkin);
-
-        if (isChecked) {
-            checkIn.setImageResource(R.drawable.ic_fab_checkin_on);
-        }
-
-        checkIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!isChecked) {
-                    mPersonEvent = new PersonEvent();
-                    mPersonEvent.setDate(System.currentTimeMillis());
-                    mPersonEvent.setEventId(mEventId);
-                    mPersonEvent.setPersonId(mPerson.getId());
-                    mPersonEvent.setPoints(15);
-                    mProvider.insertPersonEvent(mPersonEvent);
-                    Snackbar
-                            .make(coordinatorLayoutView, R.string.snackbar_event_checkin, Snackbar.LENGTH_SHORT)
-                            .show();
-                    checkIn.setImageResource(R.drawable.ic_fab_checkin_on);
-                    isChecked = true;
-                } else {
-                    mProvider.deletePersonEvent(mPerson.getId(), mEventId);
-                    Snackbar
-                            .make(coordinatorLayoutView, R.string.snackbar_event_checkout, Snackbar.LENGTH_SHORT)
-                            .show();
-                    checkIn.setImageResource(R.drawable.ic_fab_checkin_off);
-                    isChecked = false;
-                }
-
-            }
-        });
     }
 
     /**
@@ -245,22 +260,70 @@ public class EventDetailActivity extends BaseActivity {
         // Launching the AppInviteInvitation intent opens the contact chooser where the user selects the contacts to
         // invite. Invites are sent via email or SMS.
         String callToActionDeepLinkId = Constants.APP_INVITE_HOST + Constants.APP_INVITE_DEEP_LINK_JOIN_EVENT +
-                PersonEventsColumns.PERSON_ID + "=" + mPersonEvent.getPersonId() + "&" +
-                PersonEventsColumns.EVENT_ID + "=" + mPersonEvent.getEventId();
+                PersonEventsColumns.PERSON_ID + "=" + mPerson.getId() + "&" +
+                PersonEventsColumns.EVENT_ID + "=" + mEventId;
         Uri callToActionUrl = Uri.parse(callToActionDeepLinkId);
         Uri customImage = Uri.parse(Constants.APP_INVITE_IMAGE_URL);
-        String message = this.getString(R.string.content_value_invitation_message, mPersonEvent.event.getName());
+        String message = this.getString(R.string.content_value_invitation_message, mEvent.getName());
 
         if (message.length() > 100) {
-            message.substring(0, 100);
+            message = message.substring(0, 97) + "...";
         }
 
-        return new AppInviteInvitation.IntentBuilder(this.getString(R.string.content_join_event_invite_title, mPersonEvent.event.getName()))
+        return new AppInviteInvitation.IntentBuilder(this.getString(R.string.content_join_event_invite_title, mEvent.getName()))
                 .setMessage(message)
                 .setDeepLink(callToActionUrl)
                 .setCustomImage(customImage)
                 .setCallToActionText(this.getString(R.string.content_invite_friends))
                 .build();
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                Log.e("Camera Error", ex.toString());
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        Uri.fromFile(photoFile));
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
+        }
+    }
+
+    String mCurrentPhotoPath;
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + mPersonEvent.getId() + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        return image;
+    }
+
+    private void addPhotoToDatabase() {
+        mPersonMedia = new PersonMedia();
+        mPersonMedia.setMediaName("Photo");
+        mPersonMedia.setPersonEventId(mPersonEvent.getId());
+        mPersonMedia.setLocalStorageURL(mCurrentPhotoPath);
+        mProvider.insertPersonMedia(mPersonMedia);
     }
 
 }

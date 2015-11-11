@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.objects.Event;
 import com.udacity.adcs.app.goodintents.ui.EventDetailActivity;
@@ -60,7 +61,7 @@ public class EventListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
         ImageView mMapImageView;
         public MapViewHolder(View itemView) {
             super(itemView);
-            mMapImageView = (ImageView) itemView.findViewById(R.id.list_item_event_photo);
+            mMapImageView = (ImageView) itemView.findViewById(R.id.item_map);
             mMapImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -79,7 +80,7 @@ public class EventListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         if(viewType == VIEW_TYPE_HEADER){
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_event_photo, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_map, parent, false);
             MapViewHolder mapViewHolder = new MapViewHolder(view);
             return mapViewHolder;
         } else {
@@ -93,14 +94,24 @@ public class EventListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if(position == VIEW_TYPE_HEADER){
-            ((MapViewHolder) holder).mMapImageView.setImageResource(R.mipmap.ic_launcher);
+            ((MapViewHolder) holder).mMapImageView.setImageResource(R.drawable.map);
         } else{
             Event e = mDataset.get(position-1);
             ((ViewHolder)holder).tv_friend_name.setText(e.getOrganization());
             ((ViewHolder)holder).tv_friend_event_details.setText(e.getDescription());
-            ((ViewHolder)holder).tv_friend_event_date.setText(StringUtils.getRelativeTimeAgo(e.getDate()));
-            ((ViewHolder)holder).iv_friend_pic.setImageResource(R.mipmap.ic_launcher);
-            ((ViewHolder)holder).iv_friend_event_image.setImageResource(R.mipmap.ic_launcher);
+            ((ViewHolder)holder).tv_friend_event_date.setText(StringUtils.getDateString(e.getDate(), "MMM dd, yyyy hh:mm a"));
+            String photo_url = e.getPhotoUrl();
+            if(photo_url != null && photo_url.length() > 0){
+                Picasso.with(mContext)
+                        .load(photo_url)
+                        .into(((ViewHolder) holder).iv_friend_event_image);
+            }
+            String organizer_photo_url = e.getOrgPhotoUrl();
+            if(organizer_photo_url != null && organizer_photo_url.length() > 0){
+                Picasso.with(mContext)
+                        .load(organizer_photo_url)
+                        .into(((ViewHolder)holder).iv_friend_pic);
+            }
         }
     }
 

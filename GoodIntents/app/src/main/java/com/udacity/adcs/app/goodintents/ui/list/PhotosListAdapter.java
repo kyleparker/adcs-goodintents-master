@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.objects.PersonMedia;
 
@@ -61,9 +62,8 @@ public class PhotosListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         PersonMedia mPersonMedia = mListItems.get(position);
 
-        // TODO: Read the media list from database.
-
-
+        ImageView imageView = ((ItemViewHolder) viewHolder).mPhotoImageView;
+        Picasso.with(mContext).load(mPersonMedia.getLocalStorageURL()).into(imageView);
 
     }
 
