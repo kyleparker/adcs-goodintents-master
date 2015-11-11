@@ -33,8 +33,9 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/profile_picture_imageview"
         android:layout_toEndOf="@+id/profile_picture_imageview"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/text_light"
+        android:textStyle="bold"
         tools:text="Extra Info" />
 
 </RelativeLayout>
