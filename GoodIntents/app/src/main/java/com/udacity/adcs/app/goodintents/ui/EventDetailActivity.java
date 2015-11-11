@@ -107,7 +107,9 @@ public class EventDetailActivity extends BaseActivity {
             } else {
                 Toast.makeText(mActivity, R.string.toast_error_inviting_friends, Toast.LENGTH_LONG).show();
             }
-        } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+        }
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             addPhotoToDatabase();
             mMediaList = mProvider.getMediaByPersonEvent(mPerson.getId(), mEventId);
             findViewById(R.id.friends_header).setVisibility(View.VISIBLE);
