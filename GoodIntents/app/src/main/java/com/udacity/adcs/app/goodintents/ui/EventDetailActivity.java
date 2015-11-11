@@ -4,14 +4,12 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.udacity.adcs.app.goodintents.R;
-import com.udacity.adcs.app.goodintents.content.AppProviderUtils;
 import com.udacity.adcs.app.goodintents.objects.Event;
 import com.udacity.adcs.app.goodintents.objects.PersonEvent;
 import com.udacity.adcs.app.goodintents.objects.PersonMedia;
@@ -19,7 +17,6 @@ import com.udacity.adcs.app.goodintents.ui.base.BaseActivity;
 import com.udacity.adcs.app.goodintents.ui.list.FriendsListAdapter;
 import com.udacity.adcs.app.goodintents.ui.list.PhotosListAdapter;
 import com.udacity.adcs.app.goodintents.utils.Constants;
-import com.udacity.adcs.app.goodintents.utils.IntentUtils;
 import com.udacity.adcs.app.goodintents.utils.StringUtils;
 
 import java.util.List;
@@ -32,7 +29,6 @@ public class EventDetailActivity extends BaseActivity {
 
     private Event mEvent = new Event();
     private long mEventId;
-    private AppProviderUtils mProvider;
 
     private TextView mDesc;
     private TextView mOrg;
@@ -47,6 +43,8 @@ public class EventDetailActivity extends BaseActivity {
     private List<PersonEvent> mPersonList;
     private List<PersonMedia> mMediaList;
 
+    private Boolean isChecked = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +56,8 @@ public class EventDetailActivity extends BaseActivity {
 
         setContentView(R.layout.activity_event_detail);
 
-        getEvent();
-        setupToolbar();
         setupView();
+        getEvent();
     }
 
     @Override
@@ -103,32 +100,19 @@ public class EventDetailActivity extends BaseActivity {
             String mDateString = StringUtils.getDateString(mEvent.getDate(), Constants.DATE_FORMAT);
             mDate.setText(mDateString);
 
-            eventFriends.setAdapter(friendsListAdapter);
-            eventPhotos.setAdapter(photosListAdapter);
+            if (mPersonList != null && !mPersonList.isEmpty()) {
+                findViewById(R.id.friends_header).setVisibility(View.VISIBLE);
+                friendsListAdapter.addAll(mPersonList);
+            }
 
+            if (mMediaList != null && !mMediaList.isEmpty()) {
+                findViewById(R.id.photos_header).setVisibility(View.VISIBLE);
+                photosListAdapter.addAll(mMediaList);
+            }
 
         }
     };
 
-    /**
-     * Setup the toolbar for the activity
-     */
-    private void setupToolbar() {
-        final Toolbar toolbar = getActionBarToolbar();
-        toolbar.setNavigationIcon(R.drawable.ic_action_up);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mActivity.startActivity(IntentUtils.newIntent(mActivity, FeedActivity.class));
-            }
-        });
-        toolbar.post(new Runnable() {
-            @Override
-            public void run() {
-                toolbar.setTitle(mEvent.getName());
-            }
-        });
-    }
 
     private void setupView() {
         mDesc = (TextView) findViewById(R.id.event_description);
@@ -142,22 +126,29 @@ public class EventDetailActivity extends BaseActivity {
 
         eventFriends = (RecyclerView) findViewById(R.id.friends_recycler_view);
         eventFriends.setLayoutManager(friendsLayoutManager);
-
-        friendsListAdapter = new FriendsListAdapter(mPersonList, getApplicationContext());
+        friendsListAdapter = new FriendsListAdapter(getApplicationContext());
+        eventFriends.setAdapter(friendsListAdapter);
 
 
         eventPhotos = (RecyclerView) findViewById(R.id.photos_recycler_view);
         eventPhotos.setLayoutManager(photosLayoutManager);
-        photosListAdapter = new PhotosListAdapter(mMediaList, getApplicationContext());
-
+        photosListAdapter = new PhotosListAdapter(getApplicationContext());
+        eventPhotos.setAdapter(photosListAdapter);
 
         final FloatingActionButton checkIn = (FloatingActionButton) findViewById(R.id.fab_checkin);
+
         checkIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: onClick insert into PersonEvent table for self.
-
-                checkIn.setImageResource(R.drawable.ic_fab_checkin_on);
+                if (!isChecked) {
+                    // TODO: onClick insert into PersonEvent table for self.
+                    checkIn.setImageResource(R.drawable.ic_fab_checkin_on);
+                    isChecked = true;
+                } else {
+                    // TODO: remove PersonEvent table for self.
+                    checkIn.setImageResource(R.drawable.ic_fab_checkin_off);
+                    isChecked = false;
+                }
 
             }
         });
