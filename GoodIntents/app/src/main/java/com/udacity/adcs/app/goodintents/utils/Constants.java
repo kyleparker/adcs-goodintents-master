@@ -14,9 +14,9 @@ public class Constants {
     public static final String ACTION_DEEP_LINK_JOIN_ACTIVITY = PACKAGE + ".ACTION_DEEP_LINK_JOIN_ACTIVITY";
     public static final String ACTION_GCM_REGISTRATION_COMPLETE = PACKAGE + ".REGISTRATION_COMPLETE";
 
-    public static final String APP_INVITE_DEEP_LINK_JOIN_TRIP = "/joinactivity/?";
+    public static final String APP_INVITE_DEEP_LINK_JOIN_EVENT = "/joinevent/?";
     public static final String APP_INVITE_HOST = "http://goodintents.com";
-    public static final String APP_INVITE_IMAGE_URL = "https://apps.bsu.edu/traveler/images/icon512x512.png";
+    public static final String APP_INVITE_IMAGE_URL = "https://apps.bsu.edu/traveler/images/goodintents.png";
 
     public static final String DATE_FORMAT = "MM/dd/yyyy";
     public static final String DATE_FORMAT_LONG = "MMM d, yyyy";
