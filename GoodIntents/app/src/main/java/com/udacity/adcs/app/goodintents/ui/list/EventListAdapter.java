@@ -142,7 +142,7 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 String month = new SimpleDateFormat("MMM").format(calendar.getTime());
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-                ((ItemViewHolder) viewHolder).mEventDateTextView.setText(month + ", " + day);
+                ((ItemViewHolder) viewHolder).mEventDateTextView.setText(month + " " + day);
 
                 ((ItemViewHolder) viewHolder).mOrganizationTextView.setText(personEvent.event.getOrganization());
                 ((ItemViewHolder) viewHolder).mEventPoints.setText(String.valueOf(personEvent.getPoints()));
