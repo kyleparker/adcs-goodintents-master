@@ -10,6 +10,7 @@
     <dimen name="elevation_fab_pressed">12dp</dimen>
 
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_margin_with_list">70dp</dimen>
 
     <dimen name="keyline_1">16dp</dimen>
     <dimen name="keyline_1_double">32dp</dimen>
@@ -32,5 +33,8 @@
     <dimen name="profile_picture_height">96dp</dimen>
     <dimen name="profile_name_text_size">36sp</dimen>
     <dimen name="profile_header_height">200dp</dimen>
+
+    <dimen name="event_detail_friend_photo">64dp</dimen>
+    <dimen name="event_detail_friend_photo_padding">16dp</dimen>
 
 </resources>
