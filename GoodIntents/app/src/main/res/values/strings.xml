@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Good Intents</string>
-    <string name="tagline">Awesome Tagline...</string>
+    <string name="tagline">Developed for the Android Developer Career Summit - Hackathon for Social Good</string>
 
     <string name="content_empty_events">No events available</string>
     <string name="content_empty_friends">No friend activity</string>

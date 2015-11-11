@@ -36,7 +36,6 @@ import java.nio.channels.FileChannel;
 import java.util.List;
 
 /**
- *
  * Created by kyleparker on 11/9/2015.
  */
 public class MainActivity extends BaseActivity {
@@ -142,7 +141,7 @@ public class MainActivity extends BaseActivity {
 
     /**
      * Step 1 of the profile sync process
-     *
+     * <p/>
      * Retrieve the person object from the local database based on the user guid to determine if the Google Account ID is present
      */
     private void checkAccount() {
@@ -164,47 +163,17 @@ public class MainActivity extends BaseActivity {
 
     /**
      * Verify the person object exists and determine if the Google Account ID has been sycned to the profile
-     *
+     * <p/>
      * If not, continue to step 2 of the process, otherwise start the next activity to display the app
      */
     private final Runnable checkAccountRunnable = new Runnable() {
         public void run() {
             try {
-//                if (mPerson != null) {
-//                    // Check to see if the profile has a Google account ID AND that the user is online
-//                    // If the user is not currently connected to the network, they will not be able to retrieve the profile data
-//                    // and therefore won't be able to use the app. The next time the app is opened, it will check again.
-//                    if (TextUtils.isEmpty(mPerson.getGoogleAccountId()) && SystemUtils.isOnline(mActivity)) {
-//                        // The user has not sync a Google account to the profile, show the account chooser
-//                        Intent intent = IntentUtils.newIntent(mActivity, SignInActivity.class);
-//                        intent.putExtra(Constants.Extra.ACTION, Constants.Action.LOGOUT);
-//                        mActivity.startActivity(intent);
-//                        mActivity.finish();
-//                    } else {
-//                        if (TextUtils.isEmpty(mLogin.getGCMRegistrationId())) {
-//                            // Start IntentService to register this application with GCM.
-//                            Intent intent = new Intent(mActivity.getApplicationContext(), RegistrationIntentService.class);
-//                            startService(intent);
-//                        }
-
                 if (!PreferencesUtils.getBoolean(mActivity, R.string.initial_db_load_key, false)) {
-                    LoadDatabase task = new LoadDatabase();
-                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    loadDatabase();
+                } else {
+                    startActivity();
                 }
-
-                startActivity();
-//                    }
-//                } else {
-//                    // Clean-up partial login and allow the user to try again
-//                    PreferencesUtils.setString(mActivity, R.string.google_account_key, PreferencesUtils.GOOGLE_ACCOUNT_DEFAULT);
-//                    SharedPreferencesHelper.setAppData(mActivity, Constants.Pref.LOGIN_DONE, false);
-//
-////                    Toast.makeText(mActivity, R.string.toast_error_login, Toast.LENGTH_LONG).show();
-//                    Intent intent = IntentUtils.newIntent(mActivity, SignInActivity.class);
-//                    intent.putExtra(Constants.Extra.ACTION, Constants.Action.LOGIN);
-//                    mActivity.startActivity(intent);
-//                    mActivity.finish();
-//                }
             } catch (Exception ex) {
                 // Clean-up partial login and allow the user to try again
                 PreferencesUtils.setString(mActivity, R.string.google_account_key, PreferencesUtils.GOOGLE_ACCOUNT_DEFAULT);
@@ -345,78 +314,80 @@ public class MainActivity extends BaseActivity {
     /**
      * Initial load for the database
      */
-    private class LoadDatabase extends AsyncTask<Void, Void, Void> {
-        protected Void doInBackground(Void... args) {
-            try {
-                boolean isSuccess = false;
-                File data = Environment.getDataDirectory();
+    private void loadDatabase() {
+        Runnable load = new Runnable() {
+            public void run() {
+                try {
+                    boolean isSuccess = false;
+                    File data = Environment.getDataDirectory();
 
-                String currentDbPath = "//data//com.udacity.adcs.app.goodintents//databases//goodintents.db";
+                    String currentDbPath = "//data//com.udacity.adcs.app.goodintents//databases//goodintents.db";
 
-                File currentDb = new File(data, currentDbPath);
-                File restoreDb = getFileFromAsset(mActivity, mActivity.getExternalFilesDir(null) + "/", "goodintents.db");
+                    File currentDb = new File(data, currentDbPath);
+                    File restoreDb = getFileFromAsset(mActivity, mActivity.getExternalFilesDir(null) + "/", "goodintents.db");
 
-                if (restoreDb != null ? restoreDb.exists() : false) {
-                    FileInputStream is = new FileInputStream(restoreDb);
-                    FileOutputStream os = new FileOutputStream(currentDb);
+                    if (restoreDb != null ? restoreDb.exists() : false) {
+                        FileInputStream is = new FileInputStream(restoreDb);
+                        FileOutputStream os = new FileOutputStream(currentDb);
 
-                    FileChannel src = is.getChannel();
-                    FileChannel dst = os.getChannel();
-                    dst.transferFrom(src, 0, src.size());
+                        FileChannel src = is.getChannel();
+                        FileChannel dst = os.getChannel();
+                        dst.transferFrom(src, 0, src.size());
 
-                    is.close();
-                    os.close();
-                    src.close();
-                    dst.close();
-                    isSuccess = true;
+                        is.close();
+                        os.close();
+                        src.close();
+                        dst.close();
+                        isSuccess = true;
+                    }
+
+                    if (isSuccess) {
+                        PreferencesUtils.setBoolean(mActivity, R.string.initial_db_load_key, true);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    mActivity.runOnUiThread(loadDatabaseRunnable);
                 }
+            }
+        };
 
-                if (isSuccess) {
-                    PreferencesUtils.setBoolean(mActivity, R.string.initial_db_load_key, true);
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
+        Thread thread = new Thread(null, load, "loadDatabase");
+        thread.start();
+    }
+
+    private final Runnable loadDatabaseRunnable = new Runnable() {
+        public void run() {
+            startActivity();
+        }
+    };
+
+    private File getFileFromAsset(Context context, String path, String filename) {
+        AssetManager assetManager = context.getResources().getAssets();
+        File destinationFile = new File(path, new File(filename).getName());
+
+        if (destinationFile.exists()) {
+            destinationFile.delete();
+        }
+
+        try {
+            // The local file does not exist, so move the download into the proper folder
+            InputStream in = assetManager.open(filename);
+            OutputStream out = new FileOutputStream(destinationFile);
+
+            byte[] buffer = new byte[1024];
+            int read;
+            while ((read = in.read(buffer)) != -1) {
+                out.write(buffer, 0, read);
             }
 
+            in.close();
+            out.flush();
+            out.close();
+
+            return destinationFile;
+        } catch (Exception ex) {
             return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-//            if (!PreferencesUtils.getBoolean(mActivity, R.string.initial_search_load_key, false)) {
-//                LoadSearch task = new LoadSearch();
-//                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-//            }
-        }
-
-        private File getFileFromAsset(Context context, String path, String filename) {
-            AssetManager assetManager = context.getResources().getAssets();
-            File destinationFile = new File(path, new File(filename).getName());
-
-            if (destinationFile.exists()) {
-                destinationFile.delete();
-            }
-
-            try {
-                // The local file does not exist, so move the download into the proper folder
-                InputStream in = assetManager.open(filename);
-                OutputStream out = new FileOutputStream(destinationFile);
-
-                byte[] buffer = new byte[1024];
-                int read;
-                while ((read = in.read(buffer)) != -1) {
-                    out.write(buffer, 0, read);
-                }
-
-                in.close();
-                out.flush();
-                out.close();
-
-                return destinationFile;
-            } catch (Exception ex) {
-                return null;
-            }
         }
     }
 }
