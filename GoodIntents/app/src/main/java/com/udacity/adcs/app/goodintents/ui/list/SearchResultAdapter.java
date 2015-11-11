@@ -72,7 +72,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                 Search item = lineItem.search;
 
                 if (item != null) {
-                    viewHolder.organization.setVisibility(View.GONE);
+                    viewHolder.date.setVisibility(View.GONE);
                     viewHolder.name.setText(item.getName());
 
                     if (item.getTypeId() == Constants.Type.PERSON) {
@@ -86,9 +86,9 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                                 .transform(new PicassoRoundTransform())
                                 .into(viewHolder.image);
 
-                        viewHolder.date.setText("Member of 3 shared groups and 5 events");
+                        viewHolder.organization.setText("Member of 3 shared groups and 5 events");
                     } else if (item.getTypeId() == Constants.Type.EVENT) {
-                        viewHolder.organization.setVisibility(View.VISIBLE);
+                        viewHolder.date.setVisibility(View.VISIBLE);
                         viewHolder.organization.setText(item.event.getOrganization());
 
                         Date date = new java.util.Date(item.event.getDate());
