@@ -55,6 +55,7 @@ public class EventDetailActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_event_detail);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -68,8 +69,6 @@ public class EventDetailActivity extends BaseActivity {
         Log.d("Already Checked", "This user is NOT already checked in.");
         Log.d("Event ID", ": " + mEventId);
         Log.d("APerson ID", ": " + mPerson.getId());
-
-        setContentView(R.layout.activity_event_detail);
 
         setupToolbar();
         setupView();
