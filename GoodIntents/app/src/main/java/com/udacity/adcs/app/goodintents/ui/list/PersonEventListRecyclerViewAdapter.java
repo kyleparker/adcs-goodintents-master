@@ -1,6 +1,7 @@
 package com.udacity.adcs.app.goodintents.ui.list;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.objects.PersonEvent;
+import com.udacity.adcs.app.goodintents.ui.EventDetailActivity;
+import com.udacity.adcs.app.goodintents.utils.Constants;
 import com.udacity.adcs.app.goodintents.utils.StringUtils;
 
 import java.util.List;
@@ -27,7 +30,7 @@ public class PersonEventListRecyclerViewAdapter extends RecyclerView.Adapter<Per
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView tv_friend_name;
         public TextView tv_friend_event_details;
@@ -41,6 +44,15 @@ public class PersonEventListRecyclerViewAdapter extends RecyclerView.Adapter<Per
             tv_friend_event_date = (TextView) v.findViewById(R.id.tv_friend_event_date);
             iv_friend_event_image = (ImageView) v.findViewById(R.id.iv_friend_event_image);
             iv_friend_pic = (ImageView) v.findViewById(R.id.iv_friend_pic);
+            /*
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, EventDetailActivity.class);
+                    intent.putExtra(Constants.Extra.EVENT_ID, mDataset.get(getPosition()).event.getId());
+                    mContext.startActivity(intent);
+                }
+            });*/
         }
     }
 
