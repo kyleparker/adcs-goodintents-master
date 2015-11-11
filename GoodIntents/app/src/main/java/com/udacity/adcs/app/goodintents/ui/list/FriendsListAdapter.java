@@ -8,8 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.objects.PersonEvent;
+import com.udacity.adcs.app.goodintents.utils.PicassoRoundTransform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +71,10 @@ public class FriendsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         Uri iconUri = Uri.parse("android.resource://" + mContext.getPackageName() +
                 "/drawable/" + mName);
 
-        ((ItemViewHolder) viewHolder).mFriendImageView.setImageURI(iconUri);
+        //((ItemViewHolder) viewHolder).mFriendImageView.setImageURI(iconUri);
+
+        Picasso.with(mContext).load(iconUri).
+                transform(new PicassoRoundTransform()).into(((ItemViewHolder) viewHolder).mFriendImageView);
 
     }
 
