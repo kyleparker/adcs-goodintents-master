@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.objects.PersonMedia;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public class PhotosListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<PersonMedia> mListItems;
+    private ArrayList<PersonMedia> mListItems;
     private Context mContext;
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -35,9 +36,15 @@ public class PhotosListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
      * Constructor
      *
      */
-    public PhotosListAdapter(List<PersonMedia> listItems, Context context) {
-        this.mListItems = listItems;
+    public PhotosListAdapter(Context context) {
+        this.mListItems = new ArrayList<>();
         this.mContext = context;
+    }
+
+    public void addAll(List<PersonMedia> media) {
+        mListItems.clear();
+        mListItems.addAll(media);
+        notifyDataSetChanged();
     }
 
 
@@ -56,7 +63,6 @@ public class PhotosListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         // TODO: Read the media list from database.
 
-        mPersonMedia.getLocalStorageURL();
 
 
     }
@@ -68,10 +74,10 @@ public class PhotosListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
      */
     @Override
     public int getItemCount() {
-        return mListItems.size() + 1;
+        return mListItems.size();
     }
 
-    public void setEventList(List<PersonMedia> eventList){
+    public void setEventList(ArrayList<PersonMedia> eventList){
         mListItems = eventList;
     }
 }
