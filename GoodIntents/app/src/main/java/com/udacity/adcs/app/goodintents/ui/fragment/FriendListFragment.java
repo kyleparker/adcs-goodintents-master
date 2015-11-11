@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.udacity.adcs.app.goodintents.R;
+import com.udacity.adcs.app.goodintents.content.AppProviderUtils;
 import com.udacity.adcs.app.goodintents.objects.PersonEvent;
 import com.udacity.adcs.app.goodintents.ui.base.BaseFragment;
 import com.udacity.adcs.app.goodintents.ui.list.PersonEventListRecyclerViewAdapter;
@@ -46,12 +47,13 @@ public class FriendListFragment extends BaseFragment {
         mRootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         //Add recycler view to fragment
         RecyclerView rv_event_list = (RecyclerView) mRootView.findViewById(R.id.rv_friend_list);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mActivity);
-        rv_event_list.setLayoutManager(mLayoutManager);
         mPersonEventListRecyclerViewAdapter = new PersonEventListRecyclerViewAdapter(new ArrayList<PersonEvent>());
         rv_event_list.setAdapter(mPersonEventListRecyclerViewAdapter);
         //Start thread to get event list
         getFriendEventList();
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        rv_event_list.setLayoutManager(mLayoutManager);
+
         FloatingActionButton addButton = (FloatingActionButton) mRootView.findViewById(R.id.fab_friend_list);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override

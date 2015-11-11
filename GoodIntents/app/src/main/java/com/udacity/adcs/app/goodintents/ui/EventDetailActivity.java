@@ -53,7 +53,7 @@ public class EventDetailActivity extends BaseActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            mEventId = extras.getInt(Constants.Extra.EVENT_ID);
+            mEventId = extras.getLong(Constants.Extra.EVENT_ID);
         }
 
         setContentView(R.layout.activity_event_detail);
