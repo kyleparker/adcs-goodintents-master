@@ -43,7 +43,6 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             mEventDateTextView = (TextView) itemView.findViewById(R.id.event_date_textview);
             mOrganizationTextView = (TextView) itemView.findViewById(R.id.organization_text_view);
             mEventPoints = (TextView) itemView.findViewById(R.id.event_points_textview);
-
             itemView.setOnClickListener(this);
         }
 
