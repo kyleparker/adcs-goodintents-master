@@ -1,11 +1,6 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
-        debugConfig {
-            storeFile file('C:/development/projects/Udacity/Android/GoodIntents/GoodIntents/debug.keystore')
-        }
-    }
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
     defaultConfig {
