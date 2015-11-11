@@ -102,12 +102,11 @@ public class EventDetailActivity extends BaseActivity {
                 // ids for each invitation sent (one for each contact select by the user). You can use these for analytics
                 // as the ID will be consistent on the sending and receiving devices.
                 String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);
-//                Log.d(TAG, ids.toString());
+                Log.e("app invites", ids.toString());
             } else {
                 Toast.makeText(mActivity, R.string.toast_error_inviting_friends, Toast.LENGTH_LONG).show();
             }
-        }
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             addPhotoToDatabase();
             mMediaList = mProvider.getMediaByPersonEvent(mPerson.getId(), mEventId);
             photosListAdapter.addAll(mMediaList);
