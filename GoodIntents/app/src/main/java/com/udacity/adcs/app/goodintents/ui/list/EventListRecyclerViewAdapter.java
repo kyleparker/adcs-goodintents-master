@@ -80,7 +80,7 @@ public class EventListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         if(viewType == VIEW_TYPE_HEADER){
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_event_photo, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_map, parent, false);
             MapViewHolder mapViewHolder = new MapViewHolder(view);
             return mapViewHolder;
         } else {
