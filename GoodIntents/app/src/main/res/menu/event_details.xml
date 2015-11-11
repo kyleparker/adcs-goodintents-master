@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_friend_invite"
-        android:icon="@drawable/ic_fab_add"
+        android:icon="@drawable/ic_action_invite"
         android:orderInCategory="10"
         app:showAsAction="always"
-        android:title="backup"/>
+        android:title="@string/content_invite_friends"/>
     <item
         android:id="@+id/menu_add_photo"
         android:icon="@drawable/ic_action_camera"
         android:orderInCategory="10"
         app:showAsAction="always"
-        android:title="backup"/>
+        android:title="@string/content_take_picture"/>
 
 </menu>
