@@ -16,6 +16,9 @@ import com.udacity.adcs.app.goodintents.objects.PersonEvent;
 import com.udacity.adcs.app.goodintents.ui.EventDetailActivity;
 import com.udacity.adcs.app.goodintents.utils.Constants;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -124,8 +127,16 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 PersonEvent personEvent = mListItems.get(position - 1);
 
                 ((ItemViewHolder) viewHolder).mEventNameTextView.setText(personEvent.event.getName());
-                // TODO Convert date to a human readable string
-                ((ItemViewHolder) viewHolder).mEventDateTextView.setText(Long.toString(personEvent.getDate()));
+
+                Date date = new java.util.Date(personEvent.event.getDate() * 1000);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+
+                String month = new SimpleDateFormat("MMM").format(calendar.getTime());
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                ((ItemViewHolder) viewHolder).mEventDateTextView.setText(month + ", " + day);
+
                 ((ItemViewHolder) viewHolder).mOrganizationTextView.setText(personEvent.event.getOrganization());
                 ((ItemViewHolder) viewHolder).mEventPoints.setText(String.valueOf(personEvent.getPoints()));
             }
