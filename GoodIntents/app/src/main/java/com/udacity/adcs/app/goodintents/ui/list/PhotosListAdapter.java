@@ -1,13 +1,14 @@
 package com.udacity.adcs.app.goodintents.ui.list;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.objects.PersonMedia;
 
@@ -63,7 +64,9 @@ public class PhotosListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         PersonMedia mPersonMedia = mListItems.get(position);
 
         ImageView imageView = ((ItemViewHolder) viewHolder).mPhotoImageView;
-        Picasso.with(mContext).load(mPersonMedia.getLocalStorageURL()).into(imageView);
+        //Picasso.with(mContext).load(mPersonMedia.getLocalStorageURL()).into(imageView);
+        setPic(imageView, mPersonMedia);
+
 
     }
 
@@ -79,5 +82,30 @@ public class PhotosListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public void setEventList(ArrayList<PersonMedia> eventList){
         mListItems = eventList;
+    }
+
+
+    private void setPic(ImageView imageView, PersonMedia mPersonMedia) {
+        // Get the dimensions of the View
+        int targetW = 120;
+        int targetH = 120;
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(mPersonMedia.getLocalStorageURL().substring(5), bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(mPersonMedia.getLocalStorageURL().substring(5), bmOptions);
+        imageView.setImageBitmap(bitmap);
     }
 }
