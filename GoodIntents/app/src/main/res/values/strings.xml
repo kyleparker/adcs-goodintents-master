@@ -48,4 +48,7 @@
     <string name="toast_success_event_saved">Event saved</string>
     <string name="title_activity_maps">Events Map</string>
 
+    <string name="snackbar_event_checkin">You\'re checked in</string>
+    <string name="snackbar_event_checkout">You\'re checked out</string>
+
 </resources>
