@@ -57,7 +57,7 @@ public class FeedActivity extends BaseActivity {
             case R.id.menu_backup:
                 handleBackup();
 //                launchNotification();
-                startActivity(new Intent(mActivity, AddEventActivity.class));
+//                startActivity(new Intent(mActivity, AddEventActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.udacity.adcs.app.goodintents.R;
 import com.udacity.adcs.app.goodintents.objects.PersonEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ import java.util.List;
  */
 public class FriendsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<PersonEvent> mListItems;
+    private ArrayList<PersonEvent> mListItems;
     private Context mContext;
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -36,9 +37,15 @@ public class FriendsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
      * Constructor
      *
      */
-    public FriendsListAdapter(List<PersonEvent> listItems, Context context) {
-        this.mListItems = listItems;
+    public FriendsListAdapter(Context context) {
+        this.mListItems = new ArrayList<>();
         this.mContext = context;
+    }
+
+    public void addAll(List<PersonEvent> people) {
+        mListItems.clear();
+        mListItems.addAll(people);
+        notifyDataSetChanged();
     }
 
 
@@ -46,6 +53,7 @@ public class FriendsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_friend, parent, false);
             ItemViewHolder itemViewHolder = new ItemViewHolder(view);
+
             return itemViewHolder;
     }
 
@@ -56,7 +64,7 @@ public class FriendsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         PersonEvent mPersonEvent = mListItems.get(position);
 
         String mName = mPersonEvent.person.getDisplayName();
-        mName.replace(" ", "_");
+        mName = mName.replaceAll(" ", "_").toLowerCase();
 
         Uri iconUri = Uri.parse("android.resource://" + mContext.getPackageName() +
                 "/drawable/" + mName);
@@ -72,10 +80,11 @@ public class FriendsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
      */
     @Override
     public int getItemCount() {
-        return mListItems.size() + 1;
+
+        return mListItems.size();
     }
 
-    public void setEventList(List<PersonEvent> eventList){
+    public void setEventList(ArrayList<PersonEvent> eventList){
         mListItems = eventList;
     }
 }

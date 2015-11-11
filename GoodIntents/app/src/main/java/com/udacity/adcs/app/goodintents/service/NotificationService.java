@@ -27,7 +27,7 @@ public class NotificationService extends Service {
 
     @Override
     public void onCreate() {
-        new CountDownTimer(10000, 1000) {
+        new CountDownTimer(3000, 1000) {
 
             public void onTick(long millisUntilFinished) {
             }

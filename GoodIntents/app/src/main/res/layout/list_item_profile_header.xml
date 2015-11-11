@@ -14,7 +14,7 @@
         android:layout_margin="@dimen/profile_picture_marging"
         android:adjustViewBounds="true"
         android:background="@android:color/white"
-        android:padding="10dp"
+        android:padding="2dp"
         android:src="@drawable/google_logo" />
 
     <TextView
