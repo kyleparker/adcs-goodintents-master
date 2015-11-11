@@ -35,6 +35,13 @@ public class AppProviderUtils {
         mContentResolver = contentResolver;
     }
 
+    public void deletePersonEvent(long personId, long eventId) {
+        String where = PersonEventsColumns.PERSON_ID + "=" + personId +
+                " AND " + PersonEventsColumns.EVENT_ID + "=" + eventId;
+
+        mContentResolver.delete(PersonEventsColumns.CONTENT_URI, where, null);
+    }
+
     public Event getEvent(long id) {
         Uri uri = Uri.parse(EventsColumns.CONTENT_URI + "/" + id);
 

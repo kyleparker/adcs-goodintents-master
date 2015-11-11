@@ -11,6 +11,7 @@
     <string name="content_event_organization">Organization</string>
     <string name="content_event_friends">Friends</string>
     <string name="content_event_photos">Photos</string>
+    <string name="content_invite_friends">Invite friends</string>
     <string name="content_no_wifi_settings">Oops! You need a data connection to start using Good Intents.\n\nTap the icon below to open your
         settings and connect to WiFi or a mobile network.</string>
     <string name="content_open_settings">Open Settings</string>
@@ -20,6 +21,7 @@
     <string name="content_search_person">Friend</string>
     <string name="content_search_voice_prompt">Search for events</string>
     <string name="content_share_path_picker_title">Select an application</string>
+    <string name="content_take_picture">Take picture</string>
 
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_save">Save</string>

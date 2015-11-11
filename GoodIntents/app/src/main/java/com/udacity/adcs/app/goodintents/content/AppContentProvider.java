@@ -127,7 +127,12 @@ public class AppContentProvider extends ContentProvider {
 
         try {
             mDb = databaseHelper.getWritableDatabase();
-            mDb.execSQL("update person set google_account_id = '106859072981465803219' where _id = 6");
+            mDb.execSQL("update person set type_id = 2");
+            mDb.execSQL("update person set google_account_id = '106859072981465803219', type_id = 1 where _id = 6");
+            mDb.execSQL("update person set google_account_id = '110867124195627989646', type_id = 1 where _id = 11");
+            mDb.execSQL("update person set google_account_id = '115443414203611918363', type_id = 1 where _id = 5");
+            mDb.execSQL("update person set google_account_id = '110867124195627989646', type_id = 1 where _id = 11");
+            mDb.execSQL("update person set google_account_id = '110867124195627989646', type_id = 1 where _id = 11");
             PreferencesUtils.setString(mContext, R.string.google_account_id_key, "106859072981465803219");
 
 //            try {
