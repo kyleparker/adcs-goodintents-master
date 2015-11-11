@@ -7,6 +7,7 @@
     <string name="content_error_event_name">Event name is required</string>
     <string name="content_event_date">Date</string>
     <string name="content_event_desc">Description</string>
+    <string name="content_event_location">Location</string>
     <string name="content_event_name">Event name</string>
     <string name="content_event_organization">Organization</string>
     <string name="content_event_friends">Friends</string>
@@ -45,5 +46,6 @@
     <string name="toast_error_saving_event">Oops, there was an error saving the event</string>
     <string name="toast_success_event_found">Event found</string>
     <string name="toast_success_event_saved">Event saved</string>
+    <string name="title_activity_maps">Events Map</string>
 
 </resources>

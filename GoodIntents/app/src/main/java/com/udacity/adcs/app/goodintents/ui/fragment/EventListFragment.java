@@ -49,7 +49,7 @@ public class EventListFragment extends BaseFragment {
         RecyclerView rv_event_list = (RecyclerView) mRootView.findViewById(R.id.rv_event_list);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mActivity);
         rv_event_list.setLayoutManager(mLayoutManager);
-        mPersonEventListRecyclerViewAdapter = new EventListRecyclerViewAdapter(new ArrayList<Event>());
+        mPersonEventListRecyclerViewAdapter = new EventListRecyclerViewAdapter(mActivity, new ArrayList<Event>());
         rv_event_list.setAdapter(mPersonEventListRecyclerViewAdapter);
         getEventList();
         FloatingActionButton addButton = (FloatingActionButton) mRootView.findViewById(R.id.fab_event_list);
