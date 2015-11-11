@@ -284,7 +284,15 @@ public class SignInActivity extends BaseActivity implements
 
                         mProvider.insertPerson(person);
                     } else {
+                        person.setDisplayName(mAccount.getDisplayName());
+                        person.setEmailAddress(mAccount.getEmail());
+                        person.setGoogleAccountId(mAccount.getId());
+                        if (mAccount.getPhotoUrl() != null) {
+                            person.setPhotoUrl(mAccount.getPhotoUrl().toString());
+                        }
+                        person.setTypeId(Constants.Type.SELF);
 
+                        mProvider.updatePerson(person);
                     }
                 } catch (Exception ex) {
                     mLoginError = false;

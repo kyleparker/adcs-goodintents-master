@@ -1,11 +1,15 @@
 package com.udacity.adcs.app.goodintents.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +42,7 @@ public class EventDetailActivity extends BaseActivity {
     private TextView mDesc;
     private TextView mOrg;
     private TextView mDate;
+    private TextView mName;
 
     private ImageView mEventImage;
 
@@ -107,6 +112,7 @@ public class EventDetailActivity extends BaseActivity {
 
             Picasso.with(getApplicationContext()).load(mEvent.getPhotoUrl()).into(mEventImage);
 
+            mName.setText(mEvent.getName());
             mDesc.setText(mEvent.getDescription());
             mOrg.setText(mEvent.getOrganization());
 
@@ -124,7 +130,7 @@ public class EventDetailActivity extends BaseActivity {
             }
 
             CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-            collapsingToolbarLayout.setTitle(mEvent.getName());
+//            collapsingToolbarLayout.setTitle(mEvent.getName());
 
         }
     };
@@ -133,12 +139,24 @@ public class EventDetailActivity extends BaseActivity {
      * Setup the toolbar for the activity
      */
     private void setupToolbar() {
-//        final Toolbar toolbar = getActionBarToolbar();
-//        toolbar.setNavigationIcon(R.drawable.ic_action_up);
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+        toolbar.setNavigationIcon(R.drawable.ic_action_up);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mActivity.finish();
+            }
+        });
+        toolbar.inflateMenu(R.menu.event_details);
+//        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
 //            @Override
-//            public void onClick(View view) {
-//                mActivity.finish();
+//            public boolean onMenuItemClick(MenuItem item) {
+//                switch (item.getItemId()) {
+//                    case R.id.menu_favorite:
+//                        showSelectTripDialog();
+//                        return true;
+//                }
+//                return false;
 //            }
 //        });
     }
@@ -150,6 +168,7 @@ public class EventDetailActivity extends BaseActivity {
         mDesc = (TextView) findViewById(R.id.event_description);
         mOrg = (TextView) findViewById(R.id.event_organization);
         mDate = (TextView) findViewById(R.id.event_date);
+        mName = (TextView) findViewById(R.id.event_name);
 
         final View coordinatorLayoutView = findViewById(R.id.coordinator_layout);
 
