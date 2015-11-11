@@ -39,7 +39,8 @@
                 android:text="Large Text"
                 android:id="@+id/tv_friend_name"
                 android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/iv_friend_pic" />
+                android:layout_toEndOf="@+id/iv_friend_pic"
+                android:maxLines="2" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -49,7 +50,9 @@
                 android:layout_toEndOf="@+id/iv_friend_pic"
                 android:id="@+id/tv_friend_event_details"
                 android:layout_below="@id/tv_friend_name"
-                />
+                android:maxLines="3"
+                android:ellipsize="end" />
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -57,7 +60,8 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Medium Text"
                 android:id="@+id/tv_friend_event_date"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentRight="true"
+                android:gravity="right" />
 
             <ImageView
                 android:layout_width="match_parent"

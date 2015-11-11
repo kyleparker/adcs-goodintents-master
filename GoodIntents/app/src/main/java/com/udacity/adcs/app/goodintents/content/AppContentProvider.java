@@ -124,10 +124,15 @@ public class AppContentProvider extends ContentProvider {
     public boolean onCreate() {
         mContext = getContext();
         DatabaseHelper databaseHelper = new DatabaseHelper(getContext());
-
+ 
         try {
             mDb = databaseHelper.getWritableDatabase();
-            mDb.execSQL("update person set google_account_id = '106859072981465803219' where _id = 6");
+            mDb.execSQL("update person set type_id = 2");
+            mDb.execSQL("update person set google_account_id = '106859072981465803219', type_id = 1 where _id = 6");
+            mDb.execSQL("update person set google_account_id = '110867124195627989646' where _id = 11");
+            mDb.execSQL("update person set google_account_id = '115443414203611918363' where _id = 5");
+            mDb.execSQL("update person set google_account_id = '110867124195627989646' where _id = 11");
+            mDb.execSQL("update person set google_account_id = '110867124195627989646' where _id = 11");
             PreferencesUtils.setString(mContext, R.string.google_account_id_key, "106859072981465803219");
 
 //            try {
@@ -333,7 +338,7 @@ public class AppContentProvider extends ContentProvider {
                 throw new IllegalArgumentException("Unknown Uri " + uri);
         }
 
-        Log.w(TAG, "Deleting table " + table);
+        Log.w(TAG, "Deleting row " + table);
         int count = 0;
         try {
             mDb.beginTransaction();

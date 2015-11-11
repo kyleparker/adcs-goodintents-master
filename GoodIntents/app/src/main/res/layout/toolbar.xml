@@ -25,4 +25,5 @@
     android:theme="@style/ActionBarThemeOverlay"
     app:contentInsetStart="?actionBarInsetStart"
     app:popupTheme="@style/ActionBarPopupThemeOverlay"
-    app:titleTextAppearance="@style/ActionBar.TitleText" />
+    app:titleTextAppearance="@style/ActionBar.TitleText"
+    app:layout_scrollFlags="scroll|enterAlways" />
