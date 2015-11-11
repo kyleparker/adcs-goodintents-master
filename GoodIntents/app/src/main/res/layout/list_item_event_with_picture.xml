@@ -30,7 +30,8 @@
                 android:layout_height="@dimen/friend_pic_size_in_item"
                 android:id="@+id/iv_friend_pic"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"/>
+                android:layout_alignParentLeft="true"
+                android:layout_margin="@dimen/event_list_profile_photo"/>
 
             <TextView
                 android:layout_width="wrap_content"
