@@ -24,6 +24,11 @@
     <string name="content_share_path_picker_title">Select an application</string>
     <string name="content_take_picture">Take picture</string>
 
+    <string name="content_value_invitation_message">Please join me at this event - %1$s</string>
+    <string name="content_join_event_invite_message">Please join me at this event - %1$s.</string>
+    <string name="content_join_event_invite_title">Join %1$s</string>
+
+
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_save">Save</string>
     <string name="dialog_login_message">Please wait&#8230;\n\nSigning into Good Intents</string>
@@ -44,6 +49,7 @@
     <string name="toast_error_event_not_found">No event found</string>
     <string name="toast_error_offline">Data connection unavailable, connect to WiFi or mobile network and try again.</string>
     <string name="toast_error_saving_event">Oops, there was an error saving the event</string>
+    <string name="toast_error_inviting_friends">Problem inviting friends</string>
     <string name="toast_success_event_found">Event found</string>
     <string name="toast_success_event_saved">Event saved</string>
     <string name="title_activity_maps">Events Map</string>
