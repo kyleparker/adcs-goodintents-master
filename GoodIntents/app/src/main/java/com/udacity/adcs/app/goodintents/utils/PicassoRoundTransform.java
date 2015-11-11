@@ -13,17 +13,17 @@ import com.squareup.picasso.Transformation;
  *
  * @author PedramVeisi
  */
-public class PicassoRoundTransform implements Transformation {
+public class PicassoRoundTransform implements Transformation{
 
     @Override
-    public Bitmap transform(Bitmap source) {
+    public Bitmap transform(Bitmap source){
         int size = Math.min(source.getWidth(), source.getHeight());
 
         int x = (source.getWidth() - size) / 2;
         int y = (source.getHeight() - size) / 2;
 
         Bitmap squaredBitmap = Bitmap.createBitmap(source, x, y, size, size);
-        if (squaredBitmap != source) {
+        if (squaredBitmap != source){
             source.recycle();
         }
 
@@ -44,7 +44,7 @@ public class PicassoRoundTransform implements Transformation {
     }
 
     @Override
-    public String key() {
+    public String key(){
         return "circle";
     }
 }
