@@ -110,7 +110,6 @@ public class EventDetailActivity extends BaseActivity {
     private final Runnable getEventRunnable = new Runnable() {
         public void run() {
 
-            Log.d("Image URL", "URL: " + mEvent.getPhotoUrl());
             Picasso.with(getApplicationContext()).load(mEvent.getPhotoUrl()).into(mEventImage);
 
             mDesc.setText(mEvent.getDescription());
