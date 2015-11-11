@@ -80,9 +80,6 @@ public class EventDetailActivity extends BaseActivity {
 
         mPersonEvent = new PersonEvent();
         mPersonEvent = mProvider.getPersonEvent(mPerson.getId(), mEventId);
-        Log.d("PersonID", ": " + mPerson.getId());
-        Log.d("EventID", ": " + mEventId);
-        Log.d("PersonEventID", ": " + mPersonEvent.getId());
 
         if (mPersonEvent != null) {
             isChecked = true;
@@ -125,7 +122,6 @@ public class EventDetailActivity extends BaseActivity {
                     mEvent = mProvider.getEvent(mEventId);
                     mPersonList = mProvider.getPersonListByEvent(mEventId, Constants.Type.FRIEND);
                     mMediaList = mProvider.getMediaByPersonEvent(mPerson.getId(), mEventId);
-                    Log.d("MediaList", ":" + mMediaList.toString());
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 } finally {
@@ -328,8 +324,6 @@ public class EventDetailActivity extends BaseActivity {
         mPersonMedia.setPersonEventId(mPersonEvent.getId());
         mPersonMedia.setLocalStorageURL(mCurrentPhotoPath);
         mProvider.insertPersonMedia(mPersonMedia);
-
-        Log.d("Camera", "Image added to: " + mCurrentPhotoPath);
     }
 
 }
