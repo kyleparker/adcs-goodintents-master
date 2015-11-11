@@ -83,6 +83,7 @@ public class AppProviderUtils {
         ArrayList<PersonEvent> list = new ArrayList<>();
 
         Uri uri = Uri.parse(PersonEventsColumns.CONTENT_URI_BY_TYPE_ID + "/" + typeId);
+
         Cursor cursor = mContentResolver.query(uri, getPersonEventProjection(), null, null, null);
 
         if (cursor != null) {

@@ -124,7 +124,7 @@ public class AppContentProvider extends ContentProvider {
     public boolean onCreate() {
         mContext = getContext();
         DatabaseHelper databaseHelper = new DatabaseHelper(getContext());
- 
+
         try {
             mDb = databaseHelper.getWritableDatabase();
             mDb.execSQL("update person set type_id = 2");
@@ -214,6 +214,8 @@ public class AppContentProvider extends ContentProvider {
                         EventsColumns.TABLE_NAME + SQL_ON +
                         appendTableName(EventsColumns.TABLE_NAME, EventsColumns._ID) + " = " +
                         appendTableName(PersonEventsColumns.TABLE_NAME, PersonEventsColumns.EVENT_ID));
+                queryBuilder.appendWhere(appendTableName(PersonColumns.TABLE_NAME, PersonColumns.TYPE_ID) + " = " +
+                        uri.getPathSegments().get(2));
                 sortOrder = sort != null ? sort : PersonEventsColumns.DEFAULT_SORT_ORDER;
                 break;
             case PERSON_MEDIA:
@@ -238,6 +240,8 @@ public class AppContentProvider extends ContentProvider {
                         EventsColumns.TABLE_NAME + SQL_ON +
                         appendTableName(EventsColumns.TABLE_NAME, EventsColumns._ID) + " = " +
                         appendTableName(PersonEventsColumns.TABLE_NAME, PersonEventsColumns.EVENT_ID));
+                queryBuilder.appendWhere(appendTableName(PersonColumns.TABLE_NAME, PersonColumns._ID) + " = " +
+                        uri.getPathSegments().get(2));
                 sortOrder = sort != null ? sort : PersonEventsColumns.DEFAULT_SORT_ORDER;
                 break;
             case SEARCH:
