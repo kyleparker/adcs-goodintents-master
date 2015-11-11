@@ -109,7 +109,7 @@ public class AppProviderUtils {
                 EventsColumns.TABLE_NAME + "." + EventsColumns._ID + " = ? ";
         String[] selectionArgs = new String[] { String.valueOf(personId), String.valueOf(eventId) };
 
-        Cursor cursor = mContentResolver.query(uri, getPersonEventProjection(), selection, selectionArgs, null);
+        Cursor cursor = mContentResolver.query(uri, getPersonMediaProjection(), selection, selectionArgs, null);
 
         if (cursor != null) {
             list.ensureCapacity(cursor.getCount());
@@ -665,6 +665,19 @@ public class AppProviderUtils {
                 EventsColumns.TABLE_NAME + "." + EventsColumns.ORGANIZATION,
                 EventsColumns.TABLE_NAME + "." + EventsColumns.PHOTO_URL,
                 EventsColumns.TABLE_NAME + "." + EventsColumns.ORG_PHOTO_URL
+        };
+    }
+
+    private String[] getPersonMediaProjection() {
+        return new String[] {
+                PersonMediaColumns.TABLE_NAME + "." + PersonMediaColumns._ID,
+                PersonMediaColumns.TABLE_NAME + "." + PersonMediaColumns.PERSON_EVENTS_ID,
+                PersonMediaColumns.TABLE_NAME + "." + PersonMediaColumns.LOCAL_STORAGE_URL,
+                PersonMediaColumns.TABLE_NAME + "." + PersonMediaColumns.MEDIA_NAME,
+                PersonColumns.TABLE_NAME + "." + PersonColumns.DISPLAY_NAME,
+                PersonColumns.TABLE_NAME + "." + PersonColumns.EMAIL_ADDRESS,
+                PersonColumns.TABLE_NAME + "." + PersonColumns.PHOTO_URL,
+                PersonColumns.TABLE_NAME + "." + PersonColumns.TYPE_ID
         };
     }
 
