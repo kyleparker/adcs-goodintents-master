@@ -124,7 +124,7 @@ public class AppContentProvider extends ContentProvider {
     public boolean onCreate() {
         mContext = getContext();
         DatabaseHelper databaseHelper = new DatabaseHelper(getContext());
- 
+
         try {
             mDb = databaseHelper.getWritableDatabase();
             mDb.execSQL("update person set type_id = 2");
