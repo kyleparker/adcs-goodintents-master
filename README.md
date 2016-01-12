@@ -16,4 +16,4 @@ Technical Details
 
 Walkthrough
 ---
-![Video Walkthrough](goodintent.gif)
+![Video Walkthrough](good-intent.gif)
