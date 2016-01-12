@@ -25,7 +25,8 @@
         android:layout_toEndOf="@+id/profile_picture_imageview"
         android:textColor="@color/text_light"
         android:textSize="@dimen/profile_name_text_size"
-        tools:text="Pedram" />
+        tools:text="Pedram"
+        android:maxLines="1" />
 
 
     <TextView
